@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "1033008770432",
+    "project_id": "event-plannig-app",
+    "storage_bucket": "event-plannig-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1033008770432:android:dfdfb462fe0f4bbad4e565",
+        "android_client_info": {
+          "package_name": "com.event_planing_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1033008770432-ov4lm43hsh84jpi7f2rin6qbscc4d5jr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.event_planing_app",
+            "certificate_hash": "75ca7fc312cfd9d4883f9501c7b363d4dfca87c2"
+          }
+        },
+        {
+          "client_id": "1033008770432-6e3gou3cg7ev1hbe3stvvb5bu5imbur2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUs-oUODCe9syD8PTZUhFbjhbLqShxJ-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1033008770432-6e3gou3cg7ev1hbe3stvvb5bu5imbur2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1033008770432-bc3bqvmmih3fh1q9t9mheu9ia9e87fk9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.eventPlaningApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1033008770432:android:199d5a2cf6936bdad4e565",
+        "android_client_info": {
+          "package_name": "com.example.event_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1033008770432-6e3gou3cg7ev1hbe3stvvb5bu5imbur2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUs-oUODCe9syD8PTZUhFbjhbLqShxJ-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1033008770432-6e3gou3cg7ev1hbe3stvvb5bu5imbur2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1033008770432-bc3bqvmmih3fh1q9t9mheu9ia9e87fk9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.eventPlaningApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

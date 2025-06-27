@@ -1,0 +1,271 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import '../../../core/routes/app_routes.dart';
+import '../../../utils/app_colors/app_colors.dart';
+import '../../components/custom_text/custom_text.dart';
+
+class AgeLoginOnboarding extends StatefulWidget {
+  const AgeLoginOnboarding({super.key});
+
+  @override
+  State<AgeLoginOnboarding> createState() => _AgeLoginOnboardingState();
+}
+
+class _AgeLoginOnboardingState extends State<AgeLoginOnboarding> {
+  // final TextEditingController _controller = TextEditingController();
+  // final FocusNode _focusNode = FocusNode();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              // Back Button
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.primary,
+                      child: Icon(Icons.arrow_back, color: Colors.white),
+                    ),
+                  ),
+                  CustomText(
+                    text: "Back",
+                    fontSize: 16.w,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primary,
+                    left: 8,
+                  ),
+                ],
+              ),
+              CustomText(
+                top: 40,
+                text: "How old are you?🎂",
+                fontSize: 24.w,
+                fontWeight: FontWeight.w700,
+              ),
+              CustomText(
+                top: 10,
+                text: "We just need it to match you with the right people.",
+                fontSize: 14.w,
+                fontWeight: FontWeight.w400,
+                color: AppColors.softWhite,
+                maxLines: 4,
+                bottom: 180,
+              ),
+              CustomTextFieldForAge(
+                fillColor: Color(0xffF9FAFB),
+                hintText: "Enter your age",
+              ),
+
+              SizedBox(height: 8),
+              Text(
+                "Your age will be public",
+                style: TextStyle(color: Colors.grey, fontSize: 13),
+              ),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomText(
+                    text: "Next",
+                    fontSize: 16.w,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primary,
+                    right: 8,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(AppRoutes.genderLoginOnboarding);
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.primary,
+                      maxRadius: 20,
+                      child: Icon(Icons.arrow_forward, color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomTextFieldForAge extends StatefulWidget {
+  final Color fillColor;
+  final String hintText;
+
+  const CustomTextFieldForAge({
+    super.key,
+    required this.fillColor,
+    required this.hintText,
+  });
+
+  @override
+  State<CustomTextFieldForAge> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextFieldForAge> {
+  final TextEditingController _controller = TextEditingController();
+  int? selectedNumber;
+
+  void _showNumberPicker() async {
+    final pickedNumber = await showModalBottomSheet<int>(
+      context: context,
+      builder: (context) {
+        return NumberPickerCarousel(
+          initialNumber: selectedNumber ?? 18,
+          min: 0,
+          max: 150,
+        );
+      },
+    );
+
+    if (pickedNumber != null) {
+      setState(() {
+        selectedNumber = pickedNumber;
+        _controller.text = pickedNumber.toString();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: _controller,
+      readOnly: true,
+      onTap: _showNumberPicker,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: widget.fillColor,
+        hintText: widget.hintText,
+        suffixIcon: Icon(Icons.arrow_drop_down),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
+        ),
+      ),
+    );
+  }
+}
+
+class NumberPickerCarousel extends StatefulWidget {
+  final int initialNumber;
+  final int min;
+  final int max;
+
+  const NumberPickerCarousel({
+    Key? key,
+    required this.initialNumber,
+    required this.min,
+    required this.max,
+  }) : super(key: key);
+
+  @override
+  State<NumberPickerCarousel> createState() => _NumberPickerCarouselState();
+}
+
+class _NumberPickerCarouselState extends State<NumberPickerCarousel> {
+  late FixedExtentScrollController _scrollController;
+  late int currentValue;
+
+  @override
+  void initState() {
+    super.initState();
+    currentValue = widget.initialNumber.clamp(widget.min, widget.max);
+    _scrollController = FixedExtentScrollController(
+      initialItem: currentValue - widget.min,
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onSelectedItemChanged(int index) {
+    setState(() {
+      currentValue = widget.min + index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 260,
+      padding: EdgeInsets.only(top: 20),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CustomText(
+            text: "Select Age",
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            bottom: 10.h,
+          ),
+          Expanded(
+            child: ListWheelScrollView.useDelegate(
+              controller: _scrollController,
+              itemExtent: 50,
+              physics: FixedExtentScrollPhysics(),
+              onSelectedItemChanged: _onSelectedItemChanged,
+              childDelegate: ListWheelChildBuilderDelegate(
+                builder: (context, index) {
+                  if (index < 0 || index > widget.max - widget.min) return null;
+                  int number = widget.min + index;
+                  return Center(
+                    child: CustomText(
+                      text: number.toString(),
+
+                      fontSize: 24,
+                      color:
+                          number == currentValue
+                              ? AppColors.primary
+                              : AppColors.gray,
+                      fontWeight:
+                          number == currentValue
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
+            onPressed: () => Navigator.of(context).pop(currentValue),
+            child: CustomText(
+              text: "Confirm",
+              fontSize: 14.w,
+              color: AppColors.white,
+            ),
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+}
