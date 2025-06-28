@@ -172,11 +172,11 @@ class NumberPickerCarousel extends StatefulWidget {
   final int max;
 
   const NumberPickerCarousel({
-    Key? key,
+    super.key,
     required this.initialNumber,
     required this.min,
     required this.max,
-  }) : super(key: key);
+  });
 
   @override
   State<NumberPickerCarousel> createState() => _NumberPickerCarouselState();
