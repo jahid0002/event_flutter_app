@@ -9,7 +9,7 @@ class ApiChecker {
   static void checkApi(Response response, {bool getXSnackBar = false}) async {
     if (response.statusCode == 401) {
       await SharePrefsHelper.remove(AppConstants.bearerToken);
-      Get.offAllNamed(AppRoutes.ageLoginOnboarding);
+      Get.offAllNamed(AppRoutes.selectedScreen);
     } else {
       showCustomSnackBar(response.body['message']!, getXSnackBar: getXSnackBar);
     }
