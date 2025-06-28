@@ -1,4 +1,6 @@
+import 'package:event_app/utils/ToastMsg/toast_message.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
+import 'package:event_app/view/screens/onbording/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,6 +17,7 @@ class CalenderLoginOnboarding extends StatefulWidget {
 }
 
 class _LeavingDateScreenState extends State<CalenderLoginOnboarding> {
+  final OnboardingController controller = Get.find<OnboardingController>();
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
@@ -69,13 +72,17 @@ class _LeavingDateScreenState extends State<CalenderLoginOnboarding> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TableCalendar(
-                firstDay: DateTime.utc(2020, 1, 1),
+                firstDay: DateTime.now(),
                 lastDay: DateTime.utc(2030, 12, 31),
                 focusedDay: _focusedDay,
                 selectedDayPredicate: (day) {
                   return isSameDay(_selectedDay, day);
                 },
                 onDaySelected: (selectedDay, focusedDay) {
+                  controller.leavingDate = selectedDay.obs;
+                  controller.leavingDate?.refresh();
+                  controller.update();
+
                   setState(() {
                     _selectedDay = selectedDay;
                     _focusedDay = focusedDay;
@@ -136,6 +143,15 @@ class _LeavingDateScreenState extends State<CalenderLoginOnboarding> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      if (controller.leavingDate?.value == null) {
+                        showCustomSnackBar(
+                          "Please select leaving date",
+                          isError: true,
+                        );
+                        return;
+                      }
+
+                      debugPrint(controller.leavingDate?.value.toString());
                       Get.toNamed(AppRoutes.yourNameLoginOnboarding);
                     },
                     child: CircleAvatar(

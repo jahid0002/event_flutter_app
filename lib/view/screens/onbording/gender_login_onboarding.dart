@@ -1,3 +1,4 @@
+import 'package:event_app/view/screens/onbording/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -13,9 +14,11 @@ class GenderLoginOnboarding extends StatefulWidget {
 }
 
 class _GenderLoginOnboardingState extends State<GenderLoginOnboarding> {
-  String selectedLanguage = 'Man';
+  final OnboardingController controller = Get.find<OnboardingController>();
+  String selectedLanguage = 'MALE';
   @override
   Widget build(BuildContext context) {
+    controller.genderController.value.text = selectedLanguage;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -60,9 +63,9 @@ class _GenderLoginOnboardingState extends State<GenderLoginOnboarding> {
                 maxLines: 4,
                 bottom: 50,
               ),
-              _languageTile('Man'),
+              _languageTile('MALE'),
               const SizedBox(height: 12),
-              _languageTile('Woman'),
+              _languageTile('FEMALE'),
               const SizedBox(height: 12),
               //  _languageTile('Other'),
               Spacer(),
@@ -78,6 +81,7 @@ class _GenderLoginOnboardingState extends State<GenderLoginOnboarding> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      debugPrint(controller.genderController.value.text);
                       Get.toNamed(AppRoutes.queLoginOnboarding);
                     },
                     child: CircleAvatar(
@@ -101,6 +105,7 @@ class _GenderLoginOnboardingState extends State<GenderLoginOnboarding> {
       onTap: () {
         setState(() {
           selectedLanguage = language;
+          controller.genderController.value.text = selectedLanguage;
         });
       },
       child: Container(

@@ -48,7 +48,7 @@ class _TalkToMeLoginOnboardingState extends State<TalkToMeLoginOnboarding> {
               ),
               CustomText(
                 top: 40,
-                text: "Talk to me, baby 🌍",
+                text: "What languages do you speak? 🌍",
                 fontSize: 24.w,
                 fontWeight: FontWeight.w700,
                 maxLines: 2,

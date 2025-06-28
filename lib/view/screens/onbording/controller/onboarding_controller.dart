@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -8,7 +9,7 @@ class OnboardingController extends GetxController {
   final Rx<File?> selectedImage = Rx<File?>(null);
   final ImagePicker _picker = ImagePicker();
 
-// Pick an image from the gallery
+  // Pick an image from the gallery
   Future<void> pickImageFromGallery() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
@@ -16,11 +17,22 @@ class OnboardingController extends GetxController {
     }
   }
 
-// Pick an image using the camera
+  // Pick an image using the camera
   Future<void> pickImageFromCamera() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
       selectedImage.value = File(image.path);
     }
   }
+
+  //============================== User registration ==============================//
+
+  Rx<DateTime?>? leavingDate;
+  Rx<TextEditingController> nameController = TextEditingController().obs;
+  Rx<TextEditingController> emailController = TextEditingController().obs;
+  Rx<TextEditingController> ageController = TextEditingController().obs;
+  Rx<TextEditingController> genderController = TextEditingController().obs;
+  Rx<TextEditingController> countryController = TextEditingController().obs;
+
+  RxList<String> selectedInterests = <String>[].obs;
 }

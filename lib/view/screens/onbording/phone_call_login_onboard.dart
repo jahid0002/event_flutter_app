@@ -1,4 +1,6 @@
+import 'package:event_app/utils/ToastMsg/toast_message.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
+import 'package:event_app/view/screens/onbording/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -8,6 +10,8 @@ import '../../components/custom_text/custom_text.dart';
 
 class PhoneCallLoginOnboard extends StatelessWidget {
   PhoneCallLoginOnboard({super.key});
+
+  final OnboardingController controller = Get.find<OnboardingController>();
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +83,13 @@ class PhoneCallLoginOnboard extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
+                      if (controller.countryController.value.text.isEmpty) {
+                        showCustomSnackBar("Please select your country");
+                        return;
+                      }
+                      debugPrint(
+                        "Country: ${controller.countryController.value.text}",
+                      );
                       Get.toNamed(AppRoutes.talkToMeLoginOnboarding);
                     },
                     child: CircleAvatar(
@@ -838,6 +849,7 @@ class CountryPickerField extends StatefulWidget {
 }
 
 class _CountryPickerFieldState extends State<CountryPickerField> {
+  final OnboardingController controller = Get.find<OnboardingController>();
   Map<String, String>? selectedCountry;
 
   void _showCountryPicker() async {
@@ -854,6 +866,7 @@ class _CountryPickerFieldState extends State<CountryPickerField> {
     if (picked != null) {
       setState(() {
         selectedCountry = picked;
+        controller.countryController.value.text = picked['name']!;
       });
     }
   }
