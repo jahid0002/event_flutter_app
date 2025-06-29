@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 class OnboardingController extends GetxController {
   //========= Image Picker GetX Controller Code ===========//
 
-  final Rx<File?> selectedImage = Rx<File?>(null);
   final ImagePicker _picker = ImagePicker();
 
   // Pick an image from the gallery
@@ -29,7 +28,7 @@ class OnboardingController extends GetxController {
 
   //======================= Get Multiple Image Picker Code ===================//
 
-  var imageFiles = <File>[].obs; // Observable list of File objects
+  // Observable list of File objects
 
   // Method to add an image to the list
   void addImage(File imageFile) {
@@ -75,4 +74,7 @@ class OnboardingController extends GetxController {
 
   RxList<String> selectedInterests = <String>[].obs;
   RxList<String> selectedLanguages = <String>[].obs;
+  var imageFiles = <File>[].obs;
+  final Rx<File?> selectedImage = Rx<File?>(null);
+  Rx<DateTime?>? selectedLustDate;
 }
