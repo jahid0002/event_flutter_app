@@ -35,4 +35,5 @@ class OnboardingController extends GetxController {
   Rx<TextEditingController> countryController = TextEditingController().obs;
 
   RxList<String> selectedInterests = <String>[].obs;
+  RxList<String> selectedLanguages = <String>[].obs;
 }
