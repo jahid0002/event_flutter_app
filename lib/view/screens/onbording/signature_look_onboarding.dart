@@ -1,3 +1,4 @@
+import 'package:event_app/utils/ToastMsg/toast_message.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ import 'controller/onboarding_controller.dart';
 class SignatureLookOnboarding extends StatelessWidget {
   SignatureLookOnboarding({super.key});
 
-  final onboardingController = Get.find<OnboardingController>();
+  final controller = Get.find<OnboardingController>();
 
   @override
   Widget build(BuildContext context) {
@@ -61,35 +62,53 @@ class SignatureLookOnboarding extends StatelessWidget {
               ),
               Stack(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.primary),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: CustomNetworkImage(
-                        imageUrl: AppConstants.profileImage,
-                        height: 140.h,
-                        width: 140.w,
-                        boxShape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    right: 10,
-                    bottom: 10,
-                    child: Container(
+                  Obx(() {
+                    return Container(
                       decoration: BoxDecoration(
-                        color: AppColors.primary,
+                        border: Border.all(color: AppColors.primary),
                         shape: BoxShape.circle,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                          size: 20.w,
+                        child:
+                            controller.selectedImage.value == null
+                                ? CustomNetworkImage(
+                                  imageUrl: AppConstants.profileImage,
+                                  height: 140.h,
+                                  width: 140.w,
+                                  boxShape: BoxShape.circle,
+                                )
+                                : ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.file(
+                                    controller.selectedImage.value!,
+                                    height: 140.h,
+                                    width: 140.w,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                      ),
+                    );
+                  }),
+                  Positioned(
+                    right: 10,
+                    bottom: 10,
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.pickImageFromGallery();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                            size: 20.w,
+                          ),
                         ),
                       ),
                     ),
@@ -110,6 +129,10 @@ class SignatureLookOnboarding extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
+                      if (controller.selectedImage.value == null) {
+                        showCustomSnackBar('Please select an image');
+                        return;
+                      }
                       Get.toNamed(AppRoutes.showYourBestSelf);
                       //  Get.toNamed(AppRoutes.justOneThingLoginOnboarding);
                     },

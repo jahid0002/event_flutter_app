@@ -1,4 +1,6 @@
+import 'package:event_app/utils/ToastMsg/toast_message.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
+import 'package:event_app/view/screens/onbording/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,7 +17,10 @@ class TalkToMeLoginOnboarding extends StatefulWidget {
 }
 
 class _TalkToMeLoginOnboardingState extends State<TalkToMeLoginOnboarding> {
-  String selectedLanguage = 'English';
+  final OnboardingController controller = Get.find<OnboardingController>();
+  // String selectedLanguage = 'English';
+
+  List<String> selectedLanguages = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +53,7 @@ class _TalkToMeLoginOnboardingState extends State<TalkToMeLoginOnboarding> {
               ),
               CustomText(
                 top: 40,
-                text: "Talk to me, baby 🌍",
+                text: "What languages do you speak? 🌍",
                 fontSize: 24.w,
                 fontWeight: FontWeight.w700,
                 maxLines: 2,
@@ -63,13 +68,25 @@ class _TalkToMeLoginOnboardingState extends State<TalkToMeLoginOnboarding> {
                 maxLines: 4,
                 bottom: 50,
               ),
-              _languageTile('English'),
+              _languageTile(
+                'English',
+                isSelected: selectedLanguages.contains('English'),
+              ),
               const SizedBox(height: 12),
-              _languageTile('Spanish'),
+              _languageTile(
+                'Spanish',
+                isSelected: selectedLanguages.contains('Spanish'),
+              ),
               const SizedBox(height: 12),
-              //  _languageTile('German'),
+              _languageTile(
+                'German',
+                isSelected: selectedLanguages.contains('German'),
+              ),
               const SizedBox(height: 12),
-              // _languageTile('French'),
+              _languageTile(
+                'French',
+                isSelected: selectedLanguages.contains('French'),
+              ),
               SizedBox(height: 20),
               TextField(),
               SizedBox(height: 10),
@@ -113,6 +130,14 @@ class _TalkToMeLoginOnboardingState extends State<TalkToMeLoginOnboarding> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      if (selectedLanguages.isEmpty) {
+                        showCustomSnackBar(
+                          "Please select at least one language",
+                        );
+                        return;
+                      }
+                      controller.selectedLanguages.value = selectedLanguages;
+                      debugPrint(controller.selectedLanguages.toString());
                       Get.toNamed(AppRoutes.signatureLookOnboarding);
                     },
                     child: CircleAvatar(
@@ -130,15 +155,23 @@ class _TalkToMeLoginOnboardingState extends State<TalkToMeLoginOnboarding> {
     );
   }
 
-  Widget _languageTile(String language) {
-    final bool isSelected = selectedLanguage == language;
+  Widget _languageTile(String language, {bool isSelected = false}) {
+    //  final bool isSelected = selectedLanguages.contains(language);
     return GestureDetector(
       onTap: () {
         setState(() {
-          selectedLanguage = language;
+          //selectedLanguage = language;
+          if (selectedLanguages.contains(language)) {
+            selectedLanguages.remove(language);
+          } else {
+            selectedLanguages.add(language);
+          }
         });
       },
       child: Container(
+        alignment: Alignment.centerLeft,
+        height: 60.h,
+        width: double.maxFinite,
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary : Colors.transparent,
@@ -147,25 +180,36 @@ class _TalkToMeLoginOnboardingState extends State<TalkToMeLoginOnboarding> {
             color: isSelected ? AppColors.primary : Colors.grey.shade300,
           ),
         ),
-        child: RadioListTile<String>(
-          value: language,
-          groupValue: selectedLanguage,
-          onChanged: (val) {
-            setState(() {
-              selectedLanguage = val!;
-            });
-          },
-          contentPadding: EdgeInsets.zero,
-          title: Text(
-            language,
-            style: TextStyle(
-              color: isSelected ? Colors.white : Colors.black,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          activeColor: Colors.black,
-          controlAffinity: ListTileControlAffinity.trailing,
+        child: CustomText(
+          text: language,
+
+          color: isSelected ? Colors.white : Colors.black,
+          fontWeight: FontWeight.w500,
+          // textAlign: ,
         ),
+        // child: RadioListTile<String>(
+        //   value: language,
+        //   groupValue: language,
+        //   onChanged: (val) {
+        //     setState(() {
+        //       if (selectedLanguages.contains(val)) {
+        //         selectedLanguages.remove(val);
+        //       } else {
+        //         selectedLanguages.add(val!);
+        //       }
+        //     });
+        //   },
+        //   contentPadding: EdgeInsets.zero,
+        //   title: Text(
+        //     language,
+        //     style: TextStyle(
+        //       color: isSelected ? Colors.white : Colors.black,
+        //       fontWeight: FontWeight.w500,
+        //     ),
+        //   ),
+        //   activeColor: Colors.black,
+        //   controlAffinity: ListTileControlAffinity.trailing,
+        // ),
       ),
     );
   }

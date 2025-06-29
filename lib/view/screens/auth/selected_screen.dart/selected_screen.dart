@@ -44,7 +44,8 @@ class SelectedScreen extends StatelessWidget {
               text: 'Continue with Facebook'.toUpperCase(),
               icon: AppIcons.facbook,
               onPressed: () {
-                Get.toNamed(AppRoutes.homeScreen);
+                Get.toNamed(AppRoutes.onbordingScreen);
+                // Get.to(() => const OnbordingScreen());
               },
             ),
             SocialButton(

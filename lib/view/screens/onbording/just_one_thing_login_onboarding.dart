@@ -4,6 +4,7 @@ import 'package:event_app/utils/app_icons/app_icons.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
+import 'package:event_app/view/screens/onbording/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,8 @@ class JustOneThingLoginOnboarding extends StatefulWidget {
 
 class _JustOneThingLoginOnboardingState
     extends State<JustOneThingLoginOnboarding> {
+  final OnboardingController controller = Get.find<OnboardingController>();
+
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 

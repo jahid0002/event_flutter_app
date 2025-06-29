@@ -1,3 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:event_app/core/routes/app_routes.dart';
+import 'package:event_app/helper/loader/popup_loader.dart';
+import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
+import 'package:event_app/service/api_check.dart';
+import 'package:event_app/service/api_client.dart';
+import 'package:event_app/service/api_url.dart';
+import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -6,7 +16,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<User?> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
+    PopupLoader.showPopupLoader(Get.context!);
     try {
       // Initialize Google Sign-In
       final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
@@ -15,7 +26,7 @@ class AuthController extends GetxController {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
         debugPrint('🚨 User cancelled sign-in');
-        return null;
+        return;
       }
 
       // Get auth details
@@ -42,17 +53,44 @@ class AuthController extends GetxController {
         debugPrint('🟢 Email: ${user.email}');
         debugPrint('🟢 Display Name: ${user.displayName}');
         debugPrint('🟢 Photo URL: ${user.photoURL}');
+        debugPrint('🟢 Phone Number: ${user.phoneNumber}');
 
-        return user;
+        var body = {
+          "token": googleAuth.idToken,
+          "provider": "google", // google | apple | facebook
+          "phoneType": Platform.isIOS ? "ios" : "android",
+        };
+
+        var response = await ApiClient.postData(ApiUrl.login, jsonEncode(body));
+
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          SharePrefsHelper.setString(
+            AppConstants.bearerToken,
+            response.body['data']['accessToken'],
+          );
+          PopupLoader.hidePopupLoader(Get.context!);
+          if (response.body['data']['isRegistrationComplete'] == false) {
+            Get.offAllNamed(AppRoutes.onbordingScreen);
+          } else {
+            Get.offAllNamed(AppRoutes.homeScreen);
+          }
+        } else {
+          PopupLoader.hidePopupLoader(Get.context!);
+          ApiChecker.checkApi(response);
+        }
+
+        return;
       } else {
         debugPrint('🚨 No user returned after sign-in');
-        return null;
+        return;
       }
     } on FirebaseAuthException catch (e) {
       debugPrint('🔥 Firebase Error: ${e.code} - ${e.message}');
+      PopupLoader.hidePopupLoader(Get.context!);
       _handleFirebaseAuthError(e);
       rethrow;
     } catch (e) {
+      PopupLoader.hidePopupLoader(Get.context!);
       debugPrint('🚨 Unexpected error: $e');
       rethrow;
     }

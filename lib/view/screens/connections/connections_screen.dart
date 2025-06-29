@@ -339,11 +339,10 @@ class _MenuItem extends StatelessWidget {
   final String text;
 
   const _MenuItem({
-    Key? key,
     required this.icon,
     required this.iconColor,
     required this.text,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

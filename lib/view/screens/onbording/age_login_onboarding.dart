@@ -1,3 +1,5 @@
+import 'package:event_app/utils/ToastMsg/toast_message.dart';
+import 'package:event_app/view/screens/onbording/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,6 +17,8 @@ class AgeLoginOnboarding extends StatefulWidget {
 class _AgeLoginOnboardingState extends State<AgeLoginOnboarding> {
   // final TextEditingController _controller = TextEditingController();
   // final FocusNode _focusNode = FocusNode();
+
+  final OnboardingController controller = Get.find<OnboardingController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +87,15 @@ class _AgeLoginOnboardingState extends State<AgeLoginOnboarding> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(AppRoutes.genderLoginOnboarding);
+                      if (controller.ageController.value.text.isNotEmpty) {
+                        debugPrint(
+                          "age ${controller.ageController.value.text}",
+                        );
+
+                        Get.toNamed(AppRoutes.genderLoginOnboarding);
+                      } else {
+                        showCustomSnackBar("Please enter your age");
+                      }
                     },
                     child: CircleAvatar(
                       backgroundColor: AppColors.primary,
@@ -117,6 +129,7 @@ class CustomTextFieldForAge extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextFieldForAge> {
   final TextEditingController _controller = TextEditingController();
+  final OnboardingController controller = Get.find<OnboardingController>();
   int? selectedNumber;
 
   void _showNumberPicker() async {
@@ -135,6 +148,7 @@ class _CustomTextFieldState extends State<CustomTextFieldForAge> {
       setState(() {
         selectedNumber = pickedNumber;
         _controller.text = pickedNumber.toString();
+        controller.ageController.value.text = pickedNumber.toString();
       });
     }
   }
@@ -172,11 +186,11 @@ class NumberPickerCarousel extends StatefulWidget {
   final int max;
 
   const NumberPickerCarousel({
-    Key? key,
+    super.key,
     required this.initialNumber,
     required this.min,
     required this.max,
-  }) : super(key: key);
+  });
 
   @override
   State<NumberPickerCarousel> createState() => _NumberPickerCarouselState();

@@ -1,5 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:event_app/utils/ToastMsg/toast_message.dart';
+import 'package:event_app/view/screens/onbording/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,6 +17,7 @@ class QueLoginOnboarding extends StatefulWidget {
 }
 
 class _QueLoginOnboardingState extends State<QueLoginOnboarding> {
+  final OnboardingController controller = Get.find<OnboardingController>();
   int selectedIndex = 4;
 
   List<int> selectedIndices = [];
@@ -207,7 +210,23 @@ class _QueLoginOnboardingState extends State<QueLoginOnboarding> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(AppRoutes.phoneCallLoginOnboard);
+                      if (selectedIndices.isNotEmpty) {
+                        controller.selectedInterests.value =
+                            selectedIndices
+                                .map(
+                                  (index) =>
+                                      purposes[index]['title'].toString(),
+                                )
+                                .toList();
+
+                        debugPrint(controller.selectedInterests.toString());
+
+                        Get.toNamed(AppRoutes.phoneCallLoginOnboard);
+                      } else {
+                        showCustomSnackBar(
+                          'Please select at least one interest.',
+                        );
+                      }
                     },
                     child: CircleAvatar(
                       backgroundColor: AppColors.primary,
