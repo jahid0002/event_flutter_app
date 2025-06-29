@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_nullable_for_final_variable_declarations
+
 import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -22,6 +24,43 @@ class OnboardingController extends GetxController {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
       selectedImage.value = File(image.path);
+    }
+  }
+
+  //======================= Get Multiple Image Picker Code ===================//
+
+  var imageFiles = <File>[].obs; // Observable list of File objects
+
+  // Method to add an image to the list
+  void addImage(File imageFile) {
+    imageFiles.add(imageFile);
+  }
+
+  // Method to remove an image from the list
+  void removeImage(int index) {
+    imageFiles.removeAt(index);
+  }
+
+  // Method to get all image files
+  List<File> getAllImages() {
+    return imageFiles;
+  }
+
+  // Method to pick multiple images from the gallery
+  Future<void> pickMultipleImages() async {
+    final ImagePicker picker = ImagePicker();
+
+    // Pick multiple images
+    final List<XFile>? pickedFiles = await picker.pickMultiImage();
+
+    if (pickedFiles != null) {
+      // Add each picked image to the list as a File
+      for (var file in pickedFiles) {
+        addImage(File(file.path)); // Add the File to the list
+      }
+    } else {
+      // Handle when no image is picked
+      debugPrint("No images selected");
     }
   }
 
