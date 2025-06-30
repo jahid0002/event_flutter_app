@@ -10,6 +10,7 @@ class ApiUrl {
   //========================= Authentication =========================
 
   static const String login = '/auth/oauth-login';
+  static const String register = '/user/register-user';
 
   ///==================================== Home  ==================================
 

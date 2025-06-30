@@ -79,8 +79,10 @@ class _LeavingDateScreenState extends State<CalenderLoginOnboarding> {
                   return isSameDay(_selectedDay, day);
                 },
                 onDaySelected: (selectedDay, focusedDay) {
-                  controller.leavingDate = selectedDay.obs;
+                  debugPrint(selectedDay.toString());
+                  controller.leavingDate = Rx<DateTime>(selectedDay);
                   controller.leavingDate?.refresh();
+                  debugPrint(controller.leavingDate?.value.toString());
                   controller.update();
 
                   setState(() {
@@ -143,6 +145,9 @@ class _LeavingDateScreenState extends State<CalenderLoginOnboarding> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      controller.leavingDate = Rx<DateTime>(
+                        _selectedDay ?? DateTime.now(),
+                      );
                       if (controller.leavingDate?.value == null) {
                         showCustomSnackBar(
                           "Please select leaving date",

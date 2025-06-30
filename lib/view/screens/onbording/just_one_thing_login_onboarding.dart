@@ -1,8 +1,9 @@
-import 'package:event_app/core/routes/app_routes.dart';
+import 'package:event_app/utils/ToastMsg/toast_message.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_icons/app_icons.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
+import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/screens/onbording/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +96,7 @@ class _JustOneThingLoginOnboardingState
 
                 // Calendar
                 TableCalendar(
-                  firstDay: DateTime.utc(2020, 1, 1),
+                  firstDay: DateTime.now(),
                   lastDay: DateTime.utc(2030, 12, 31),
                   focusedDay: _focusedDay,
                   selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
@@ -103,6 +104,7 @@ class _JustOneThingLoginOnboardingState
                     setState(() {
                       _selectedDay = selectedDay;
                       _focusedDay = focusedDay;
+                      controller.selectedLustDate = selectedDay.obs;
                     });
                   },
                   calendarStyle: CalendarStyle(
@@ -127,35 +129,59 @@ class _JustOneThingLoginOnboardingState
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
-                CustomButton(onTap: () {}, title: "Okey"),
+                SizedBox(height: 30.h),
+                Obx(() {
+                  return controller.userRegistered.value
+                      ? CustomLoader()
+                      : CustomButton(
+                        onTap: () {
+                          controller.selectedLustDate?.value =
+                              _selectedDay ?? DateTime.now();
+
+                          if (controller.selectedLustDate?.value == null) {
+                            showCustomSnackBar('Please select a date');
+                            return;
+                          }
+
+                          debugPrint(controller.selectedLustDate.toString());
+                          // Get.toNamed(AppRoutes.homeScreen);
+                          controller.userRegistration();
+                        },
+                        title: "Okey",
+                      );
+                }),
                 SizedBox(height: 10),
                 // Next Button
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CustomText(
-                        text: "Finish",
-                        fontSize: 16.w,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.primary,
-                        right: 8,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.homeScreen);
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: AppColors.primary,
-                          maxRadius: 20,
-                          child: Icon(Icons.arrow_forward, color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(bottom: 16),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.end,
+                //     children: [
+                //       CustomText(
+                //         text: "Finish",
+                //         fontSize: 16.w,
+                //         fontWeight: FontWeight.w700,
+                //         color: AppColors.primary,
+                //         right: 8,
+                //       ),
+                //       GestureDetector(
+                //         onTap: () {
+                //           controller.selectedLustDate?.value = _selectedDay;
+                //           if (controller.selectedLustDate?.value == null) {
+                //             showCustomSnackBar('Please select a date');
+                //             return;
+                //           }
+                //           Get.toNamed(AppRoutes.homeScreen);
+                //         },
+                //         child: CircleAvatar(
+                //           backgroundColor: AppColors.primary,
+                //           maxRadius: 20,
+                //           child: Icon(Icons.arrow_forward, color: Colors.white),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),

@@ -1,6 +1,11 @@
 // ignore_for_file: unnecessary_nullable_for_final_variable_declarations
 
+import 'dart:convert';
 import 'dart:io';
+import 'package:event_app/core/routes/app_routes.dart';
+import 'package:event_app/service/api_check.dart';
+import 'package:event_app/service/api_client.dart';
+import 'package:event_app/service/api_url.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -64,8 +69,11 @@ class OnboardingController extends GetxController {
   }
 
   //============================== User registration ==============================//
+  setLeavingDate(DateTime date) {
+    leavingDate = Rx<DateTime>(date);
+  }
 
-  Rx<DateTime?>? leavingDate;
+  Rx<DateTime>? leavingDate;
   Rx<TextEditingController> nameController = TextEditingController().obs;
   Rx<TextEditingController> emailController = TextEditingController().obs;
   Rx<TextEditingController> ageController = TextEditingController().obs;
@@ -74,7 +82,52 @@ class OnboardingController extends GetxController {
 
   RxList<String> selectedInterests = <String>[].obs;
   RxList<String> selectedLanguages = <String>[].obs;
-  var imageFiles = <File>[].obs;
+  RxList<File> imageFiles = <File>[].obs;
   final Rx<File?> selectedImage = Rx<File?>(null);
-  Rx<DateTime?>? selectedLustDate;
+  Rx<DateTime>? selectedLustDate; // Add this line
+
+  RxBool userRegistered = false.obs;
+
+  Future<void> userRegistration() async {
+    userRegistered(true);
+
+    num age = num.parse(ageController.value.text);
+
+    Map<String, String> body = {
+      'data': jsonEncode({
+        "name": nameController.value.text,
+        "bio": "",
+        "email": emailController.value.text,
+        "phone": "",
+        "gender": genderController.value.text,
+        "age": age,
+        "address": "",
+        "interests": selectedInterests,
+        "language": selectedLanguages,
+        "checkInDate": leavingDate?.value.toUtc().toIso8601String(),
+        "checkOutDate": selectedLustDate?.value.toUtc().toIso8601String(),
+      }),
+    };
+
+    var response = await ApiClient.postMultipartData(
+      ApiUrl.register,
+      body,
+      multipartBody: [
+        ...imageFiles.map((e) => MultipartBody('pictures', e)),
+        MultipartBody('profile_image', selectedImage.value!),
+      ],
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      userRegistered(false);
+      Get.offAllNamed(AppRoutes.homeScreen);
+    } else {
+      userRegistered(false);
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  String formatToUtcIsoString(DateTime dateTime) {
+    return dateTime.toUtc().toIso8601String();
+  }
 }
