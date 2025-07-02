@@ -40,129 +40,149 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  CustomNetworkImage(
-                    imageUrl:
-                        controller.imageUrls[controller.currentIndex.value],
-                    height: 570.h,
-                    width: double.infinity,
-                    borderRadius: BorderRadius.circular(20.r),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20.0.w,
-                        vertical: 10.h,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   children: List.generate(
-                          //     controller.imageUrls.length,
-                          //     (index) => SlidBar(
-                          //       color:
-                          //           index == controller.currentIndex.value
-                          //               ? AppColors.white
-                          //               : AppColors.gray,
-                          //     ),
-                          //   ),
+                  GestureDetector(
+                    onPanUpdate: (details) {
+                      // Swiping
+                      double dx = details.localPosition.dx;
+                      double dy = details.localPosition.dy;
 
-                          //   // [
-                          //   //   SlidBar(),
-                          //   //   SlidBar(color: AppColors.gray),
-                          //   //   SlidBar(color: AppColors.gray),
-                          //   //   SlidBar(color: AppColors.gray),
-                          //   // ],
-                          // ),
-                          SizedBox(height: 320.h),
-                          Row(
-                            children: [
-                              CustomText(
-                                text: 'Paulo',
-                                fontSize: 39.w,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.white,
-                              ),
-                              CustomText(
-                                left: 10.w,
-                                text: '29',
-                                fontSize: 24.w,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.white,
-                              ),
-                            ],
-                          ),
-                          CustomText(
-                            text: '@London',
-                            fontSize: 16.w,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.white,
-                            bottom: 5.h,
-                          ),
-                          Row(
-                            children: [
-                              CustomButton(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14.w,
-                                onTap: () {},
-                                title: 'Workout',
-                                width: 88.w,
-                                height: 30.h,
-                                fillColor: Colors.transparent,
-                                textColor: AppColors.primary,
-                                isBorder: true,
-                                borderWidth: 1,
-                              ),
-                              SizedBox(width: 10.w),
-                              CustomButton(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14.w,
-                                onTap: () {},
-                                title: 'Casual',
-                                width: 88.w,
-                                height: 30.h,
-                                fillColor: Colors.transparent,
-                                textColor: AppColors.primary,
-                                isBorder: true,
-                                borderWidth: 1,
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 40.h),
+                      // Print swipe direction on drag
+                      if (dx > 0) {
+                        debugPrint("Swipe Right");
+                      } else if (dx < 0) {
+                        debugPrint("Swipe Left");
+                      }
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomButton(
-                                borderRadius: 50.r,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16.w,
-                                onTap: () {},
-                                title: 'No Interest',
-                                width: 158.w,
-                                height: 47.h,
-                                fillColor: Colors.grey.withOpacity(.8),
-                                textColor: AppColors.white,
-                                isBorder: true,
-                                borderWidth: 0,
-                              ),
-                              CustomButton(
-                                borderRadius: 50.r,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16.w,
-                                onTap: () {},
-                                title: 'Innvite',
-                                width: 158.w,
-                                height: 47.h,
-                                fillColor: AppColors.primary,
-                                textColor: AppColors.white,
-                                isBorder: true,
-                                borderWidth: 0,
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 20.h),
-                        ],
+                      if (dy > 0) {
+                        debugPrint("Swipe Down");
+                      } else if (dy < 0) {
+                        debugPrint("Swipe Up");
+                      }
+                    },
+                    child: CustomNetworkImage(
+                      imageUrl:
+                          controller.imageUrls[controller.currentIndex.value],
+                      height: 570.h,
+                      width: double.infinity,
+                      borderRadius: BorderRadius.circular(20.r),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.0.w,
+                          vertical: 10.h,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: List.generate(
+                            //     controller.imageUrls.length,
+                            //     (index) => SlidBar(
+                            //       color:
+                            //           index == controller.currentIndex.value
+                            //               ? AppColors.white
+                            //               : AppColors.gray,
+                            //     ),
+                            //   ),
+
+                            //   // [
+                            //   //   SlidBar(),
+                            //   //   SlidBar(color: AppColors.gray),
+                            //   //   SlidBar(color: AppColors.gray),
+                            //   //   SlidBar(color: AppColors.gray),
+                            //   // ],
+                            // ),
+                            SizedBox(height: 320.h),
+                            Row(
+                              children: [
+                                CustomText(
+                                  text: 'Paulo',
+                                  fontSize: 39.w,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.white,
+                                ),
+                                CustomText(
+                                  left: 10.w,
+                                  text: '29',
+                                  fontSize: 24.w,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.white,
+                                ),
+                              ],
+                            ),
+                            CustomText(
+                              text: '@London',
+                              fontSize: 16.w,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.white,
+                              bottom: 5.h,
+                            ),
+                            Row(
+                              children: [
+                                CustomButton(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14.w,
+                                  onTap: () {},
+                                  title: 'Workout',
+                                  width: 88.w,
+                                  height: 30.h,
+                                  fillColor: Colors.transparent,
+                                  textColor: AppColors.primary,
+                                  isBorder: true,
+                                  borderWidth: 1,
+                                ),
+                                SizedBox(width: 10.w),
+                                CustomButton(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14.w,
+                                  onTap: () {},
+                                  title: 'Casual',
+                                  width: 88.w,
+                                  height: 30.h,
+                                  fillColor: Colors.transparent,
+                                  textColor: AppColors.primary,
+                                  isBorder: true,
+                                  borderWidth: 1,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 40.h),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomButton(
+                                  borderRadius: 50.r,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.w,
+                                  onTap: () {},
+                                  title: 'No Interest',
+                                  width: 158.w,
+                                  height: 47.h,
+                                  fillColor: Colors.grey.withOpacity(.8),
+                                  textColor: AppColors.white,
+                                  isBorder: true,
+                                  borderWidth: 0,
+                                ),
+                                CustomButton(
+                                  borderRadius: 50.r,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.w,
+                                  onTap: () {},
+                                  title: 'Innvite',
+                                  width: 158.w,
+                                  height: 47.h,
+                                  fillColor: AppColors.primary,
+                                  textColor: AppColors.white,
+                                  isBorder: true,
+                                  borderWidth: 0,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20.h),
+                          ],
+                        ),
                       ),
                     ),
                   ),
