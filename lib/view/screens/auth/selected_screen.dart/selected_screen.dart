@@ -1,6 +1,5 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_icons/app_icons.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
@@ -43,10 +42,7 @@ class SelectedScreen extends StatelessWidget {
             SocialButton(
               text: 'Continue with Facebook'.toUpperCase(),
               icon: AppIcons.facbook,
-              onPressed: () {
-                Get.toNamed(AppRoutes.onbordingScreen);
-                // Get.to(() => const OnbordingScreen());
-              },
+              onPressed: () {},
             ),
             SocialButton(
               text: 'Continue with Apple'.toUpperCase(),
@@ -79,8 +75,7 @@ class SocialButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 20.0),
         child: Container(
-          width: 300,
-
+          width: MediaQuery.of(context).size.width * 0.8,
           height: 50,
           padding: const EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(

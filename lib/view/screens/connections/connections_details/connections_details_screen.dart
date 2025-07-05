@@ -9,7 +9,6 @@ import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
-import 'package:event_app/view/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -41,16 +40,15 @@ class ConnectionsDetailsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // SizedBox(height: 10.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SlidBar(),
-                            SlidBar(color: AppColors.gray),
-                            SlidBar(color: AppColors.gray),
-                            SlidBar(color: AppColors.gray),
-                          ],
-                        ),
-
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Slid(),
+                        //     SlidBar(color: AppColors.gray),
+                        //     SlidBar(color: AppColors.gray),
+                        //     SlidBar(color: AppColors.gray),
+                        //   ],
+                        // ),
                         SizedBox(height: 20.h),
 
                         Row(

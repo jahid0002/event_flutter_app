@@ -38,7 +38,7 @@ class HomeController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       homeStatus.value = Status.completed;
       users.value = List<UserModel>.from(
-        response.body.map((x) => UserModel.fromJson(x)),
+        response.body['data'].map((x) => UserModel.fromJson(x)),
       );
     } else {
       homeStatus.value = Status.error;
