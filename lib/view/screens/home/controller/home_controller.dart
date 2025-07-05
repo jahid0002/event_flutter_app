@@ -36,10 +36,10 @@ class HomeController extends GetxController {
     var response = await ApiClient.getData(ApiUrl.getAllUser);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      homeStatus.value = Status.completed;
       users.value = List<UserModel>.from(
-        response.body['data'].map((x) => UserModel.fromJson(x)),
+        response.body['data']['result'].map((x) => UserModel.fromMap(x)),
       );
+      homeStatus(Status.completed);
     } else {
       homeStatus.value = Status.error;
       ApiChecker.checkApi(response);

@@ -3,9 +3,11 @@
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
+import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_nav_bar/navbar.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
+import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/home/controller/home_controller.dart';
 import 'package:event_app/view/screens/home/widget/home_appbar.dart';
 import 'package:flutter/material.dart';
@@ -48,9 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Obx(() {
               if (controller.homeStatus.value == Status.loading) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: CustomLoader());
               } else if (controller.homeStatus.value == Status.error) {
-                return const Center(child: Text('Failed to load users'));
+                return GeneralErrorScreen(onTap: () {});
               } else {
                 return SizedBox(
                   height: 570.h,

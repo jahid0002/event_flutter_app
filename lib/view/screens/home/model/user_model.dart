@@ -9,7 +9,7 @@ class UserModel {
   final String? address;
   final DateTime? checkInDate;
   final DateTime? checkOutDate;
-  final int? age;
+  final num? age;
 
   UserModel({
     this.id,
