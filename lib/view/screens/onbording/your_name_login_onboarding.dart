@@ -89,7 +89,7 @@ class YourNameLoginOnboarding extends StatelessWidget {
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
                           debugPrint(controller.nameController.value.text);
-                          debugPrint(controller.leavingDate?.value?.toString());
+                          debugPrint(controller.leavingDate?.value.toString());
                           Get.toNamed(AppRoutes.yourEmailLoginOnboarding);
                         }
                       },

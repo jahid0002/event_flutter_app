@@ -90,11 +90,6 @@ class AppRoutes {
       name: connectionsDetailsScreen,
       page: () => ConnectionsDetailsScreen(),
     ),
-
-    GetPage(
-      name: connectionsDetailsScreen,
-      page: () => ConnectionsDetailsScreen(),
-    ),
     GetPage(name: onbordingScreen, page: () => OnbordingScreen()),
     GetPage(name: wifiScreen, page: () => WifiScreen()),
     GetPage(

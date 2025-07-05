@@ -10,8 +10,11 @@ class ApiUrl {
   //========================= Authentication =========================
 
   static const String login = '/auth/oauth-login';
+  static const String register = '/user/register-user';
 
   ///==================================== Home  ==================================
+
+  static const String getAllUser = '/normal-user/get-all-user';
 
   //=================================== Shope ================================
 
