@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
@@ -80,12 +81,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: null,
                     builder: (BuildContext context, itemProperties) {
                       final index =
-                          itemProperties.index % controller.imageUrls.length;
-                      final imageUrl = controller.imageUrls[index];
+                          itemProperties.index % controller.users.length;
+                      // final imageUrl = controller.imageUrls[index];
+                      final data = controller.users[index];
                       return CustomNetworkImage(
                         height: 570.h,
                         width: double.infinity,
-                        imageUrl: imageUrl,
+                        imageUrl: ImageHandler.imagesHandle(data.profileImage),
                         borderRadius: BorderRadius.circular(20.r),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -101,14 +103,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Row(
                                     children: [
                                       CustomText(
-                                        text: ' ',
+                                        text: data.name ?? ' ',
                                         fontSize: 39.w,
                                         fontWeight: FontWeight.w600,
                                         color: AppColors.white,
                                       ),
                                       CustomText(
                                         left: 10.w,
-                                        text: '',
+                                        text: data.age?.toString() ?? '',
                                         fontSize: 24.w,
                                         fontWeight: FontWeight.w400,
                                         color: AppColors.white,
@@ -116,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ],
                                   ),
                                   CustomText(
-                                    text: '',
+                                    text: data.address ?? '',
                                     fontSize: 16.w,
                                     fontWeight: FontWeight.w400,
                                     color: AppColors.white,
