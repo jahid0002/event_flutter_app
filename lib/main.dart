@@ -21,14 +21,6 @@ void main() async {
   // ...
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Set status bar icons to dark (for white background)
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.white, // <--- should be white, not black
-      statusBarIconBrightness: Brightness.dark, // Android: dark icons
-      statusBarBrightness: Brightness.light, // iOS: dark icons
-    ),
-  );
 
   runApp(const MyApp());
 }
@@ -74,7 +66,7 @@ class CustomTheme {
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: AppColors.backgroundColor,
           statusBarIconBrightness: Brightness.dark, // Android
-          statusBarBrightness: Brightness.light, // iOScd
+          statusBarBrightness: Brightness.light, // iOS
         ),
       ),
     );

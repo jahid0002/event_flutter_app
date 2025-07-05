@@ -1,6 +1,10 @@
 // import 'dart:async';
 
+import 'package:event_app/service/api_check.dart';
+import 'package:event_app/service/api_client.dart';
+import 'package:event_app/service/api_url.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/view/screens/home/model/user_model.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -21,4 +25,24 @@ class HomeController extends GetxController {
   //     }
   //   });
   // }
+
+  //====================== Get All User ==================
+
+  RxList<UserModel> users = <UserModel>[].obs;
+
+  Rx<Status> homeStatus = Status.loading.obs;
+
+  getAllUser() async {
+    var response = await ApiClient.getData(ApiUrl.getAllUser);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      homeStatus.value = Status.completed;
+      users.value = List<UserModel>.from(
+        response.body.map((x) => UserModel.fromJson(x)),
+      );
+    } else {
+      homeStatus.value = Status.error;
+      ApiChecker.checkApi(response);
+    }
+  }
 }

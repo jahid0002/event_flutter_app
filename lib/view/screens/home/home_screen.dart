@@ -10,6 +10,7 @@ import 'package:event_app/view/screens/home/widget/home_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:swipable_stack/swipable_stack.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,50 +21,70 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController controller = Get.find<HomeController>();
-
+  late SwipableStackController _swipableStackController;
   @override
   void initState() {
     //  controller.startSlider();
     super.initState();
+    _swipableStackController = SwipableStackController();
+    controller.getAllUser();
+  }
+
+  @override
+  void dispose() {
+    _swipableStackController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() {
-        return Column(
+      body: SingleChildScrollView(
+        padding: EdgeInsets.zero,
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
           children: [
             HomeAppbar(),
-
             SizedBox(height: 20.h),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  GestureDetector(
-                    onPanUpdate: (details) {
-                      // Swiping
-                      double dx = details.localPosition.dx;
-                      double dy = details.localPosition.dy;
+              child: SizedBox(
+                height: 570.h,
+                child: SwipableStack(
+                  controller: _swipableStackController,
+                  onSwipeCompleted: (index, direction) {
+                    final loopedIndex = index % controller.imageUrls.length;
+                    controller.currentIndex.value = loopedIndex;
 
-                      // Print swipe direction on drag
-                      if (dx > 0) {
-                        debugPrint("Swipe Right");
-                      } else if (dx < 0) {
-                        debugPrint("Swipe Left");
-                      }
+                    switch (direction) {
+                      case SwipeDirection.left:
+                        debugPrint("Swiped Left to index: $loopedIndex");
+                        break;
+                      case SwipeDirection.right:
+                        debugPrint("Swiped Right to index: $loopedIndex");
+                        break;
+                      case SwipeDirection.up:
+                        debugPrint("Swiped Up!");
+                        break;
+                      case SwipeDirection.down:
+                        debugPrint("Swiped Down!");
+                        break;
+                    }
+                  },
 
-                      if (dy > 0) {
-                        debugPrint("Swipe Down");
-                      } else if (dy < 0) {
-                        debugPrint("Swipe Up");
-                      }
-                    },
-                    child: CustomNetworkImage(
-                      imageUrl:
-                          controller.imageUrls[controller.currentIndex.value],
+                  // Instead of itemCount: controller.imageUrls.length + 1,
+                  // just keep it "infinite"
+                  itemCount:
+                      null, // ✅ If SwipableStack allows null for infinite
+
+                  builder: (BuildContext context, itemProperties) {
+                    final index =
+                        itemProperties.index % controller.imageUrls.length;
+                    final imageUrl = controller.imageUrls[index];
+                    return CustomNetworkImage(
                       height: 570.h,
                       width: double.infinity,
+                      imageUrl: imageUrl,
                       borderRadius: BorderRadius.circular(20.r),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -71,128 +92,112 @@ class _HomeScreenState extends State<HomeScreen> {
                           vertical: 10.h,
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //   children: List.generate(
-                            //     controller.imageUrls.length,
-                            //     (index) => SlidBar(
-                            //       color:
-                            //           index == controller.currentIndex.value
-                            //               ? AppColors.white
-                            //               : AppColors.gray,
-                            //     ),
-                            //   ),
-
-                            //   // [
-                            //   //   SlidBar(),
-                            //   //   SlidBar(color: AppColors.gray),
-                            //   //   SlidBar(color: AppColors.gray),
-                            //   //   SlidBar(color: AppColors.gray),
-                            //   // ],
-                            // ),
-                            SizedBox(height: 320.h),
-                            Row(
+                            const Spacer(),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CustomText(
-                                  text: 'Paulo',
-                                  fontSize: 39.w,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.white,
+                                Row(
+                                  children: [
+                                    CustomText(
+                                      text: 'Paulo',
+                                      fontSize: 39.w,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.white,
+                                    ),
+                                    CustomText(
+                                      left: 10.w,
+                                      text: '29',
+                                      fontSize: 24.w,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.white,
+                                    ),
+                                  ],
                                 ),
                                 CustomText(
-                                  left: 10.w,
-                                  text: '29',
-                                  fontSize: 24.w,
+                                  text: '@London',
+                                  fontSize: 16.w,
                                   fontWeight: FontWeight.w400,
                                   color: AppColors.white,
+                                  bottom: 5.h,
                                 ),
+                                Row(
+                                  children: [
+                                    CustomButton(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14.w,
+                                      onTap: () {},
+                                      title: 'Workout',
+                                      width: 88.w,
+                                      height: 30.h,
+                                      fillColor: Colors.transparent,
+                                      textColor: AppColors.primary,
+                                      isBorder: true,
+                                      borderWidth: 1,
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    CustomButton(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14.w,
+                                      onTap: () {},
+                                      title: 'Casual',
+                                      width: 88.w,
+                                      height: 30.h,
+                                      fillColor: Colors.transparent,
+                                      textColor: AppColors.primary,
+                                      isBorder: true,
+                                      borderWidth: 1,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 20.h),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: CustomButton(
+                                        borderRadius: 50.r,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16.w,
+                                        onTap: () {},
+                                        title: 'No Interest',
+                                        height: 47.h,
+                                        fillColor: Colors.grey.withOpacity(.8),
+                                        textColor: AppColors.white,
+                                        isBorder: true,
+                                        borderWidth: 0,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Expanded(
+                                      child: CustomButton(
+                                        borderRadius: 50.r,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16.w,
+                                        onTap: () {},
+                                        title: 'Innvite',
+                                        height: 47.h,
+                                        fillColor: AppColors.primary,
+                                        textColor: AppColors.white,
+                                        isBorder: true,
+                                        borderWidth: 0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 20.h),
                               ],
                             ),
-                            CustomText(
-                              text: '@London',
-                              fontSize: 16.w,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.white,
-                              bottom: 5.h,
-                            ),
-                            Row(
-                              children: [
-                                CustomButton(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 14.w,
-                                  onTap: () {},
-                                  title: 'Workout',
-                                  width: 88.w,
-                                  height: 30.h,
-                                  fillColor: Colors.transparent,
-                                  textColor: AppColors.primary,
-                                  isBorder: true,
-                                  borderWidth: 1,
-                                ),
-                                SizedBox(width: 10.w),
-                                CustomButton(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 14.w,
-                                  onTap: () {},
-                                  title: 'Casual',
-                                  width: 88.w,
-                                  height: 30.h,
-                                  fillColor: Colors.transparent,
-                                  textColor: AppColors.primary,
-                                  isBorder: true,
-                                  borderWidth: 1,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 40.h),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CustomButton(
-                                  borderRadius: 50.r,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16.w,
-                                  onTap: () {},
-                                  title: 'No Interest',
-                                  width: 158.w,
-                                  height: 47.h,
-                                  fillColor: Colors.grey.withOpacity(.8),
-                                  textColor: AppColors.white,
-                                  isBorder: true,
-                                  borderWidth: 0,
-                                ),
-                                CustomButton(
-                                  borderRadius: 50.r,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16.w,
-                                  onTap: () {},
-                                  title: 'Innvite',
-                                  width: 158.w,
-                                  height: 47.h,
-                                  fillColor: AppColors.primary,
-                                  textColor: AppColors.white,
-                                  isBorder: true,
-                                  borderWidth: 0,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 20.h),
                           ],
                         ),
                       ),
-                    ),
-                  ),
-                ],
+                    );
+                  },
+                ),
               ),
             ),
           ],
-        );
-      }),
-
+        ),
+      ),
       bottomNavigationBar: NavBar(currentIndex: 0),
     );
   }

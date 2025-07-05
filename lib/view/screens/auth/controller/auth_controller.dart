@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -26,6 +27,7 @@ class AuthController extends GetxController {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
         debugPrint('🚨 User cancelled sign-in');
+        PopupLoader.hidePopupLoader(Get.context!);
         return;
       }
 
@@ -61,7 +63,10 @@ class AuthController extends GetxController {
           "phoneType": Platform.isIOS ? "ios" : "android",
         };
 
-        var response = await ApiClient.postData(ApiUrl.login, jsonEncode(body));
+        var response = await ApiClient.postData(
+          ApiUrl.login,
+          jsonEncode(body),
+        ).timeout(const Duration(seconds: 10));
 
         if (response.statusCode == 200 || response.statusCode == 201) {
           SharePrefsHelper.setString(
@@ -79,6 +84,7 @@ class AuthController extends GetxController {
           ApiChecker.checkApi(response);
         }
 
+        await googleSignIn.disconnect();
         return;
       } else {
         debugPrint('🚨 No user returned after sign-in');
@@ -88,11 +94,12 @@ class AuthController extends GetxController {
       debugPrint('🔥 Firebase Error: ${e.code} - ${e.message}');
       PopupLoader.hidePopupLoader(Get.context!);
       _handleFirebaseAuthError(e);
-      rethrow;
+    } on TimeoutException catch (_) {
+      PopupLoader.hidePopupLoader(Get.context!);
+      debugPrint('🚨 API call timed out');
     } catch (e) {
       PopupLoader.hidePopupLoader(Get.context!);
       debugPrint('🚨 Unexpected error: $e');
-      rethrow;
     }
   }
 
