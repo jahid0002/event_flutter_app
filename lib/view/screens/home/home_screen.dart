@@ -84,10 +84,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemProperties.index % controller.users.length;
                       // final imageUrl = controller.imageUrls[index];
                       final data = controller.users[index];
+                      final image = ImageHandler.imagesHandle(
+                        controller.imageUrls[index],
+                      );
                       return CustomNetworkImage(
                         height: 570.h,
                         width: double.infinity,
-                        imageUrl: ImageHandler.imagesHandle(data.profileImage),
+                        imageUrl: image,
                         borderRadius: BorderRadius.circular(20.r),
                         child: Padding(
                           padding: EdgeInsets.symmetric(

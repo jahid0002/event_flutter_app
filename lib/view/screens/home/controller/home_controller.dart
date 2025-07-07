@@ -13,6 +13,7 @@ class HomeController extends GetxController {
     AppConstants.profileImage,
     AppConstants.girlsPhoto,
     AppConstants.girlsPhoto2,
+    AppConstants.girlsPhoto2,
   ];
 
   RxInt currentIndex = 0.obs;
