@@ -1,5 +1,7 @@
 // import 'dart:async';
 
+import 'dart:convert';
+
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
@@ -40,10 +42,58 @@ class HomeController extends GetxController {
       users.value = List<UserModel>.from(
         response.body['data']['result'].map((x) => UserModel.fromMap(x)),
       );
+      users.refresh();
       homeStatus(Status.completed);
     } else {
       homeStatus.value = Status.error;
       ApiChecker.checkApi(response);
     }
   }
+
+  //==================================== User invite or reject =========================
+
+  RxBool inviteStatus = false.obs;
+
+  Future<Connection?> addOrRemoveConnection({required String userId}) async {
+    inviteStatus(true);
+    var body = {};
+    var response = await ApiClient.postData(
+      ApiUrl.addOrRemoveConnection(userId),
+      jsonEncode(body),
+    );
+
+    inviteStatus(false);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final jsonData = response.body;
+      if (jsonData['data'] != null) {
+        return Connection.fromMap(jsonData['data']);
+      }
+      getAllUser();
+      users.refresh();
+      return null;
+    } else {
+      ApiChecker.checkApi(response);
+      return null;
+    }
+  }
+
+  // String getText(Connection? connection, String userId) {
+
+  //   for(user)
+  //   if (connection == null) {
+  //     return 'Invite';
+  //   }
+
+  //   switch (connection.status) {
+  //     case 'PENDING':
+  //       return 'Pending';
+  //     case 'ACCEPTED':
+  //       return 'Accepted';
+  //     case 'REJECTED':
+  //       return 'Rejected';
+  //     default:
+  //       return 'Invite';
+  //   }
+  // }
 }

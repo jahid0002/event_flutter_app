@@ -10,7 +10,7 @@ class UserModel {
   final DateTime? checkOutDate;
   final DateTime? dateOfBirth;
   final Hotel? hotel;
-  final Connection? connection;
+  Connection? connection;
   final String? address;
   final num? age;
 
