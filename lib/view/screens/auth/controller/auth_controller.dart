@@ -10,7 +10,7 @@ import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -62,6 +62,10 @@ class AuthController extends GetxController {
           "provider": "google", // google | apple | facebook
           "phoneType": Platform.isIOS ? "ios" : "android",
         };
+
+        if (kDebugMode) {
+          printInChunks('Long body: $body');
+        }
 
         var response = await ApiClient.postData(
           ApiUrl.login,
@@ -132,5 +136,14 @@ class AuthController extends GetxController {
         message = 'An unknown error occurred.';
     }
     debugPrint('🔥 Firebase Auth Error: ${e.code} - $message');
+  }
+
+  void printInChunks(String text) {
+    const int chunkSize = 800;
+    for (var i = 0; i < text.length; i += chunkSize) {
+      final endIndex =
+          (i + chunkSize < text.length) ? i + chunkSize : text.length;
+      debugPrint(text.substring(i, endIndex));
+    }
   }
 }

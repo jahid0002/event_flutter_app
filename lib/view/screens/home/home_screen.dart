@@ -1,5 +1,6 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, unnecessary_null_comparison, unused_local_variable
 
+import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
@@ -9,6 +10,7 @@ import 'package:event_app/view/components/custom_netwrok_image/custom_network_im
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/home/controller/home_controller.dart';
+import 'package:event_app/view/screens/home/model/user_model.dart';
 import 'package:event_app/view/screens/home/widget/home_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -80,12 +82,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: null,
                     builder: (BuildContext context, itemProperties) {
                       final index =
-                          itemProperties.index % controller.imageUrls.length;
-                      final imageUrl = controller.imageUrls[index];
+                          itemProperties.index % controller.users.length;
+                      // final imageUrl = controller.imageUrls[index];
+                      final data = controller.users[index];
+                      final image = ImageHandler.imagesHandle(
+                        controller.imageUrls[index],
+                      );
                       return CustomNetworkImage(
                         height: 570.h,
                         width: double.infinity,
-                        imageUrl: imageUrl,
+                        imageUrl: image,
                         borderRadius: BorderRadius.circular(20.r),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -101,14 +107,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Row(
                                     children: [
                                       CustomText(
-                                        text: ' ',
+                                        text: data.name ?? ' ',
                                         fontSize: 39.w,
                                         fontWeight: FontWeight.w600,
                                         color: AppColors.white,
                                       ),
                                       CustomText(
                                         left: 10.w,
-                                        text: '',
+                                        text: data.age?.toString() ?? '',
                                         fontSize: 24.w,
                                         fontWeight: FontWeight.w400,
                                         color: AppColors.white,
@@ -116,41 +122,41 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ],
                                   ),
                                   CustomText(
-                                    text: '',
+                                    text: data.address ?? '',
                                     fontSize: 16.w,
                                     fontWeight: FontWeight.w400,
                                     color: AppColors.white,
                                     bottom: 5.h,
                                   ),
-                                  Row(
-                                    children: [
-                                      CustomButton(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 14.w,
-                                        onTap: () {},
-                                        title: 'Workout',
-                                        width: 88.w,
-                                        height: 30.h,
-                                        fillColor: Colors.transparent,
-                                        textColor: AppColors.primary,
-                                        isBorder: true,
-                                        borderWidth: 1,
-                                      ),
-                                      SizedBox(width: 10.w),
-                                      CustomButton(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 14.w,
-                                        onTap: () {},
-                                        title: 'Casual',
-                                        width: 88.w,
-                                        height: 30.h,
-                                        fillColor: Colors.transparent,
-                                        textColor: AppColors.primary,
-                                        isBorder: true,
-                                        borderWidth: 1,
-                                      ),
-                                    ],
-                                  ),
+                                  // Row(
+                                  //   children: [
+                                  //     CustomButton(
+                                  //       fontWeight: FontWeight.w700,
+                                  //       fontSize: 14.w,
+                                  //       onTap: () {},
+                                  //       title: 'Workout',
+                                  //       width: 88.w,
+                                  //       height: 30.h,
+                                  //       fillColor: Colors.transparent,
+                                  //       textColor: AppColors.primary,
+                                  //       isBorder: true,
+                                  //       borderWidth: 1,
+                                  //     ),
+                                  //     SizedBox(width: 10.w),
+                                  //     CustomButton(
+                                  //       fontWeight: FontWeight.w700,
+                                  //       fontSize: 14.w,
+                                  //       onTap: () {},
+                                  //       title: 'Casual',
+                                  //       width: 88.w,
+                                  //       height: 30.h,
+                                  //       fillColor: Colors.transparent,
+                                  //       textColor: AppColors.primary,
+                                  //       isBorder: true,
+                                  //       borderWidth: 1,
+                                  //     ),
+                                  //   ],
+                                  // ),
                                   SizedBox(height: 20.h),
                                   Row(
                                     children: [
@@ -159,7 +165,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                           borderRadius: 50.r,
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16.w,
-                                          onTap: () {},
+                                          onTap: () {
+                                            _swipableStackController.next(
+                                              swipeDirection:
+                                                  SwipeDirection.left,
+                                            );
+                                          },
                                           title: 'No Interest',
                                           height: 47.h,
                                           fillColor: Colors.grey.withOpacity(
@@ -172,18 +183,43 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       SizedBox(width: 10.w),
                                       Expanded(
-                                        child: CustomButton(
-                                          borderRadius: 50.r,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16.w,
-                                          onTap: () {},
-                                          title: 'Innvite',
-                                          height: 47.h,
-                                          fillColor: AppColors.primary,
-                                          textColor: AppColors.white,
-                                          isBorder: true,
-                                          borderWidth: 0,
-                                        ),
+                                        child: Obx(() {
+                                          getText(data.connection);
+                                          return controller.inviteStatus.value
+                                              ? CustomLoader()
+                                              : CustomButton(
+                                                borderRadius: 50.r,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16.w,
+                                                onTap: () async {
+                                                  final updatedConnection =
+                                                      await controller
+                                                          .addOrRemoveConnection(
+                                                            userId:
+                                                                data.id ?? '',
+                                                          );
+
+                                                  // if (updatedConnection !=
+                                                  //     null) {
+                                                  //   setState(() {
+                                                  //     data.connection =
+                                                  //         updatedConnection;
+                                                  //   });
+                                                  // }
+                                                },
+                                                title:
+                                                    data.connection == null
+                                                        ? 'Invite'
+                                                        : getText(
+                                                          data.connection,
+                                                        ),
+                                                height: 47.h,
+                                                fillColor: AppColors.primary,
+                                                textColor: AppColors.white,
+                                                isBorder: true,
+                                                borderWidth: 0,
+                                              );
+                                        }),
                                       ),
                                     ],
                                   ),
@@ -204,5 +240,22 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: NavBar(currentIndex: 0),
     );
+  }
+
+  String getText(Connection? connection) {
+    if (connection == null) {
+      return 'Invite';
+    }
+
+    switch (connection.status) {
+      case 'PENDING':
+        return 'Pending';
+      case 'ACCEPTED':
+        return 'Accepted';
+      case 'REJECTED':
+        return 'Rejected';
+      default:
+        return 'Invite';
+    }
   }
 }
