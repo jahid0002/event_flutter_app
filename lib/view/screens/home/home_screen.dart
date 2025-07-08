@@ -184,6 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       SizedBox(width: 10.w),
                                       Expanded(
                                         child: Obx(() {
+                                          getText(data.connection);
                                           return controller.inviteStatus.value
                                               ? CustomLoader()
                                               : CustomButton(
@@ -206,7 +207,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   //   });
                                                   // }
                                                 },
-                                                title: getText(data.connection),
+                                                title:
+                                                    data.connection == null
+                                                        ? 'Invite'
+                                                        : getText(
+                                                          data.connection,
+                                                        ),
                                                 height: 47.h,
                                                 fillColor: AppColors.primary,
                                                 textColor: AppColors.white,

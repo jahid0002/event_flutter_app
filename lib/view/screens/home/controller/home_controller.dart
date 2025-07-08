@@ -54,7 +54,7 @@ class HomeController extends GetxController {
 
   RxBool inviteStatus = false.obs;
 
-  Future<Connection?> addOrRemoveConnection({required String userId}) async {
+  Future<void> addOrRemoveConnection({required String userId}) async {
     inviteStatus(true);
     var body = {};
     var response = await ApiClient.postData(
@@ -65,16 +65,10 @@ class HomeController extends GetxController {
     inviteStatus(false);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      final jsonData = response.body;
-      if (jsonData['data'] != null) {
-        return Connection.fromMap(jsonData['data']);
-      }
       getAllUser();
       users.refresh();
-      return null;
     } else {
       ApiChecker.checkApi(response);
-      return null;
     }
   }
 
