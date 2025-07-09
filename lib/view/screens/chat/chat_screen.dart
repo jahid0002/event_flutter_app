@@ -77,12 +77,6 @@ class ChatScreen extends StatelessWidget {
               if (controller.chatType.value == ChatType.notification) ...[
                 SizedBox(height: 20.h),
 
-                // ChatCard(),
-                // ChatCard(),
-                // ChatCard(),
-                // NotificationsCard(),
-                // NotificationsCard(),
-                // NotificationsCard(),
                 Expanded(
                   child:
                       controller.notificationList.isEmpty
@@ -115,7 +109,16 @@ class ChatScreen extends StatelessWidget {
                                   return NotificationsCard(
                                     name: notification.sender?.name,
                                     imageUrl: notification.sender?.profileImage,
-                                    onTap: () {},
+                                    onTap: () {
+                                      controller.acceptConnectionRequest(
+                                        userID: notification.id ?? '',
+                                        index: index,
+                                      );
+                                    },
+                                    isLoading:
+                                        index ==
+                                            controller.loadingIndex.value &&
+                                        controller.isAccepted.value,
                                   );
                               }
                             },
@@ -221,11 +224,18 @@ class ChatCard extends StatelessWidget {
 }
 
 class NotificationsCard extends StatelessWidget {
-  const NotificationsCard({super.key, this.name, this.imageUrl, this.onTap});
+  const NotificationsCard({
+    super.key,
+    this.name,
+    this.imageUrl,
+    this.onTap,
+    this.isLoading = false,
+  });
 
   final String? name;
   final String? imageUrl;
   final VoidCallback? onTap;
+  final bool? isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -257,13 +267,15 @@ class NotificationsCard extends StatelessWidget {
               ],
             ),
 
-            CustomButton(
-              onTap: onTap ?? () {},
-              height: 40.h,
-              width: 100.w,
-              title: "Accept",
-              borderRadius: 100.r,
-            ),
+            isLoading!
+                ? CustomLoader()
+                : CustomButton(
+                  onTap: onTap ?? () {},
+                  height: 40.h,
+                  width: 100.w,
+                  title: "Accept",
+                  borderRadius: 100.r,
+                ),
           ],
         ),
         SizedBox(height: 10.h),

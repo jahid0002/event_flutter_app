@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
@@ -29,6 +31,34 @@ class ChatController extends GetxController {
       notificationStatus(Status.completed);
     } else {
       notificationStatus(Status.error);
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  //====================== Accept Connection Request ================================
+  RxBool isAccepted = false.obs;
+  RxInt loadingIndex = 0.obs;
+
+  Future<void> acceptConnectionRequest({
+    required String userID,
+    required int index,
+  }) async {
+    loadingIndex(index);
+    isAccepted(true);
+
+    var body = {};
+
+    var response = await ApiClient.postData(
+      ApiUrl.acceptConnection(userID),
+      jsonEncode(body),
+    );
+
+    isAccepted(false);
+    loadingIndex(0);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      getAllNotification();
+    } else {
       ApiChecker.checkApi(response);
     }
   }
