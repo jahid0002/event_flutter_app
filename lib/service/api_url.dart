@@ -27,5 +27,9 @@ class ApiUrl {
   static String acceptConnection(String userId) =>
       '/connection/accept-reject/$userId?status=ACCEPTED';
 
+  //========================================= Connection ===============================
+
+  static const String getMyConnection = '/connection/my-connections';
+
   //================================ Privacy and trms and condition =========================
 }

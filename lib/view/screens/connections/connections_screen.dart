@@ -1,7 +1,11 @@
 import 'package:event_app/core/routes/app_routes.dart';
+import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_nav_bar/navbar.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
+import 'package:event_app/view/components/general_error.dart';
+import 'package:event_app/view/screens/connections/controller/connection_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,7 +16,9 @@ import '../../components/custom_image/custom_image.dart';
 import '../../components/custom_text/custom_text.dart';
 
 class ConnectionsScreen extends StatelessWidget {
-  const ConnectionsScreen({super.key});
+  ConnectionsScreen({super.key});
+
+  final ConnectionController controller = Get.find<ConnectionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,22 +50,45 @@ class ConnectionsScreen extends StatelessWidget {
 
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-        child: GridView.builder(
-          itemCount: 10,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            childAspectRatio: 0.7,
-          ),
-          itemBuilder: (context, index) {
-            return ConnectionsCard(
-              onTap: () {
-                Get.toNamed(AppRoutes.connectionsDetailsScreen);
-              },
-            );
-          },
-        ),
+        child: Obx(() {
+          switch (controller.connectionsStatus.value) {
+            case Status.loading:
+              return const Center(child: CustomLoader());
+            case Status.error:
+              return GeneralErrorScreen(
+                onTap: () => controller.getMyConnection(),
+              );
+            case Status.internetError:
+              return GeneralErrorScreen(
+                onTap: () => controller.getMyConnection(),
+              );
+            case Status.completed:
+              return controller.connections.isEmpty
+                  ? const Center(child: CustomText(text: "No connection yet"))
+                  : GridView.builder(
+                    padding: EdgeInsets.only(top: 20.h),
+                    itemCount: controller.connections.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: 0.7,
+                    ),
+                    itemBuilder: (context, index) {
+                      final connection = controller.connections[index];
+                      return ConnectionsCard(
+                        name: connection.otherUser?.name,
+                        image: connection.otherUser?.profileImage,
+                        //   location: connection.otherUser?.address,
+                        // age: connection.otherUser?,
+                        onTap: () {
+                          Get.toNamed(AppRoutes.connectionsDetailsScreen);
+                        },
+                      );
+                    },
+                  );
+          }
+        }),
       ),
 
       bottomNavigationBar: NavBar(currentIndex: 1),
@@ -68,9 +97,20 @@ class ConnectionsScreen extends StatelessWidget {
 }
 
 class ConnectionsCard extends StatelessWidget {
-  const ConnectionsCard({super.key, this.onTap});
+  const ConnectionsCard({
+    super.key,
+    this.onTap,
+    this.name,
+    this.image,
+    this.location,
+    this.age,
+  });
 
   final VoidCallback? onTap;
+  final String? name;
+  final String? image;
+  final String? location;
+  final String? age;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +119,7 @@ class ConnectionsCard extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: CustomNetworkImage(
-            imageUrl: AppConstants.girlsPhoto,
+            imageUrl: ImageHandler.imagesHandle(image),
             height: 330,
             width: MediaQuery.sizeOf(context).width / 2.1,
             borderRadius: BorderRadius.circular(20.r),
@@ -128,14 +168,14 @@ class ConnectionsCard extends StatelessWidget {
                   Row(
                     children: [
                       CustomText(
-                        text: "Paula",
+                        text: name ?? "Paula",
                         fontSize: 20.w,
                         fontWeight: FontWeight.w600,
                         color: AppColors.white,
                         right: 10,
                       ),
                       CustomText(
-                        text: "29",
+                        text: age ?? "29",
                         fontSize: 14.w,
                         fontWeight: FontWeight.w400,
                         color: AppColors.white,
@@ -151,7 +191,7 @@ class ConnectionsCard extends StatelessWidget {
                       ),
                       CustomText(
                         left: 5,
-                        text: "New York",
+                        text: location ?? "New York",
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: AppColors.white,
