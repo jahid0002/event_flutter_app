@@ -6,10 +6,12 @@ import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/components/custom_app_bar/custom_app_bar.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
+import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_nav_bar/navbar.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/components/custom_text_field/custom_text_field.dart';
+import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -82,19 +84,42 @@ class ChatScreen extends StatelessWidget {
                 // NotificationsCard(),
                 // NotificationsCard(),
                 Expanded(
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    itemCount: controller.notificationList.length,
-                    itemBuilder: (contex, index) {
-                      final notification = controller.notificationList[index];
-                      return NotificationsCard(
-                        name: notification.sender?.name,
-                        imageUrl: notification.sender?.profileImage,
-                        onTap: () {},
-                      );
-                    },
-                  ),
+                  child:
+                      controller.notificationList.isEmpty
+                          ? Center(child: CustomText(text: "No Notification"))
+                          : ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            itemCount:
+                                controller.notificationList.isEmpty
+                                    ? 1
+                                    : controller.notificationList.length,
+                            itemBuilder: (contex, index) {
+                              final notification =
+                                  controller.notificationList[index];
+
+                              switch (controller.notificationStatus.value) {
+                                case Status.loading:
+                                  return CustomLoader();
+                                case Status.error:
+                                  return GeneralErrorScreen(
+                                    onTap:
+                                        () => controller.getAllNotification(),
+                                  );
+                                case Status.internetError:
+                                  return GeneralErrorScreen(
+                                    onTap:
+                                        () => controller.getAllNotification(),
+                                  );
+                                case Status.completed:
+                                  return NotificationsCard(
+                                    name: notification.sender?.name,
+                                    imageUrl: notification.sender?.profileImage,
+                                    onTap: () {},
+                                  );
+                              }
+                            },
+                          ),
                 ),
               ],
             ],

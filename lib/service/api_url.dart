@@ -24,6 +24,8 @@ class ApiUrl {
   //==================================== Notification ================================
 
   static const String getAllNotification = '/connection/get-requests';
+  static String acceptConnection(String userId) =>
+      '/connection/accept-reject/$userId?status=ACCEPTED';
 
   //================================ Privacy and trms and condition =========================
 }
