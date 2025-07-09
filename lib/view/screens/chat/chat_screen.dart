@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:event_app/core/routes/app_routes.dart';
+import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/components/custom_app_bar/custom_app_bar.dart';
@@ -45,6 +46,7 @@ class ChatScreen extends StatelessWidget {
                         controller.chatType.value == ChatType.notification,
                     onTap: () {
                       controller.chatType.value = ChatType.notification;
+                      controller.getAllNotification();
                     },
                   ),
                 ],
@@ -72,12 +74,28 @@ class ChatScreen extends StatelessWidget {
 
               if (controller.chatType.value == ChatType.notification) ...[
                 SizedBox(height: 20.h),
+
                 // ChatCard(),
                 // ChatCard(),
                 // ChatCard(),
-                NotificationsCard(),
-                NotificationsCard(),
-                NotificationsCard(),
+                // NotificationsCard(),
+                // NotificationsCard(),
+                // NotificationsCard(),
+                Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    itemCount: controller.notificationList.length,
+                    itemBuilder: (contex, index) {
+                      final notification = controller.notificationList[index];
+                      return NotificationsCard(
+                        name: notification.sender?.name,
+                        imageUrl: notification.sender?.profileImage,
+                        onTap: () {},
+                      );
+                    },
+                  ),
+                ),
               ],
             ],
           ),
@@ -178,7 +196,11 @@ class ChatCard extends StatelessWidget {
 }
 
 class NotificationsCard extends StatelessWidget {
-  const NotificationsCard({super.key});
+  const NotificationsCard({super.key, this.name, this.imageUrl, this.onTap});
+
+  final String? name;
+  final String? imageUrl;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +212,7 @@ class NotificationsCard extends StatelessWidget {
             Row(
               children: [
                 CustomNetworkImage(
-                  imageUrl: AppConstants.girlsPhoto,
+                  imageUrl: ImageHandler.imagesHandle(imageUrl),
                   height: 52.h,
                   width: 52.w,
                   boxShape: BoxShape.circle,
@@ -200,7 +222,7 @@ class NotificationsCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      text: "Marta Lopez",
+                      text: name ?? "N/A",
                       fontSize: 17.sp,
                       fontWeight: FontWeight.w600,
                     ),
@@ -211,7 +233,7 @@ class NotificationsCard extends StatelessWidget {
             ),
 
             CustomButton(
-              onTap: () {},
+              onTap: onTap ?? () {},
               height: 40.h,
               width: 100.w,
               title: "Accept",

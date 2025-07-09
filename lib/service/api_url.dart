@@ -23,5 +23,7 @@ class ApiUrl {
 
   //==================================== Notification ================================
 
+  static const String getAllNotification = '/connection/get-requests';
+
   //================================ Privacy and trms and condition =========================
 }
