@@ -9,11 +9,15 @@ import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
+import 'package:event_app/view/screens/connections/controller/connection_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class ConnectionsDetailsScreen extends StatelessWidget {
-  const ConnectionsDetailsScreen({super.key});
+  ConnectionsDetailsScreen({super.key});
+
+  final ConnectionController conntroller = Get.find<ConnectionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +43,6 @@ class ConnectionsDetailsScreen extends StatelessWidget {
                       //   mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // SizedBox(height: 10.h),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Slid(),
-                        //     SlidBar(color: AppColors.gray),
-                        //     SlidBar(color: AppColors.gray),
-                        //     SlidBar(color: AppColors.gray),
-                        //   ],
-                        // ),
                         SizedBox(height: 20.h),
 
                         Row(

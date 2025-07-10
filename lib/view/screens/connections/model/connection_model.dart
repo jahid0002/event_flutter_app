@@ -31,8 +31,17 @@ class OtherUser {
   final String? name;
   final String? email;
   final String? profileImage;
+  final String? address;
+  final int? age;
 
-  OtherUser({this.id, this.name, this.email, this.profileImage});
+  OtherUser({
+    this.id,
+    this.name,
+    this.email,
+    this.profileImage,
+    this.address,
+    this.age,
+  });
 
   factory OtherUser.fromJson(String str) => OtherUser.fromMap(json.decode(str));
 
@@ -43,6 +52,8 @@ class OtherUser {
     name: json["name"],
     email: json["email"],
     profileImage: json["profile_image"],
+    address: json["address"],
+    age: json["age"],
   );
 
   Map<String, dynamic> toMap() => {
@@ -50,5 +61,7 @@ class OtherUser {
     "name": name,
     "email": email,
     "profile_image": profileImage,
+    "address": address,
+    "age": age,
   };
 }

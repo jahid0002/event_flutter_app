@@ -79,8 +79,8 @@ class ConnectionsScreen extends StatelessWidget {
                       return ConnectionsCard(
                         name: connection.otherUser?.name,
                         image: connection.otherUser?.profileImage,
-                        //   location: connection.otherUser?.address,
-                        // age: connection.otherUser?,
+                        location: connection.otherUser?.address,
+                        age: connection.otherUser?.age?.toString(),
                         onTap: () {
                           Get.toNamed(AppRoutes.connectionsDetailsScreen);
                         },
@@ -163,42 +163,45 @@ class ConnectionsCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      CustomText(
-                        text: name ?? "Paula",
-                        fontSize: 20.w,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white,
-                        right: 10,
-                      ),
-                      CustomText(
-                        text: age ?? "29",
-                        fontSize: 14.w,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.white,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.location_on_outlined,
-                        color: AppColors.white,
-                        size: 16,
-                      ),
-                      CustomText(
-                        left: 5,
-                        text: location ?? "New York",
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.white,
-                      ),
-                    ],
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        CustomText(
+                          text: name ?? "Paula",
+                          fontSize: 20.w,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.white,
+                          right: 10,
+                        ),
+                        CustomText(
+                          text: age ?? "29",
+                          fontSize: 14.w,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.white,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.location_on_outlined,
+                          color: AppColors.white,
+                          size: 16,
+                        ),
+                        CustomText(
+                          left: 5,
+                          text: location ?? "New York",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.white,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
 
               CircleAvatar(

@@ -30,6 +30,8 @@ class ApiUrl {
   //========================================= Connection ===============================
 
   static const String getMyConnection = '/connection/my-connections';
+  static String getUserDetails(String userId) =>
+      '/normal-user/single-user/$userId';
 
   //================================ Privacy and trms and condition =========================
 }
