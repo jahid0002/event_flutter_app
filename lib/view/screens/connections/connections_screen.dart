@@ -24,7 +24,8 @@ class ConnectionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
+        surfaceTintColor: AppColors.white,
         elevation: 0,
         leading: BackButton(),
         centerTitle: true,
@@ -82,7 +83,10 @@ class ConnectionsScreen extends StatelessWidget {
                         location: connection.otherUser?.address,
                         age: connection.otherUser?.age?.toString(),
                         onTap: () {
-                          Get.toNamed(AppRoutes.connectionsDetailsScreen);
+                          Get.toNamed(
+                            AppRoutes.connectionsDetailsScreen,
+                            arguments: connection,
+                          );
                         },
                       );
                     },
