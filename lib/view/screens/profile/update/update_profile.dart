@@ -7,11 +7,15 @@ import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_from_card/custom_from_card.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
+import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class UpdateProfile extends StatelessWidget {
-  const UpdateProfile({super.key});
+  UpdateProfile({super.key});
+
+  final ProfileController controller = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {

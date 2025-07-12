@@ -33,5 +33,9 @@ class ApiUrl {
   static String getUserDetails(String userId) =>
       '/normal-user/single-user/$userId';
 
+  //================================ Profile ============================
+
+  static const String getOwnProfile = '/user/get-my-profile';
+
   //================================ Privacy and trms and condition =========================
 }
