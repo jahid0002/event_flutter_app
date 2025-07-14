@@ -7,7 +7,7 @@ class ProfileModel {
   final String? email;
   final String? profileImage;
   final List<String>? interests;
-  final List<String>? pictures;
+  List<String>? pictures;
   final List<String>? language;
   final List<dynamic>? blockedUsers;
   final bool? isRegistrationCompleted;
