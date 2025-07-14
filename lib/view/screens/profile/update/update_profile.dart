@@ -74,16 +74,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
                         },
                         imagePath:
                             images.length == index ? null : images[index],
-                        // index ==
-                        //         controller.imageFiles.length +
-                        //             (controller
-                        //                     .profileModel
-                        //                     .value
-                        //                     .pictures
-                        //                     ?.length ??
-                        //                 0)
-                        //     ? null
-                        //     : image,
                       );
                     },
                   ),
@@ -187,9 +177,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
                     controller: controller.languageController.value,
                     hintText: 'Spanish',
                     readOnly: true,
-                    suffixIcon: Icon(
-                      Icons.arrow_drop_down,
-                      color: AppColors.primary,
+                    suffixIcon: CustomPopupmenuButton(
+                      onChanged: (value) {
+                        controller.languageController.value.text = value;
+                      },
+                      items: ["Spanish", "English"],
                     ),
                   ),
                   CustomText(
@@ -285,6 +277,7 @@ class InterestsSelector extends StatefulWidget {
 }
 
 class _InterestsSelectorState extends State<InterestsSelector> {
+  final ProfileController controller = Get.find<ProfileController>();
   final List<String> interests = [
     "Workout 🏃‍♂️",
     "Casual 😄",
@@ -293,14 +286,16 @@ class _InterestsSelectorState extends State<InterestsSelector> {
     "Getting to know the city 🍽️",
   ];
 
-  final Set<int> selectedIndexes = {};
+  //final Set<in> selectedIndexes = {};
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 8,
       children: List.generate(interests.length, (index) {
-        final isSelected = selectedIndexes.contains(index);
+        final isSelected = controller.selectedInterests.contains(
+          interests[index],
+        );
         return ChoiceChip(
           label: Text(
             interests[index],
@@ -322,13 +317,13 @@ class _InterestsSelectorState extends State<InterestsSelector> {
             ),
           ),
           onSelected: (selected) {
-            setState(() {
-              if (selected) {
-                selectedIndexes.add(index);
-              } else {
-                selectedIndexes.remove(index);
-              }
-            });
+            if (selected) {
+              controller.selectedInterests.add(interests[index]);
+            } else {
+              controller.selectedInterests.remove(interests[index]);
+            }
+
+            debugPrint("${controller.selectedInterests}");
           },
         );
       }),

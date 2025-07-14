@@ -89,6 +89,7 @@ class ProfileController extends GetxController {
     myStayController.value.text = profileModel.checkOutDate?.toString() ?? '';
     bioController.value.text = profileModel.bio ?? '';
     languageController.value.text = profileModel.language?.join(',') ?? '';
+    selectedInterests.value = profileModel.interests ?? [];
   }
 
   Rx<TextEditingController> nameController = TextEditingController().obs;
@@ -98,7 +99,7 @@ class ProfileController extends GetxController {
   Rx<TextEditingController> myStayController = TextEditingController().obs;
   Rx<TextEditingController> bioController = TextEditingController().obs;
   Rx<TextEditingController> languageController = TextEditingController().obs;
-
+  RxList<String> selectedInterests = <String>[].obs;
   @override
   void onInit() {
     // TO DO: implement onInit
