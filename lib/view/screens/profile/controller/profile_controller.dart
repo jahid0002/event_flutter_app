@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_nullable_for_final_variable_declarations
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:event_app/service/api_check.dart';
@@ -100,6 +101,44 @@ class ProfileController extends GetxController {
   Rx<TextEditingController> bioController = TextEditingController().obs;
   Rx<TextEditingController> languageController = TextEditingController().obs;
   RxList<String> selectedInterests = <String>[].obs;
+
+  //=============================== Update Profile Methode ==========================
+  Future<void> updateProfile() async {
+    num age = num.parse(ageController.value.text);
+
+    var body = {
+      "name": nameController.value.text,
+      "bio": bioController.value.text,
+      "checkOutDate": myStayController.value.text,
+      "gender": genderController.value.text,
+      "age": age,
+      "address": addressController.value.text,
+      "interests": selectedInterests.toList(),
+      "deletedPictures": deleteImageUrls.toList(),
+    };
+    List<MultipartBody> multipartBody = [];
+    if (imageFiles.isNotEmpty) {
+      multipartBody =
+          imageFiles.map((e) => MultipartBody('pictures', e)).toList();
+    }
+
+    var response =
+        imageFiles.isEmpty
+            ? await ApiClient.patchData(ApiUrl.updateProfile, jsonEncode(body))
+            : await ApiClient.postMultipartData(
+              ApiUrl.updateProfile,
+              jsonEncode(body),
+              multipartBody: multipartBody,
+            );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      getOwnProfile();
+    } else {
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  //============================== On Init ================================
   @override
   void onInit() {
     // TO DO: implement onInit

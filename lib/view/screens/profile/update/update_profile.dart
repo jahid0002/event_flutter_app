@@ -297,15 +297,12 @@ class _InterestsSelectorState extends State<InterestsSelector> {
           interests[index],
         );
         return ChoiceChip(
-          label: Text(
-            interests[index],
-            style: TextStyle(
-              fontWeight: isSelected ? FontWeight.w700 : FontWeight.normal,
-              color:
-                  isSelected
-                      ? AppColors.primary
-                      : AppColors.gray.withOpacity(.5),
-            ),
+          label: CustomText(
+            text: interests[index],
+
+            fontWeight: isSelected ? FontWeight.w700 : FontWeight.normal,
+            color:
+                isSelected ? AppColors.primary : AppColors.gray.withOpacity(.5),
           ),
           selected: isSelected,
           selectedColor: AppColors.primary.withOpacity(0.1),
@@ -317,11 +314,13 @@ class _InterestsSelectorState extends State<InterestsSelector> {
             ),
           ),
           onSelected: (selected) {
-            if (selected) {
-              controller.selectedInterests.add(interests[index]);
-            } else {
-              controller.selectedInterests.remove(interests[index]);
-            }
+            setState(() {
+              if (selected) {
+                controller.selectedInterests.add(interests[index]);
+              } else {
+                controller.selectedInterests.remove(interests[index]);
+              }
+            });
 
             debugPrint("${controller.selectedInterests}");
           },

@@ -36,6 +36,7 @@ class ApiUrl {
   //================================ Profile ============================
 
   static const String getOwnProfile = '/user/get-my-profile';
+  static const String updateProfile = 'normal-user/update-profile';
 
   //================================ Privacy and trms and condition =========================
 }
