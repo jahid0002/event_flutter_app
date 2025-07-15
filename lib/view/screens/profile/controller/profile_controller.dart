@@ -103,38 +103,55 @@ class ProfileController extends GetxController {
   RxList<String> selectedInterests = <String>[].obs;
 
   //=============================== Update Profile Methode ==========================
+
+  RxBool isUpdating = false.obs;
   Future<void> updateProfile() async {
+    isUpdating(true);
     num age = num.parse(ageController.value.text);
 
-    var body = {
-      "name": nameController.value.text,
-      "bio": bioController.value.text,
-      "checkOutDate": myStayController.value.text,
-      "gender": genderController.value.text,
-      "age": age,
-      "address": addressController.value.text,
-      "interests": selectedInterests.toList(),
-      "deletedPictures": deleteImageUrls.toList(),
-    };
-    List<MultipartBody> multipartBody = [];
-    if (imageFiles.isNotEmpty) {
-      multipartBody =
-          imageFiles.map((e) => MultipartBody('pictures', e)).toList();
-    }
+    try {
+      Map<String, String> body = {
+        "data": jsonEncode({
+          "name": nameController.value.text,
+          "bio": bioController.value.text,
+          "checkOutDate": myStayController.value.text,
+          "gender": genderController.value.text,
+          "age": age,
+          "address": addressController.value.text,
+          "interests": selectedInterests,
+          "deletedPictures": deleteImageUrls.isEmpty ? [] : deleteImageUrls,
+        }),
+      };
+      List<MultipartBody> multipartBody = [];
+      if (imageFiles.isNotEmpty) {
+        multipartBody =
+            imageFiles.map((e) => MultipartBody('pictures', e)).toList();
+      }
 
-    var response =
-        imageFiles.isEmpty
-            ? await ApiClient.patchData(ApiUrl.updateProfile, jsonEncode(body))
-            : await ApiClient.postMultipartData(
-              ApiUrl.updateProfile,
-              jsonEncode(body),
-              multipartBody: multipartBody,
-            );
+      var response =
+          imageFiles.isEmpty
+              ? await ApiClient.patchData(
+                ApiUrl.updateProfile,
+                jsonEncode(body),
+              )
+              : await ApiClient.patchMultipartData(
+                ApiUrl.updateProfile,
+                body,
+                multipartBody: multipartBody,
+              );
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      getOwnProfile();
-    } else {
-      ApiChecker.checkApi(response);
+      isUpdating(false);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        getOwnProfile();
+        imageFiles.clear();
+        deleteImageUrls.clear();
+      } else {
+        ApiChecker.checkApi(response);
+      }
+    } catch (e) {
+      //ApiChecker.checkApi(e);
+
+      debugPrint(e.toString());
     }
   }
 

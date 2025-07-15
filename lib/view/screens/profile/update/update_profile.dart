@@ -7,9 +7,11 @@ import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/components/custom_app_bar/custom_app_bar.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_from_card/custom_from_card.dart';
+import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_popupmenu_button/custom_popupmenu_button.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
+import 'package:event_app/view/screens/onbording/age_login_onboarding.dart';
 import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -96,22 +98,28 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       ),
                       SizedBox(width: 10.w),
                       Expanded(
-                        child: CustomFormCard(
-                          hintText: '25',
-                          title: 'Age',
+                        child: CustomTextFieldForAge2(
                           controller: controller.ageController.value,
-                          keyboardType: TextInputType.number,
-                          suffixIcon: Icon(
-                            Icons.calendar_month_outlined,
-                            color: AppColors.primary,
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter your name';
-                            }
-                            return null;
-                          },
+                          fillColor: AppColors.naveWhite,
+                          hintText: 'Select your age',
                         ),
+
+                        //  CustomFormCard(
+                        //   hintText: '25',
+                        //   title: 'Age',
+                        //   controller: controller.ageController.value,
+                        //   keyboardType: TextInputType.number,
+                        //   suffixIcon: Icon(
+                        //     Icons.calendar_month_outlined,
+                        //     color: AppColors.primary,
+                        //   ),
+                        //   validator: (value) {
+                        //     if (value!.isEmpty) {
+                        //       return 'Please enter your name';
+                        //     }
+                        //     return null;
+                        //   },
+                        // ),
                       ),
                     ],
                   ),
@@ -194,14 +202,19 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   InterestsSelector(),
                   SizedBox(height: 20.h),
                   Center(
-                    child: CustomButton(
-                      //fillColor: AppColors.primary,
-                      onTap: () {},
-                      height: 40.h,
-                      width: 174.w,
-                      title: 'Save',
-                      borderRadius: 10.r,
-                    ),
+                    child:
+                        controller.isUpdating.value
+                            ? CustomLoader()
+                            : CustomButton(
+                              //fillColor: AppColors.primary,
+                              onTap: () {
+                                controller.updateProfile();
+                              },
+                              height: 40.h,
+                              width: 174.w,
+                              title: 'Save',
+                              borderRadius: 10.r,
+                            ),
                   ),
                 ],
               ),
@@ -400,6 +413,86 @@ class CustomImagecard3 extends StatelessWidget {
                   size: 25.w,
                 ),
               ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class CustomTextFieldForAge2 extends StatefulWidget {
+  final Color fillColor;
+  final String hintText;
+  final TextEditingController controller;
+
+  const CustomTextFieldForAge2({
+    super.key,
+    required this.fillColor,
+    required this.hintText,
+    required this.controller,
+  });
+
+  @override
+  State<CustomTextFieldForAge2> createState() => _CustomTextFieldState2();
+}
+
+class _CustomTextFieldState2 extends State<CustomTextFieldForAge2> {
+  // final TextEditingController _controller = TextEditingController();
+
+  int? selectedNumber;
+
+  void _showNumberPicker() async {
+    final pickedNumber = await showModalBottomSheet<int>(
+      context: context,
+      builder: (context) {
+        return NumberPickerCarousel(
+          initialNumber: int.parse(widget.controller.text),
+          min: 0,
+          max: 150,
+        );
+      },
+    );
+
+    if (pickedNumber != null) {
+      setState(() {
+        selectedNumber = pickedNumber;
+        widget.controller.text = pickedNumber.toString();
+        // controller.ageController.value.text = pickedNumber.toString();
+      });
+    }
+  }
+
+  // @override
+  // void dispose() {
+  //   widget.controller.dispose();
+  //   super.dispose();
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomText(
+          text: "Age",
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
+          bottom: 10.h,
+        ),
+        TextField(
+          controller: widget.controller,
+          readOnly: true,
+          onTap: _showNumberPicker,
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: widget.fillColor,
+            hintText: widget.hintText,
+            suffixIcon: Icon(Icons.arrow_drop_down),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide.none,
             ),
           ),
         ),
