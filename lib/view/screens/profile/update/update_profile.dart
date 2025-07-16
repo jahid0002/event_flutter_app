@@ -154,11 +154,17 @@ class _UpdateProfileState extends State<UpdateProfile> {
                     },
                   ),
                   CustomFormCard(
+                    readOnly: true,
+
                     title: 'My stay',
                     controller: controller.myStayController.value,
                     hintText: '25/10/1992',
+                    onTap: () {
+                      controller.getCheckOutDate();
+                    },
                     suffixIcon: GestureDetector(
                       onTap: () {
+                        controller.getCheckOutDate();
                         // controller.selectDate();
                       },
                       child: Icon(
@@ -478,7 +484,7 @@ class _CustomTextFieldState2 extends State<CustomTextFieldForAge2> {
           text: "Age",
           fontSize: 16.sp,
           fontWeight: FontWeight.w600,
-          bottom: 10.h,
+          bottom: 3.h,
         ),
         TextField(
           controller: widget.controller,

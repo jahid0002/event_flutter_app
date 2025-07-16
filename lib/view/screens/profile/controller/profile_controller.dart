@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:event_app/helper/time_converter/date_converter.dart';
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
@@ -79,6 +80,21 @@ class ProfileController extends GetxController {
   int getImageListLength() {
     return imageFiles.length + (profileModel.value.pictures?.length ?? 0) + 1;
   }
+  //================================ get date for check out date ========================
+
+  getCheckOutDate() async {
+    var pickDate = await showDatePicker(
+      context: Get.context!,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+
+    if (pickDate != null) {
+      myStayDate.value = pickDate.toUtc().toString();
+      myStayController.value.text = DateConverter.estimatedDate(pickDate);
+    }
+  }
 
   //============================= All field Init ============================
 
@@ -87,7 +103,10 @@ class ProfileController extends GetxController {
     ageController.value.text = profileModel.age?.toString() ?? '';
     genderController.value.text = profileModel.gender ?? '';
     addressController.value.text = profileModel.address ?? '';
-    myStayController.value.text = profileModel.checkOutDate?.toString() ?? '';
+    myStayController.value.text = DateConverter.estimatedDate(
+      profileModel.checkOutDate ?? DateTime.now(),
+    );
+    myStayDate.value = profileModel.checkOutDate?.toString() ?? '';
     bioController.value.text = profileModel.bio ?? '';
     languageController.value.text = profileModel.language?.join(',') ?? '';
     selectedInterests.value = profileModel.interests ?? [];
@@ -100,6 +119,7 @@ class ProfileController extends GetxController {
   Rx<TextEditingController> myStayController = TextEditingController().obs;
   Rx<TextEditingController> bioController = TextEditingController().obs;
   Rx<TextEditingController> languageController = TextEditingController().obs;
+  RxString myStayDate = ''.obs;
   RxList<String> selectedInterests = <String>[].obs;
 
   //=============================== Update Profile Methode ==========================
@@ -114,7 +134,7 @@ class ProfileController extends GetxController {
         "data": jsonEncode({
           "name": nameController.value.text,
           "bio": bioController.value.text,
-          "checkOutDate": myStayController.value.text,
+          "checkOutDate": myStayDate.value,
           "gender": genderController.value.text,
           "age": age,
           "address": addressController.value.text,

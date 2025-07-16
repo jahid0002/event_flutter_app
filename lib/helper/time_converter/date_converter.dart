@@ -1,4 +1,5 @@
-// ignore_for_file: unused_local_variable
+// ignore: file_names
+// ignore_for_file: unused_local_variable, unnecessary_null_comparison
 
 import 'package:intl/intl.dart';
 
@@ -12,6 +13,7 @@ class DateConverter {
   }
 
   static String timeFormetString(String dateTimeStr) {
+    if (dateTimeStr == null) return "N/A";
     // Parse the input string to a DateTime object
     DateTime dateTime = DateTime.parse(dateTimeStr);
 
@@ -40,7 +42,7 @@ class DateConverter {
     }
   }
 
-//================== Get Age =================
+  //================== Get Age =================
 
   static String getAge({required String dOB}) {
     // Parse the date of birth from the string input
@@ -108,7 +110,7 @@ class DateConverter {
       'Sep',
       'Oct',
       'Nov',
-      'Dec'
+      'Dec',
     ];
     return months[month - 1];
   }
@@ -130,8 +132,12 @@ class DateConverter {
     // Adjust if negative months or days (correct for partial year)
     if (days < 0) {
       months--;
-      days += DateTime(currentDate.year, currentDate.month, 0)
-          .day; // Add days of previous month
+      days +=
+          DateTime(
+            currentDate.year,
+            currentDate.month,
+            0,
+          ).day; // Add days of previous month
     }
     if (months < 0) {
       years--;
@@ -152,7 +158,7 @@ class DateConverter {
       "$months months",
       "$weeks weeks",
       "$remainingDays days",
-      "${lifeSpentPercent.toStringAsFixed(2)}%"
+      "${lifeSpentPercent.toStringAsFixed(2)}%",
     ];
 
     return result;
@@ -164,8 +170,11 @@ class DateConverter {
     DateTime currentDate = DateTime.now();
 
     // Calculate the target date (when the user reaches the target age)
-    DateTime targetDate =
-        DateTime(birthDate.year + targetAge, birthDate.month, birthDate.day);
+    DateTime targetDate = DateTime(
+      birthDate.year + targetAge,
+      birthDate.month,
+      birthDate.day,
+    );
 
     // Calculate the difference between the current date and the target date
     Duration remainingDuration = targetDate.difference(currentDate);
@@ -187,8 +196,12 @@ class DateConverter {
 
     if (remainingDays < 0) {
       remainingMonths--;
-      remainingDays += DateTime(currentDate.year, currentDate.month + 1, 0)
-          .day; // Adjust for negative days
+      remainingDays +=
+          DateTime(
+            currentDate.year,
+            currentDate.month + 1,
+            0,
+          ).day; // Adjust for negative days
     }
     if (remainingMonths < 0) {
       remainingYears--;
@@ -210,7 +223,7 @@ class DateConverter {
       "$remainingMonths months",
       "$weeks weeks",
       "$extraDays days",
-      "${lifeRemainingPercent.toStringAsFixed(2)}%"
+      "${lifeRemainingPercent.toStringAsFixed(2)}%",
     ];
 
     return result;
@@ -244,8 +257,9 @@ class DateConverter {
       // If today
       return "Today ${DateFormat('hh:mm a').format(serverDateTime)}";
     } else if (DateFormat('yyyy-MM-dd').format(serverDateTime) ==
-        DateFormat('yyyy-MM-dd')
-            .format(now.subtract(const Duration(days: 1)))) {
+        DateFormat(
+          'yyyy-MM-dd',
+        ).format(now.subtract(const Duration(days: 1)))) {
       // If yesterday
       return "Yesterday ${DateFormat('hh:mm a').format(serverDateTime)}";
     } else {
