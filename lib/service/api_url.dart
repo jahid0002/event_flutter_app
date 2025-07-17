@@ -1,11 +1,14 @@
 class ApiUrl {
-  static const String baseUrl = "http://10.0.60.137:5020";
+  static const String primaryUrl = "http://10.0.60.137:5020";
+
+  static const String baseUrl = primaryUrl;
   // static const String baseUrl = "https://sta-map-point-2.onrender.com/api/v1";
-  static const String imageUrl = "http://10.0.60.137:5020/";
-  static String socketUrl = "http://10.0.60.137:5020";
+  static const String imageUrl = "$primaryUrl/";
+  static String socketUrl({required String userID}) => "$primaryUrl?id=$userID";
 
   // server url : http://3.232.3.72:5000
   // local url : http://10.0.60.137:3000
+  //socket url : http://10.0.60.137:5020?id=68297d366ac733cf1835c86d
 
   //========================= Authentication =========================
 

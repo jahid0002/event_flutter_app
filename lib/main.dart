@@ -3,6 +3,7 @@
 import 'package:event_app/core/dependency/dependency_injection.dart';
 import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/firebase_options.dart';
+import 'package:event_app/service/socket_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ void main() async {
   DeviceUtils.lockDevicePortrait();
   DependencyInjection di = DependencyInjection();
   di.dependencies();
-
+  SocketApi.init();
   // ...
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

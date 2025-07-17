@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
 import 'package:event_app/helper/time_converter/date_converter.dart';
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
@@ -24,6 +25,7 @@ class ProfileController extends GetxController {
       profileModel.value = ProfileModel.fromMap(response.body['data']);
       profileStatus(Status.completed);
       initAllField(profileModel.value);
+      SharePrefsHelper.setString(AppConstants.userId, profileModel.value.id);
     } else {
       profileStatus(Status.error);
       ApiChecker.checkApi(response);
