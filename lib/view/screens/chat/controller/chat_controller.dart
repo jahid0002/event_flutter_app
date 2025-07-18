@@ -6,6 +6,7 @@ import 'package:event_app/service/api_url.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/screens/chat/chat_screen.dart';
 import 'package:event_app/view/screens/chat/model/notification_model.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class ChatController extends GetxController {
@@ -13,7 +14,7 @@ class ChatController extends GetxController {
 
   Rx<ChatType> chatType = ChatType.chat.obs;
 
-  //=================================== Notification ===============================
+  //=================================== Notification Section ===============================
 
   Rx<Status> notificationStatus = Status.loading.obs;
 
@@ -62,4 +63,8 @@ class ChatController extends GetxController {
       ApiChecker.checkApi(response);
     }
   }
+
+  // ======================  Chat Section ================================
+
+  Rx<TextEditingController> messageController = TextEditingController().obs;
 }
