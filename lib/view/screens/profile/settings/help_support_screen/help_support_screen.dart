@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../utils/app_colors/app_colors.dart';
-import '../../../../utils/app_icons/app_icons.dart';
-import '../../../components/custom_image/custom_image.dart';
-import '../../../components/custom_text/custom_text.dart';
+import '../../../../../utils/app_colors/app_colors.dart';
+import '../../../../../utils/app_icons/app_icons.dart';
+import '../../../../components/custom_image/custom_image.dart';
+import '../../../../components/custom_text/custom_text.dart';
 
 class HelpSupportScreen extends StatelessWidget {
   const HelpSupportScreen({super.key});
@@ -27,7 +27,11 @@ class HelpSupportScreen extends StatelessWidget {
               imageColor: AppColors.primary,
             ),
             const SizedBox(width: 6),
-            CustomText(text: "Help & Support", fontSize: 20, fontWeight: FontWeight.w600),
+            CustomText(
+              text: "Help & Support",
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
             const Spacer(flex: 2),
           ],
         ),
@@ -82,19 +86,20 @@ class HelpSupportScreen extends StatelessWidget {
               _faqItem(
                 question: "How do I sign up on Innvite?",
                 answer:
-                "You can sign up for Innvite using your hotel’s Wi-Fi or by entering the unique access code provided by the hotel. Simply follow the registration steps after logging into the Wi-Fi or entering the code.",
+                    "You can sign up for Innvite using your hotel’s Wi-Fi or by entering the unique access code provided by the hotel. Simply follow the registration steps after logging into the Wi-Fi or entering the code.",
               ),
               const SizedBox(height: 12),
               _faqItem(
                 question: "How do I update my profile?",
                 answer:
-                "To update your profile, go to the “Profile” section in the app. You can change your nickname, upload a new photo, update your interests, and adjust other personal details like your stay dates and preferred activities.",
+                    "To update your profile, go to the “Profile” section in the app. You can change your nickname, upload a new photo, update your interests, and adjust other personal details like your stay dates and preferred activities.",
               ),
               const SizedBox(height: 12),
               _faqItem(
-                question: "Can I connect with guests who aren’t staying at my hotel?",
+                question:
+                    "Can I connect with guests who aren’t staying at my hotel?",
                 answer:
-                "No, you can only connect with guests who are staying at the same hotel as you. This ensures privacy and security for all guests.",
+                    "No, you can only connect with guests who are staying at the same hotel as you. This ensures privacy and security for all guests.",
               ),
             ],
           ),
