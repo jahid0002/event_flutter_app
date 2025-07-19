@@ -79,7 +79,7 @@ class _TermsConditionsScreenState extends State<TermsConditionsScreen> {
                   Html(
                     data:
                         controller
-                            .privacyPolicy
+                            .termsCondition
                             .value
                             .description, // এটা সার্ভার থেকে আসা HTML string
                     // style: {
