@@ -42,4 +42,7 @@ class ApiUrl {
   static const String updateProfile = '/normal-user/update-profile';
 
   //================================ Privacy and trms and condition =========================
+
+  static const String getPrivacyPolicy = '/manage/get-privacy-policy';
+  static const String getTermsAndCondition = '/manage/get-terms-conditions';
 }
