@@ -45,4 +45,8 @@ class ApiUrl {
 
   static const String getPrivacyPolicy = '/manage/get-privacy-policy';
   static const String getTermsAndCondition = '/manage/get-terms-conditions';
+
+  //============================ Chat ================================.
+
+  static const getConversation = '/conversation/get-chat-list';
 }

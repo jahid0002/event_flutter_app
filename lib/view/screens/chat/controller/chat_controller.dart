@@ -67,9 +67,10 @@ class ChatController extends GetxController {
 
   // ======================  Chat Section ================================
 
+  //=================>>. SEND MESSAGE METHODE
   Rx<TextEditingController> messageController = TextEditingController().obs;
 
-  sendMessage({required String receiverID}) async {
+  Future<void> sendMessage({required String receiverID}) async {
     if (messageController.value.text.isEmpty) {
       debugPrint('message is empty');
       return;
