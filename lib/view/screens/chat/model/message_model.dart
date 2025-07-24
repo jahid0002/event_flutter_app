@@ -8,7 +8,7 @@ class MessageModel {
   final bool? seen;
   final MsgByUserId? msgByUserId;
   final String? conversationId;
-  final DateTime? createdAt;
+  final String? createdAt;
   final DateTime? updatedAt;
   final int? v;
 
@@ -47,8 +47,7 @@ class MessageModel {
             ? null
             : MsgByUserId.fromMap(json["msgByUserId"]),
     conversationId: json["conversationId"],
-    createdAt:
-        json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+    createdAt: json["createdAt"],
     updatedAt:
         json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
     v: json["__v"],
@@ -64,7 +63,7 @@ class MessageModel {
     "seen": seen,
     "msgByUserId": msgByUserId?.toMap(),
     "conversationId": conversationId,
-    "createdAt": createdAt?.toIso8601String(),
+    "createdAt": createdAt,
     "updatedAt": updatedAt?.toIso8601String(),
     "__v": v,
   };

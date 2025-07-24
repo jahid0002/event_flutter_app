@@ -6,6 +6,7 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:event_app/utils/app_const/app_const.dart';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class SocketApi {
   factory SocketApi() => _instance;
@@ -20,10 +21,10 @@ class SocketApi {
   static bool get isConnected => _socket?.connected ?? false;
 
   ///<------------------ Public Init ------------------>
-
   static Future<void> init({Function? onSocketConnect}) async {
     _onSocketConnectCallback = onSocketConnect;
 
+    // Retrieve userId from SharedPreferences or fallback
     _userId = await SharePrefsHelper.getString(AppConstants.userId);
 
     if (_userId == null || _userId!.isEmpty || _userId == "null") {
@@ -38,7 +39,6 @@ class SocketApi {
   }
 
   ///<------------------ Internal Connect ------------------>
-
   static void _connectToSocket(String userId) {
     final socketUrl = ApiUrl.socketUrl(userID: userId);
     debugPrint('🌐 Connecting socket with userId: $userId → $socketUrl');
@@ -59,7 +59,6 @@ class SocketApi {
   }
 
   ///<------------------ Register Events ------------------>
-
   static void _registerListeners() {
     if (_socket == null) return;
 
@@ -85,8 +84,17 @@ class SocketApi {
       });
   }
 
-  ///<------------------ Emit Events ------------------>
+  ///<------------------ Listen for Events ------------------>
+  // Public method for listening to socket events
+  static void onEvent(String eventName, Function(dynamic) callback) {
+    if (_socket != null && _socket!.connected) {
+      _socket!.on(eventName, callback);
+    } else {
+      debugPrint('⚠️ Socket not connected. Cannot listen for "$eventName".');
+    }
+  }
 
+  ///<------------------ Emit Events ------------------>
   static void sendEvent(String eventName, dynamic data) {
     if (!isConnected) {
       debugPrint('❌ Socket not connected. Cannot emit "$eventName".');
@@ -96,7 +104,6 @@ class SocketApi {
   }
 
   ///<------------------ Cleanup ------------------>
-
   static void dispose() {
     _socket?.disconnect();
     _socket?.dispose();
@@ -107,6 +114,107 @@ class SocketApi {
     debugPrint('🧹 Socket disposed');
   }
 }
+
+// class SocketApi {
+//   factory SocketApi() => _instance;
+//   SocketApi._internal();
+
+//   static final SocketApi _instance = SocketApi._internal();
+//   static io.Socket? _socket;
+//   static bool _isInitialized = false;
+//   static Function? _onSocketConnectCallback;
+//   static String? _userId;
+
+//   static bool get isConnected => _socket?.connected ?? false;
+
+//   ///<------------------ Public Init ------------------>
+
+//   static Future<void> init({Function? onSocketConnect}) async {
+//     _onSocketConnectCallback = onSocketConnect;
+
+//     _userId = await SharePrefsHelper.getString(AppConstants.userId);
+
+//     if (_userId == null || _userId!.isEmpty || _userId == "null") {
+//       debugPrint(
+//         '⚠️ No userId found in SharedPreferences. Socket not connecting.',
+//       );
+//       return;
+//     }
+
+//     _connectToSocket(_userId!);
+//     _isInitialized = true;
+//   }
+
+//   ///<------------------ Internal Connect ------------------>
+
+//   static void _connectToSocket(String userId) {
+//     final socketUrl = ApiUrl.socketUrl(userID: userId);
+//     debugPrint('🌐 Connecting socket with userId: $userId → $socketUrl');
+
+//     _socket = io.io(
+//       socketUrl,
+//       io.OptionBuilder()
+//           .setTransports(['websocket'])
+//           .enableForceNew()
+//           .enableReconnection()
+//           .setReconnectionAttempts(5)
+//           .setReconnectionDelay(1000)
+//           .setReconnectionDelayMax(5000)
+//           .build(),
+//     );
+
+//     _registerListeners();
+//   }
+
+//   ///<------------------ Register Events ------------------>
+
+//   static void _registerListeners() {
+//     if (_socket == null) return;
+
+//     _socket!
+//       ..onConnect((_) {
+//         debugPrint('✅ Socket connected as $_userId');
+//         _onSocketConnectCallback?.call();
+//       })
+//       ..onDisconnect((data) {
+//         debugPrint('🔌 Disconnected: $data');
+//       })
+//       ..onReconnectAttempt((attempt) {
+//         debugPrint('🔁 Reconnect attempt: $attempt');
+//       })
+//       ..onReconnectFailed((_) {
+//         debugPrint('❌ Reconnect failed');
+//       })
+//       ..onError((error) {
+//         debugPrint('⚠️ Socket error: $error');
+//       })
+//       ..on('unauthorized', (data) {
+//         debugPrint('❌ Unauthorized: $data');
+//       });
+//   }
+
+//   ///<------------------ Emit Events ------------------>
+
+//   static void sendEvent(String eventName, dynamic data) {
+//     if (!isConnected) {
+//       debugPrint('❌ Socket not connected. Cannot emit "$eventName".');
+//       return;
+//     }
+//     _socket!.emit(eventName, data);
+//   }
+
+//   ///<------------------ Cleanup ------------------>
+
+//   static void dispose() {
+//     _socket?.disconnect();
+//     _socket?.dispose();
+//     _socket = null;
+//     _isInitialized = false;
+//     _userId = null;
+//     _onSocketConnectCallback = null;
+//     debugPrint('🧹 Socket disposed');
+//   }
+// }
 
 // class SocketApi {
 //   // Singleton instance of the class

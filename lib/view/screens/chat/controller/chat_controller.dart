@@ -7,6 +7,7 @@ import 'package:event_app/service/socket_service.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/screens/chat/chat_screen.dart';
 import 'package:event_app/view/screens/chat/model/conversation_model.dart';
+import 'package:event_app/view/screens/chat/model/message_model.dart';
 import 'package:event_app/view/screens/chat/model/notification_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -85,6 +86,29 @@ class ChatController extends GetxController {
     }
   }
 
+  //====================== >> Get Message List
+
+  RxList<MessageModel> messageList = <MessageModel>[].obs;
+
+  Rx<Status> messageStatus = Status.loading.obs;
+
+  Future<void> getAllMessage({required String otherUserID}) async {
+    var response = await ApiClient.getData(
+      ApiUrl.getMessages(otherUserID: otherUserID),
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      messageList.value = List<MessageModel>.from(
+        response.body['data']['result']['messages'].map(
+          (x) => MessageModel.fromMap(x),
+        ),
+      );
+      messageStatus(Status.completed);
+    } else {
+      messageStatus(Status.error);
+      ApiChecker.checkApi(response);
+    }
+  }
+
   //=================>>. SEND MESSAGE METHODE
   Rx<TextEditingController> messageController = TextEditingController().obs;
 
@@ -103,6 +127,15 @@ class ChatController extends GetxController {
 
     debugPrint('message sent');
     messageController.value.clear();
+  }
+
+  //=================== Get New Message ====================== >>
+
+  getRealTimeMessage({required String otherUserID}) async {
+    SocketApi.onEvent('message-$otherUserID', (value) {
+      debugPrint('message received');
+      getAllMessage(otherUserID: otherUserID);
+    });
   }
 
   //   @override

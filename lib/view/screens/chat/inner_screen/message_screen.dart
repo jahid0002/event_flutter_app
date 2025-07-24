@@ -3,11 +3,15 @@
 import 'dart:io';
 
 import 'package:event_app/helper/imges_handler/image_handler.dart';
+import 'package:event_app/helper/time_converter/date_converter.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
+import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/components/custom_app_bar/custom_app_bar.dart';
+import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/components/custom_text_field/custom_text_field.dart';
+import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +27,7 @@ class MessageScreen extends StatefulWidget {
 class _MessageScreenState extends State<MessageScreen> {
   final ReceiverInformation receiverInformation = Get.arguments;
 
-  final ChatController controller = Get.find();
+  final ChatController controller = Get.find<ChatController>();
   final List<_ChatMessage> messages = [
     _ChatMessage(text: "Hi Mia!", isSent: true, time: "17:00", isRead: true),
     _ChatMessage(
@@ -50,7 +54,17 @@ class _MessageScreenState extends State<MessageScreen> {
   //     );
   //     _controller.clear();
   //   });
-  // }
+  // }.
+
+  @override
+  void initState() {
+    // TO DO: implement initState
+    controller.getAllMessage(otherUserID: receiverInformation.receiverId ?? '');
+    controller.getRealTimeMessage(
+      otherUserID: '${receiverInformation.receiverId}',
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,26 +77,55 @@ class _MessageScreenState extends State<MessageScreen> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: ListView.builder(
-                //   controller: controller.scrollController.value,
-                physics: AlwaysScrollableScrollPhysics(),
-                reverse: true,
-                itemCount: messages.length,
-                itemBuilder: (context, index) {
-                  // final data = controller.messageList[index];
+              child: Obx(() {
+                switch (controller.messageStatus.value) {
+                  case Status.loading:
+                    return CustomLoader();
+                  case Status.error:
+                    return GeneralErrorScreen(
+                      onTap:
+                          () => controller.getAllMessage(
+                            otherUserID: receiverInformation.receiverId ?? '',
+                          ),
+                    );
+                  case Status.internetError:
+                    return GeneralErrorScreen(
+                      onTap:
+                          () => controller.getAllMessage(
+                            otherUserID: receiverInformation.receiverId ?? '',
+                          ),
+                    );
+                  case Status.completed:
+                    return ListView.builder(
+                      //   controller: controller.scrollController.value,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      reverse: true,
+                      itemCount: controller.messageList.length,
+                      itemBuilder: (context, index) {
+                        // final data = controller.messageList[index];
 
-                  final reverseMessageList = messages.reversed.toList();
-                  return CustomInboxMessage(
-                    profileImage: receiverInformation.receiverImage,
-                    isMe: reverseMessageList[index].isSent,
-                    message: reverseMessageList[index].text,
-                    messageTime: reverseMessageList[index].time,
+                        final message = controller.messageList[index];
 
-                    type: 'text',
-                    imageUrls: [],
-                  );
-                },
-              ),
+                        //   final reverseMessageList = messages.reversed.toList();
+                        return CustomInboxMessage(
+                          profileImage: receiverInformation.receiverImage,
+                          isMe:
+                              receiverInformation.receiverId ==
+                                      message.msgByUserId?.id
+                                  ? false
+                                  : true,
+                          message: message.text ?? '',
+                          messageTime: DateConverter.formatTimeAgo(
+                            message.createdAt ?? '',
+                          ),
+
+                          type: 'text',
+                          imageUrls: [],
+                        );
+                      },
+                    );
+                }
+              }),
             ),
           ),
 

@@ -48,5 +48,7 @@ class ApiUrl {
 
   //============================ Chat ================================.
 
-  static const getConversation = '/conversation/get-chat-list';
+  static const String getConversation = '/conversation/get-chat-list';
+  static String getMessages({required String otherUserID}) =>
+      '/message/get-messages/$otherUserID';
 }
