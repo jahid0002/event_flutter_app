@@ -13,7 +13,12 @@ class SettingsController extends GetxController {
   void termsAndCondition() async {
     var response = await ApiClient.getData(ApiUrl.getTermsAndCondition);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      termsCondition.value = TermsConditionModel.fromMap(response.body['data']);
+      if (response.body['data'] != null) {
+        termsCondition.value = TermsConditionModel.fromMap(
+          response.body['data'],
+        );
+      }
+
       termsConditionStatus(Status.completed);
     } else {
       termsConditionStatus(Status.error);
@@ -28,7 +33,12 @@ class SettingsController extends GetxController {
   void privacyPolicyApi() async {
     var response = await ApiClient.getData(ApiUrl.getPrivacyPolicy);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      privacyPolicy.value = TermsConditionModel.fromMap(response.body['data']);
+      if (response.body['data'] != null) {
+        privacyPolicy.value = TermsConditionModel.fromMap(
+          response.body['data'],
+        );
+      }
+
       privacyPolicyStatus(Status.completed);
     } else {
       privacyPolicyStatus(Status.error);
