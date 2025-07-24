@@ -6,6 +6,7 @@ import 'package:event_app/service/api_url.dart';
 import 'package:event_app/service/socket_service.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/screens/chat/chat_screen.dart';
+import 'package:event_app/view/screens/chat/model/conversation_model.dart';
 import 'package:event_app/view/screens/chat/model/notification_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -65,7 +66,24 @@ class ChatController extends GetxController {
     }
   }
 
-  // ======================  Chat Section ================================
+  // ======================  Chat Section ================================.
+
+  //====================>> Get Connection List
+  RxList<ConversationModel> conversationList = <ConversationModel>[].obs;
+  Rx<Status> conversationStatus = Status.loading.obs;
+
+  Future<void> getAllConversation() async {
+    var response = await ApiClient.getData(ApiUrl.getConversation);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      conversationList.value = List<ConversationModel>.from(
+        response.body['data']['data'].map((x) => ConversationModel.fromMap(x)),
+      );
+      conversationStatus(Status.completed);
+    } else {
+      conversationStatus(Status.error);
+      ApiChecker.checkApi(response);
+    }
+  }
 
   //=================>>. SEND MESSAGE METHODE
   Rx<TextEditingController> messageController = TextEditingController().obs;
@@ -85,6 +103,13 @@ class ChatController extends GetxController {
 
     debugPrint('message sent');
     messageController.value.clear();
+  }
+
+  @override
+  void onInit() {
+    // TO DO: implement onInit.
+    getAllConversation();
+    super.onInit();
   }
 }
 

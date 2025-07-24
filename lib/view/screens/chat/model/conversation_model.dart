@@ -57,7 +57,7 @@ class LastMessage {
   final bool? seen;
   final String? msgByUserId;
   final String? conversationId;
-  final DateTime? createdAt;
+  final String? createdAt;
   final DateTime? updatedAt;
   final int? v;
 
@@ -93,8 +93,7 @@ class LastMessage {
     seen: json["seen"],
     msgByUserId: json["msgByUserId"],
     conversationId: json["conversationId"],
-    createdAt:
-        json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+    createdAt: json["createdAt"],
     updatedAt:
         json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
     v: json["__v"],
@@ -110,7 +109,7 @@ class LastMessage {
     "seen": seen,
     "msgByUserId": msgByUserId,
     "conversationId": conversationId,
-    "createdAt": createdAt?.toIso8601String(),
+    "createdAt": createdAt,
     "updatedAt": updatedAt?.toIso8601String(),
     "__v": v,
   };
