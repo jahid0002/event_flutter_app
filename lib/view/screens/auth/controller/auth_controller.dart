@@ -18,18 +18,23 @@ class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> signInWithGoogle() async {
+    debugPrint('======================>> signInWithGoogle');
     PopupLoader.showPopupLoader(Get.context!);
     try {
       // Initialize Google Sign-In
       final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
 
+      debugPrint('======================>> Google Sign-In initialized');
+
       // Trigger authentication flow
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
-        debugPrint('User cancelled sign-in');
+        debugPrint('======================>> User cancelled sign-in');
         PopupLoader.hidePopupLoader(Get.context!);
         return;
       }
+
+      debugPrint('======================>> Google user: $googleUser');
 
       // Get auth details
       final GoogleSignInAuthentication googleAuth =
