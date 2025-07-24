@@ -19,14 +19,14 @@ class HomeAppbar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CustomImage(imageSrc: AppIcons.logo),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.notifications_outlined,
-                color: AppColors.gray,
-                size: 30.w,
-              ),
-            ),
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: Icon(
+            //     Icons.notifications_outlined,
+            //     color: AppColors.gray,
+            //     size: 30.w,
+            //   ),
+            // ),
           ],
         ),
       ),
