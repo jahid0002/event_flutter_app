@@ -4,6 +4,7 @@ import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/profile/settings/controller/settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../utils/app_icons/app_icons.dart';
@@ -74,20 +75,24 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
               ),
               child: Column(
                 children: [
-                  Html(
-                    data:
-                        controller
-                            .privacyPolicy
-                            .value
-                            .description, // এটা সার্ভার থেকে আসা HTML string
-                    // style: {
-                    //   "body": Style(
-                    //     //  fontSize: FontSize(14.w),
-                    //     fontWeight: FontWeight.w400,
-                    //     textAlign: TextAlign.start,
-                    //   ),
-                    // },
-                  ),
+                  controller.privacyPolicy.value.description != null
+                      ? Html(
+                        data:
+                            controller
+                                .privacyPolicy
+                                .value
+                                .description, // এটা সার্ভার থেকে আসা HTML string
+                        // style: {
+                        //   "body": Style(
+                        //     //  fontSize: FontSize(14.w),
+                        //     fontWeight: FontWeight.w400,
+                        //     textAlign: TextAlign.start,
+                        //   ),
+                        // },
+                      )
+                      : Center(
+                        child: CustomText(text: "No Data Found", top: 200.h),
+                      ),
                 ],
               ),
             );
