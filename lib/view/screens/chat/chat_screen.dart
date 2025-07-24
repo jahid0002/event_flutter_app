@@ -19,10 +19,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ChatScreen extends StatelessWidget {
-  ChatScreen({super.key});
+class ChatScreen extends StatefulWidget {
+  const ChatScreen({super.key});
 
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
   final ChatController controller = Get.find<ChatController>();
+
+  @override
+  void initState() {
+    // TO DO: implement initState.
+
+    controller.getAllConversation();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

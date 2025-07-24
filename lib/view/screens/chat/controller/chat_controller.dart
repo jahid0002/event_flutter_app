@@ -105,12 +105,12 @@ class ChatController extends GetxController {
     messageController.value.clear();
   }
 
-  @override
-  void onInit() {
-    // TO DO: implement onInit.
-    getAllConversation();
-    super.onInit();
-  }
+  //   @override
+  //   void onInit() {
+  //     // TO DO: implement onInit.
+  //     getAllConversation();
+  //     super.onInit();
+  //   }
 }
 
 class ReceiverInformation {

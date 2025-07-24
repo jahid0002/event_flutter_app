@@ -54,6 +54,7 @@ class _MessageScreenState extends State<MessageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(receiverInformation.receiverId);
     return Scaffold(
       appBar: CustomAppBar(title: receiverInformation.receiverName ?? 'N/A'),
       body: Column(
