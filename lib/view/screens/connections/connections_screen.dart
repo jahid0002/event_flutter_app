@@ -172,15 +172,19 @@ class ConnectionsCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        CustomText(
-                          text: name ?? "Paula",
-                          fontSize: 20.w,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.white,
-                          right: 10,
+                        SizedBox(
+                          width: 110.w,
+                          child: CustomText(
+                            text: name ?? "N/A",
+                            fontSize: 20.w,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.white,
+                            right: 10,
+                            textAlign: TextAlign.start,
+                          ),
                         ),
                         CustomText(
-                          text: age ?? "29",
+                          text: age ?? "00",
                           fontSize: 14.w,
                           fontWeight: FontWeight.w400,
                           color: AppColors.white,
@@ -197,7 +201,7 @@ class ConnectionsCard extends StatelessWidget {
                         ),
                         CustomText(
                           left: 5,
-                          text: location ?? "New York",
+                          text: location ?? "N/A",
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                           color: AppColors.white,
