@@ -90,7 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           // final imageUrl = controller.imageUrls[index];
                           final data = controller.users[index];
                           final image = ImageHandler.imagesHandle(
-                            controller.imageUrls[index],
+                            // controller.imageUrls[index],
+                            data.profileImage,
                           );
                           return CustomNetworkImage(
                             height: 570.h,
