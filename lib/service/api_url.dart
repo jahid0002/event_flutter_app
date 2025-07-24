@@ -1,5 +1,5 @@
 class ApiUrl {
-  static const String primaryUrl = "http://10.0.60.137:5020";
+  static const String primaryUrl = "http://52.30.254.10:5000";
 
   static const String baseUrl = primaryUrl;
   // static const String baseUrl = "https://sta-map-point-2.onrender.com/api/v1";
