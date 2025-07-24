@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
+import 'package:event_app/service/socket_service.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/screens/chat/chat_screen.dart';
 import 'package:event_app/view/screens/chat/model/notification_model.dart';
@@ -67,4 +68,29 @@ class ChatController extends GetxController {
   // ======================  Chat Section ================================
 
   Rx<TextEditingController> messageController = TextEditingController().obs;
+
+  sendMessage({required String receiverID}) async {
+    if (messageController.value.text.isEmpty) {
+      debugPrint('message is empty');
+      return;
+    }
+
+    var body = {
+      "text": messageController.value.text.trim(),
+      "receiver": receiverID,
+    };
+
+    SocketApi.sendEvent('send-message', body);
+
+    debugPrint('message sent');
+    messageController.value.clear();
+  }
+}
+
+class ReceiverInformation {
+  final String? receiverId;
+  final String? receiverName;
+  final String? receiverImage;
+
+  ReceiverInformation({this.receiverId, this.receiverName, this.receiverImage});
 }

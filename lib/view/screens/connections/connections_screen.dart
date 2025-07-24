@@ -5,6 +5,7 @@ import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_nav_bar/navbar.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/general_error.dart';
+import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
 import 'package:event_app/view/screens/connections/controller/connection_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -78,6 +79,17 @@ class ConnectionsScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final connection = controller.connections[index];
                       return ConnectionsCard(
+                        chatButton: () {
+                          ReceiverInformation information = ReceiverInformation(
+                            receiverId: connection.otherUser?.id,
+                            receiverName: connection.otherUser?.name,
+                            receiverImage: connection.otherUser?.profileImage,
+                          );
+                          Get.toNamed(
+                            AppRoutes.messageScreen,
+                            arguments: information,
+                          );
+                        },
                         name: connection.otherUser?.name,
                         image: connection.otherUser?.profileImage,
                         location: connection.otherUser?.address,
@@ -108,6 +120,7 @@ class ConnectionsCard extends StatelessWidget {
     this.image,
     this.location,
     this.age,
+    this.chatButton,
   });
 
   final VoidCallback? onTap;
@@ -115,6 +128,7 @@ class ConnectionsCard extends StatelessWidget {
   final String? image;
   final String? location;
   final String? age;
+  final VoidCallback? chatButton;
 
   @override
   Widget build(BuildContext context) {
@@ -212,16 +226,19 @@ class ConnectionsCard extends StatelessWidget {
                 ),
               ),
 
-              CircleAvatar(
-                backgroundColor: AppColors.primary,
-                maxRadius: 15.r,
-                child: CustomImage(imageSrc: AppIcons.chat),
+              GestureDetector(
+                onTap: chatButton,
+                child: CircleAvatar(
+                  backgroundColor: AppColors.primary,
+                  maxRadius: 15.r,
+                  child: CustomImage(imageSrc: AppIcons.chat),
 
-                //  Icon(
-                //   Icons.chat_bubble_outline,
-                //   color: AppColors.white,
-                //   size: 19.w,
-                // ),
+                  //  Icon(
+                  //   Icons.chat_bubble_outline,
+                  //   color: AppColors.white,
+                  //   size: 19.w,
+                  // ),
+                ),
               ),
             ],
           ),

@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
-import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/components/custom_app_bar/custom_app_bar.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
@@ -22,6 +21,8 @@ class MessageScreen extends StatefulWidget {
 }
 
 class _MessageScreenState extends State<MessageScreen> {
+  final ReceiverInformation receiverInformation = Get.arguments;
+
   final ChatController controller = Get.find();
   final List<_ChatMessage> messages = [
     _ChatMessage(text: "Hi Mia!", isSent: true, time: "17:00", isRead: true),
@@ -54,7 +55,7 @@ class _MessageScreenState extends State<MessageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Mia Lopez'),
+      appBar: CustomAppBar(title: receiverInformation.receiverName ?? 'N/A'),
       body: Column(
         children: [
           //==================== Chat Messages List ====================
@@ -71,7 +72,7 @@ class _MessageScreenState extends State<MessageScreen> {
 
                   final reverseMessageList = messages.reversed.toList();
                   return CustomInboxMessage(
-                    profileImage: AppConstants.girlsPhoto,
+                    profileImage: receiverInformation.receiverImage,
                     isMe: reverseMessageList[index].isSent,
                     message: reverseMessageList[index].text,
                     messageTime: reverseMessageList[index].time,
@@ -163,6 +164,10 @@ class _MessageScreenState extends State<MessageScreen> {
                       child: IconButton(
                         icon: const Icon(Icons.send, color: Colors.white),
                         onPressed: () {
+                          controller.sendMessage(
+                            receiverID: receiverInformation.receiverId ?? '',
+                          );
+
                           // if (controller.selectedImages.isNotEmpty ||
                           //     controller
                           //         .messageController
