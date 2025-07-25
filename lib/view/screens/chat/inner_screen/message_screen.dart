@@ -119,7 +119,7 @@ class _MessageScreenState extends State<MessageScreen> {
                             message.createdAt ?? '',
                           ),
 
-                          type: 'text',
+                          type: message.messageType == null ? 'text' : 'manual',
                           imageUrls: [],
                         );
                       },
