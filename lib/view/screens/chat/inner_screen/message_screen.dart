@@ -58,8 +58,10 @@ class _MessageScreenState extends State<MessageScreen> {
 
   @override
   void initState() {
+    controller.otherUserID.value = receiverInformation.receiverId ?? '';
     // TO DO: implement initState
-    controller.getAllMessage(otherUserID: receiverInformation.receiverId ?? '');
+    // controller.getAllMessage();
+    controller.loadChat(receiverInformation.receiverId ?? '');
     controller.getRealTimeMessage(
       otherUserID: '${receiverInformation.receiverId}',
     );
@@ -87,21 +89,15 @@ class _MessageScreenState extends State<MessageScreen> {
                     return CustomLoader();
                   case Status.error:
                     return GeneralErrorScreen(
-                      onTap:
-                          () => controller.getAllMessage(
-                            otherUserID: receiverInformation.receiverId ?? '',
-                          ),
+                      onTap: () => controller.getAllMessage(),
                     );
                   case Status.internetError:
                     return GeneralErrorScreen(
-                      onTap:
-                          () => controller.getAllMessage(
-                            otherUserID: receiverInformation.receiverId ?? '',
-                          ),
+                      onTap: () => controller.getAllMessage(),
                     );
                   case Status.completed:
                     return ListView.builder(
-                      //   controller: controller.scrollController.value,
+                      controller: controller.messageScrollController.value,
                       physics: AlwaysScrollableScrollPhysics(),
                       reverse: true,
                       itemCount: controller.messageList.length,
