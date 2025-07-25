@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
@@ -112,22 +113,75 @@ class ChatController extends GetxController {
   //=================>>. SEND MESSAGE METHODE
   Rx<TextEditingController> messageController = TextEditingController().obs;
 
+  // Future<void> sendMessage({required String receiverID}) async {
+  //   if (messageController.value.text.isEmpty) {
+  //     debugPrint('message is empty');
+  //     return;
+  //   }
+
+  //   var body = {
+  //     "text": messageController.value.text.trim(),
+  //     "receiver": receiverID,
+  //   };
+
+  //   SocketApi.sendEvent('send-message', body);
+
+  //   debugPrint('message sent');
+  //   messageController.value.clear();
+  //   getAllMessage(otherUserID: receiverID);
+  // }
+
   Future<void> sendMessage({required String receiverID}) async {
-    if (messageController.value.text.isEmpty) {
-      debugPrint('message is empty');
+    if (messageController.value.text.trim().isEmpty) {
+      debugPrint('Message is empty');
       return;
     }
+    final userID = await SharePrefsHelper.getString(AppConstants.userId);
+    final text = messageController.value.text.trim();
+    final messagePayload = {"text": text, "receiver": receiverID};
 
-    var body = {
-      "text": messageController.value.text.trim(),
-      "receiver": receiverID,
-    };
+    // Local optimistic message add (optional UX improvement)
+    final localTempMessage = MessageModel(
+      text: text,
+      msgByUserId: MsgByUserId(id: userID), // replace `yourUserID` accordingly
+      createdAt: DateTime.now().toIso8601String(),
+      messageType: 'manual',
+    );
+    messageList.insert(0, localTempMessage);
 
-    SocketApi.sendEvent('send-message', body);
-
-    debugPrint('message sent');
+    // Clear input field
     messageController.value.clear();
+
+    try {
+      // Acknowledgement with timeout handling
+      SocketApi.socket?.emitWithAck(
+        'send-message',
+        messagePayload,
+        ack: (response) {
+          if (response == null || response == false) {
+            debugPrint('Server failed to acknowledge message.');
+            handleFailedSocketSend(localTempMessage);
+          } else {
+            debugPrint('Message sent successfully');
+          }
+        },
+        // Optional timeout
+        // timeout: Duration(seconds: 5),
+      );
+    } catch (e) {
+      debugPrint('Socket send error: $e');
+      handleFailedSocketSend(localTempMessage);
+    }
     getAllMessage(otherUserID: receiverID);
+  }
+
+  void handleFailedSocketSend(MessageModel failedMessage) {
+    // Option 1: Show a resend icon in UI
+    // failedMessage.isFailed = true;
+    messageList.refresh(); // GetX reactive refresh
+
+    // Option 2: Store in local DB/cache for retry later
+    // Option 3: Retry automatically after some time
   }
 
   //=================== Get New Message ====================== >>
@@ -138,6 +192,30 @@ class ChatController extends GetxController {
       debugPrint('message received');
       getAllMessage(otherUserID: otherUserID);
     });
+  }
+
+  seenResponse({
+    required String otherUserID,
+    required String conversationID,
+  }) async {
+    var messagePayload = {
+      "conversationId": conversationID,
+      "msgByUserId": otherUserID,
+    };
+    //SocketApi.socket?.emit('message');
+    SocketApi.socket?.emitWithAck(
+      'message',
+      messagePayload,
+      ack: (response) {
+        if (response == null || response == false) {
+          debugPrint('Server failed to acknowledge message.');
+        } else {
+          debugPrint('Message sent successfully');
+        }
+      },
+      // Optional timeout
+      // timeout: Duration(seconds: 5),
+    );
   }
 
   //   @override
@@ -152,6 +230,12 @@ class ReceiverInformation {
   final String? receiverId;
   final String? receiverName;
   final String? receiverImage;
+  final String? conversationID;
 
-  ReceiverInformation({this.receiverId, this.receiverName, this.receiverImage});
+  ReceiverInformation({
+    this.receiverId,
+    this.receiverName,
+    this.receiverImage,
+    this.conversationID,
+  });
 }

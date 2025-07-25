@@ -10,6 +10,7 @@ class MessageModel {
   final String? conversationId;
   final String? createdAt;
   final DateTime? updatedAt;
+  final String? messageType;
   final int? v;
 
   MessageModel({
@@ -22,6 +23,7 @@ class MessageModel {
     this.conversationId,
     this.createdAt,
     this.updatedAt,
+    this.messageType,
     this.v,
   });
 
@@ -50,6 +52,7 @@ class MessageModel {
     createdAt: json["createdAt"],
     updatedAt:
         json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+    messageType: json["messageType"],
     v: json["__v"],
   );
 
@@ -65,6 +68,7 @@ class MessageModel {
     "conversationId": conversationId,
     "createdAt": createdAt,
     "updatedAt": updatedAt?.toIso8601String(),
+    "messageType": messageType,
     "__v": v,
   };
 }

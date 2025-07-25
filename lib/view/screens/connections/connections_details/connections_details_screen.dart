@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
@@ -12,6 +13,7 @@ import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/components/general_error.dart';
+import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
 import 'package:event_app/view/screens/connections/controller/connection_controller.dart';
 import 'package:event_app/view/screens/connections/model/connection_model.dart';
 import 'package:flutter/material.dart';
@@ -171,12 +173,27 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                                     ),
                                   ],
                                 ),
-                                CircleAvatar(
-                                  backgroundColor: AppColors.primary,
-                                  maxRadius: 20.r,
-                                  child: Icon(
-                                    Icons.chat_bubble,
-                                    color: AppColors.white,
+                                GestureDetector(
+                                  onTap: () {
+                                    ReceiverInformation
+                                    information = ReceiverInformation(
+                                      receiverId: connection.otherUser?.id,
+                                      receiverName: connection.otherUser?.name,
+                                      receiverImage:
+                                          connection.otherUser?.profileImage,
+                                    );
+                                    Get.toNamed(
+                                      AppRoutes.messageScreen,
+                                      arguments: information,
+                                    );
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: AppColors.primary,
+                                    maxRadius: 20.r,
+                                    child: Icon(
+                                      Icons.chat_bubble,
+                                      color: AppColors.white,
+                                    ),
                                   ),
                                 ),
                               ],

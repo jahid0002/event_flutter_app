@@ -13,12 +13,12 @@ class SocketApi {
   SocketApi._internal();
 
   static final SocketApi _instance = SocketApi._internal();
-  static io.Socket? _socket;
+  static io.Socket? socket;
   static bool _isInitialized = false;
   static Function? _onSocketConnectCallback;
   static String? _userId;
 
-  static bool get isConnected => _socket?.connected ?? false;
+  static bool get isConnected => socket?.connected ?? false;
 
   ///<------------------ Public Init ------------------>
   static Future<void> init({Function? onSocketConnect}) async {
@@ -43,7 +43,7 @@ class SocketApi {
     final socketUrl = ApiUrl.socketUrl(userID: userId);
     debugPrint('🌐 Connecting socket with userId: $userId → $socketUrl');
 
-    _socket = io.io(
+    socket = io.io(
       socketUrl,
       io.OptionBuilder()
           .setTransports(['websocket'])
@@ -60,9 +60,9 @@ class SocketApi {
 
   ///<------------------ Register Events ------------------>
   static void _registerListeners() {
-    if (_socket == null) return;
+    if (socket == null) return;
 
-    _socket!
+    socket!
       ..onConnect((_) {
         debugPrint('✅ Socket connected as $_userId');
         _onSocketConnectCallback?.call();
@@ -87,9 +87,9 @@ class SocketApi {
   ///<------------------ Listen for Events ------------------>
   // Public method for listening to socket events
   static void onEvent(String eventName, Function(dynamic) callback) {
-    if (_socket != null && _socket!.connected) {
+    if (socket != null && socket!.connected) {
       debugPrint(' Socket connected.  listen for "$eventName".');
-      _socket!.on(eventName, callback);
+      socket!.on(eventName, callback);
     } else {
       debugPrint('⚠️ Socket not connected. Cannot listen for "$eventName".');
     }
@@ -101,14 +101,36 @@ class SocketApi {
       debugPrint('❌ Socket not connected. Cannot emit "$eventName".');
       return;
     }
-    _socket!.emit(eventName, data);
+    socket!.emit(eventName, data);
+  }
+
+  static void emitWithAck(
+    String event,
+    dynamic data, {
+    required Function(dynamic response) ack,
+    Duration timeout = const Duration(seconds: 5),
+  }) {
+    if (!isConnected) {
+      debugPrint('❌ Socket not connected. Cannot emit "$event".');
+      ack(false);
+      return;
+    }
+
+    socket!.emitWithAck(
+      event,
+      data,
+      ack: (response) {
+        ack(response);
+      },
+      //timeout: timeout,
+    );
   }
 
   ///<------------------ Cleanup ------------------>
   static void dispose() {
-    _socket?.disconnect();
-    _socket?.dispose();
-    _socket = null;
+    socket?.disconnect();
+    socket?.dispose();
+    socket = null;
     _isInitialized = false;
     _userId = null;
     _onSocketConnectCallback = null;

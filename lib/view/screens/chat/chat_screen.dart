@@ -14,6 +14,7 @@ import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/components/custom_text_field/custom_text_field.dart';
 import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
+import 'package:event_app/view/screens/chat/widget/chat_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -74,7 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
             Obx(() {
               switch (controller.conversationStatus.value) {
                 case Status.loading:
-                  return CustomLoader();
+                  return SizedBox(height: 520.h, child: ChatShimmer());
                 case Status.error:
                   return GeneralErrorScreen(
                     onTap: () => controller.getAllConversation(),
@@ -126,6 +127,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                             receiverName: item.userData?.name,
                                             receiverImage:
                                                 item.userData?.profileImage,
+                                            conversationID:
+                                                item
+                                                    .lastMessage
+                                                    ?.conversationId,
                                           );
 
                                           Get.toNamed(
