@@ -127,11 +127,13 @@ class ChatController extends GetxController {
 
     debugPrint('message sent');
     messageController.value.clear();
+    getAllMessage(otherUserID: receiverID);
   }
 
   //=================== Get New Message ====================== >>
 
   getRealTimeMessage({required String otherUserID}) async {
+    debugPrint('=======================>> new-message-$otherUserID');
     SocketApi.onEvent('message-$otherUserID', (value) {
       debugPrint('message received');
       getAllMessage(otherUserID: otherUserID);

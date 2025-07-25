@@ -88,6 +88,7 @@ class SocketApi {
   // Public method for listening to socket events
   static void onEvent(String eventName, Function(dynamic) callback) {
     if (_socket != null && _socket!.connected) {
+      debugPrint(' Socket connected.  listen for "$eventName".');
       _socket!.on(eventName, callback);
     } else {
       debugPrint('⚠️ Socket not connected. Cannot listen for "$eventName".');
