@@ -194,6 +194,30 @@ class ChatController extends GetxController {
     });
   }
 
+  seenResponse({
+    required String otherUserID,
+    required String conversationID,
+  }) async {
+    var messagePayload = {
+      "conversationId": conversationID,
+      "msgByUserId": otherUserID,
+    };
+    //SocketApi.socket?.emit('message');
+    SocketApi.socket?.emitWithAck(
+      'message',
+      messagePayload,
+      ack: (response) {
+        if (response == null || response == false) {
+          debugPrint('Server failed to acknowledge message.');
+        } else {
+          debugPrint('Message sent successfully');
+        }
+      },
+      // Optional timeout
+      // timeout: Duration(seconds: 5),
+    );
+  }
+
   //   @override
   //   void onInit() {
   //     // TO DO: implement onInit.
@@ -206,6 +230,12 @@ class ReceiverInformation {
   final String? receiverId;
   final String? receiverName;
   final String? receiverImage;
+  final String? conversationID;
 
-  ReceiverInformation({this.receiverId, this.receiverName, this.receiverImage});
+  ReceiverInformation({
+    this.receiverId,
+    this.receiverName,
+    this.receiverImage,
+    this.conversationID,
+  });
 }

@@ -127,6 +127,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                             receiverName: item.userData?.name,
                                             receiverImage:
                                                 item.userData?.profileImage,
+                                            conversationID:
+                                                item
+                                                    .lastMessage
+                                                    ?.conversationId,
                                           );
 
                                           Get.toNamed(

@@ -63,6 +63,10 @@ class _MessageScreenState extends State<MessageScreen> {
     controller.getRealTimeMessage(
       otherUserID: '${receiverInformation.receiverId}',
     );
+    controller.seenResponse(
+      otherUserID: receiverInformation.receiverId ?? '',
+      conversationID: receiverInformation.conversationID ?? '',
+    );
     super.initState();
   }
 
