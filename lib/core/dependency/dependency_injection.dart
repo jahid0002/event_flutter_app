@@ -3,6 +3,7 @@ import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
 import 'package:event_app/view/screens/connections/controller/connection_controller.dart';
 import 'package:event_app/view/screens/home/controller/home_controller.dart';
 import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
+import 'package:event_app/view/screens/profile/settings/controller/settings_controller.dart';
 import 'package:get/get.dart';
 
 import '../../view/screens/onbording/controller/onboarding_controller.dart';
@@ -19,5 +20,6 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => AuthController(), fenix: true);
     Get.lazyPut(() => ConnectionController(), fenix: true);
     Get.lazyPut(() => ProfileController(), fenix: true);
+    Get.lazyPut(() => SettingsController(), fenix: true);
   }
 }

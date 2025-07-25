@@ -18,18 +18,23 @@ class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> signInWithGoogle() async {
+    debugPrint('======================>> signInWithGoogle');
     PopupLoader.showPopupLoader(Get.context!);
     try {
       // Initialize Google Sign-In
       final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
 
+      debugPrint('======================>> Google Sign-In initialized');
+
       // Trigger authentication flow
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
-        debugPrint('🚨 User cancelled sign-in');
+        debugPrint('======================>> User cancelled sign-in');
         PopupLoader.hidePopupLoader(Get.context!);
         return;
       }
+
+      debugPrint('======================>> Google user: $googleUser');
 
       // Get auth details
       final GoogleSignInAuthentication googleAuth =
@@ -50,12 +55,12 @@ class AuthController extends GetxController {
       final User? user = userCredential.user;
 
       if (user != null) {
-        debugPrint('✅ Successfully signed in!');
-        debugPrint('🟢 User UID: ${user.uid}');
-        debugPrint('🟢 Email: ${user.email}');
-        debugPrint('🟢 Display Name: ${user.displayName}');
-        debugPrint('🟢 Photo URL: ${user.photoURL}');
-        debugPrint('🟢 Phone Number: ${user.phoneNumber}');
+        debugPrint('Successfully signed in!');
+        debugPrint('User UID: ${user.uid}');
+        debugPrint('Email: ${user.email}');
+        debugPrint(' Display Name: ${user.displayName}');
+        debugPrint(' Photo URL: ${user.photoURL}');
+        debugPrint(' Phone Number: ${user.phoneNumber}');
 
         var body = {
           "token": googleAuth.idToken,
@@ -91,19 +96,19 @@ class AuthController extends GetxController {
         await googleSignIn.disconnect();
         return;
       } else {
-        debugPrint('🚨 No user returned after sign-in');
+        debugPrint('No user returned after sign-in');
         return;
       }
     } on FirebaseAuthException catch (e) {
-      debugPrint('🔥 Firebase Error: ${e.code} - ${e.message}');
+      debugPrint('Firebase Error: ${e.code} - ${e.message}');
       PopupLoader.hidePopupLoader(Get.context!);
       _handleFirebaseAuthError(e);
     } on TimeoutException catch (_) {
       PopupLoader.hidePopupLoader(Get.context!);
-      debugPrint('🚨 API call timed out');
+      debugPrint('API call timed out');
     } catch (e) {
       PopupLoader.hidePopupLoader(Get.context!);
-      debugPrint('🚨 Unexpected error: $e');
+      debugPrint('Unexpected error: $e');
     }
   }
 
@@ -135,7 +140,7 @@ class AuthController extends GetxController {
       default:
         message = 'An unknown error occurred.';
     }
-    debugPrint('🔥 Firebase Auth Error: ${e.code} - $message');
+    debugPrint('Firebase Auth Error: ${e.code} - $message');
   }
 
   void printInChunks(String text) {

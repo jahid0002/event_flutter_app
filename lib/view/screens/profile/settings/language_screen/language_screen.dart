@@ -1,9 +1,9 @@
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:flutter/material.dart';
-import '../../../../utils/app_colors/app_colors.dart';
-import '../../../../utils/app_icons/app_icons.dart';
-import '../../../components/custom_image/custom_image.dart';
-import '../../../components/custom_text/custom_text.dart';
+import '../../../../../utils/app_colors/app_colors.dart';
+import '../../../../../utils/app_icons/app_icons.dart';
+import '../../../../components/custom_image/custom_image.dart';
+import '../../../../components/custom_text/custom_text.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});

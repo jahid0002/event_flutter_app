@@ -3,9 +3,13 @@ import 'dart:convert';
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
+import 'package:event_app/service/socket_service.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/screens/chat/chat_screen.dart';
+import 'package:event_app/view/screens/chat/model/conversation_model.dart';
+import 'package:event_app/view/screens/chat/model/message_model.dart';
 import 'package:event_app/view/screens/chat/model/notification_model.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class ChatController extends GetxController {
@@ -13,7 +17,7 @@ class ChatController extends GetxController {
 
   Rx<ChatType> chatType = ChatType.chat.obs;
 
-  //=================================== Notification ===============================
+  //=================================== Notification Section ===============================
 
   Rx<Status> notificationStatus = Status.loading.obs;
 
@@ -62,4 +66,92 @@ class ChatController extends GetxController {
       ApiChecker.checkApi(response);
     }
   }
+
+  // ======================  Chat Section ================================.
+
+  //====================>> Get Connection List
+  RxList<ConversationModel> conversationList = <ConversationModel>[].obs;
+  Rx<Status> conversationStatus = Status.loading.obs;
+
+  Future<void> getAllConversation() async {
+    var response = await ApiClient.getData(ApiUrl.getConversation);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      conversationList.value = List<ConversationModel>.from(
+        response.body['data']['data'].map((x) => ConversationModel.fromMap(x)),
+      );
+      conversationStatus(Status.completed);
+    } else {
+      conversationStatus(Status.error);
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  //====================== >> Get Message List
+
+  RxList<MessageModel> messageList = <MessageModel>[].obs;
+
+  Rx<Status> messageStatus = Status.loading.obs;
+
+  Future<void> getAllMessage({required String otherUserID}) async {
+    var response = await ApiClient.getData(
+      ApiUrl.getMessages(otherUserID: otherUserID),
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      messageList.value = List<MessageModel>.from(
+        response.body['data']['result']['messages'].map(
+          (x) => MessageModel.fromMap(x),
+        ),
+      );
+      messageStatus(Status.completed);
+    } else {
+      messageStatus(Status.error);
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  //=================>>. SEND MESSAGE METHODE
+  Rx<TextEditingController> messageController = TextEditingController().obs;
+
+  Future<void> sendMessage({required String receiverID}) async {
+    if (messageController.value.text.isEmpty) {
+      debugPrint('message is empty');
+      return;
+    }
+
+    var body = {
+      "text": messageController.value.text.trim(),
+      "receiver": receiverID,
+    };
+
+    SocketApi.sendEvent('send-message', body);
+
+    debugPrint('message sent');
+    messageController.value.clear();
+    getAllMessage(otherUserID: receiverID);
+  }
+
+  //=================== Get New Message ====================== >>
+
+  getRealTimeMessage({required String otherUserID}) async {
+    debugPrint('=======================>> new-message-$otherUserID');
+    SocketApi.onEvent('message-$otherUserID', (value) {
+      debugPrint('message received');
+      getAllMessage(otherUserID: otherUserID);
+    });
+  }
+
+  //   @override
+  //   void onInit() {
+  //     // TO DO: implement onInit.
+  //     getAllConversation();
+  //     super.onInit();
+  //   }
+}
+
+class ReceiverInformation {
+  final String? receiverId;
+  final String? receiverName;
+  final String? receiverImage;
+
+  ReceiverInformation({this.receiverId, this.receiverName, this.receiverImage});
 }

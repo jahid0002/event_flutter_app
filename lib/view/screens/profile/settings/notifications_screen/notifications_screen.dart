@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../../../../utils/app_colors/app_colors.dart';
-import '../../../../utils/app_icons/app_icons.dart';
-import '../../../components/custom_image/custom_image.dart';
-import '../../../components/custom_text/custom_text.dart';
+import '../../../../../utils/app_colors/app_colors.dart';
+import '../../../../../utils/app_icons/app_icons.dart';
+import '../../../../components/custom_image/custom_image.dart';
+import '../../../../components/custom_text/custom_text.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
 
   @override
-  State<NotificationsScreen> createState() => _NotificationSettingsScreenState();
+  State<NotificationsScreen> createState() =>
+      _NotificationSettingsScreenState();
 }
 
 class _NotificationSettingsScreenState extends State<NotificationsScreen> {
@@ -36,7 +37,11 @@ class _NotificationSettingsScreenState extends State<NotificationsScreen> {
               imageColor: AppColors.primary,
             ),
             const SizedBox(width: 6),
-            CustomText(text: "Notifications", fontSize: 20, fontWeight: FontWeight.w600),
+            CustomText(
+              text: "Notifications",
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
             const Spacer(flex: 2),
           ],
         ),
@@ -60,21 +65,24 @@ class _NotificationSettingsScreenState extends State<NotificationsScreen> {
             children: [
               _buildToggleTile(
                 title: "General Notifications",
-                subtitle: "Enable notifications for app updates, system alerts, and other important notifications.",
+                subtitle:
+                    "Enable notifications for app updates, system alerts, and other important notifications.",
                 value: generalNotifications,
                 onChanged: (val) => setState(() => generalNotifications = val),
               ),
               const Divider(),
               _buildToggleTile(
                 title: "Match Notifications",
-                subtitle: "Get notified when someone matches with you based on your profile preferences.",
+                subtitle:
+                    "Get notified when someone matches with you based on your profile preferences.",
                 value: matchNotifications,
                 onChanged: (val) => setState(() => matchNotifications = val),
               ),
               const Divider(),
               _buildToggleTile(
                 title: "Message Notifications",
-                subtitle: "Get notified when you receive new messages in the chat.",
+                subtitle:
+                    "Get notified when you receive new messages in the chat.",
                 value: messageNotifications,
                 onChanged: (val) => setState(() => messageNotifications = val),
               ),

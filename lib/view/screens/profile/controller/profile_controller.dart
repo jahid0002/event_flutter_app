@@ -1,7 +1,10 @@
 // ignore_for_file: unnecessary_nullable_for_final_variable_declarations
 
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
+import 'package:event_app/helper/time_converter/date_converter.dart';
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
@@ -22,6 +25,7 @@ class ProfileController extends GetxController {
       profileModel.value = ProfileModel.fromMap(response.body['data']);
       profileStatus(Status.completed);
       initAllField(profileModel.value);
+      SharePrefsHelper.setString(AppConstants.userId, profileModel.value.id);
     } else {
       profileStatus(Status.error);
       ApiChecker.checkApi(response);
@@ -78,6 +82,21 @@ class ProfileController extends GetxController {
   int getImageListLength() {
     return imageFiles.length + (profileModel.value.pictures?.length ?? 0) + 1;
   }
+  //================================ get date for check out date ========================
+
+  getCheckOutDate() async {
+    var pickDate = await showDatePicker(
+      context: Get.context!,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+
+    if (pickDate != null) {
+      myStayDate.value = pickDate.toUtc().toString();
+      myStayController.value.text = DateConverter.estimatedDate(pickDate);
+    }
+  }
 
   //============================= All field Init ============================
 
@@ -86,7 +105,10 @@ class ProfileController extends GetxController {
     ageController.value.text = profileModel.age?.toString() ?? '';
     genderController.value.text = profileModel.gender ?? '';
     addressController.value.text = profileModel.address ?? '';
-    myStayController.value.text = profileModel.checkOutDate?.toString() ?? '';
+    myStayController.value.text = DateConverter.estimatedDate(
+      profileModel.checkOutDate ?? DateTime.now(),
+    );
+    myStayDate.value = profileModel.checkOutDate?.toString() ?? '';
     bioController.value.text = profileModel.bio ?? '';
     languageController.value.text = profileModel.language?.join(',') ?? '';
     selectedInterests.value = profileModel.interests ?? [];
@@ -99,7 +121,63 @@ class ProfileController extends GetxController {
   Rx<TextEditingController> myStayController = TextEditingController().obs;
   Rx<TextEditingController> bioController = TextEditingController().obs;
   Rx<TextEditingController> languageController = TextEditingController().obs;
+  RxString myStayDate = ''.obs;
   RxList<String> selectedInterests = <String>[].obs;
+
+  //=============================== Update Profile Methode ==========================
+
+  RxBool isUpdating = false.obs;
+  Future<void> updateProfile() async {
+    isUpdating(true);
+    num age = num.parse(ageController.value.text);
+
+    try {
+      Map<String, String> body = {
+        "data": jsonEncode({
+          "name": nameController.value.text,
+          "bio": bioController.value.text,
+          "checkOutDate": myStayDate.value,
+          "gender": genderController.value.text,
+          "age": age,
+          "address": addressController.value.text,
+          "interests": selectedInterests,
+          "deletedPictures": deleteImageUrls.isEmpty ? [] : deleteImageUrls,
+        }),
+      };
+      List<MultipartBody> multipartBody = [];
+      if (imageFiles.isNotEmpty) {
+        multipartBody =
+            imageFiles.map((e) => MultipartBody('pictures', e)).toList();
+      }
+
+      var response =
+          imageFiles.isEmpty
+              ? await ApiClient.patchData(
+                ApiUrl.updateProfile,
+                jsonEncode(body),
+              )
+              : await ApiClient.patchMultipartData(
+                ApiUrl.updateProfile,
+                body,
+                multipartBody: multipartBody,
+              );
+
+      isUpdating(false);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        getOwnProfile();
+        imageFiles.clear();
+        deleteImageUrls.clear();
+      } else {
+        ApiChecker.checkApi(response);
+      }
+    } catch (e) {
+      //ApiChecker.checkApi(e);
+
+      debugPrint(e.toString());
+    }
+  }
+
+  //============================== On Init ================================
   @override
   void onInit() {
     // TO DO: implement onInit
