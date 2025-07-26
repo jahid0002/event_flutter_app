@@ -15,3 +15,8 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 # event_flutter_app
+## 📱 Download latest release
+
+![Release](https://github.com/jahid0002/event_flutter_app/actions/workflows/release_cd.yml/badge.svg)
+
+[⬇ **Download Latest APK from Releases**](https://github.com/jahid0002/event_flutter_app/releases)
