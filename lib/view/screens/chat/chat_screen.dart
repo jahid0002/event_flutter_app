@@ -269,52 +269,60 @@ class ChatCard extends StatelessWidget {
       },
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+          Card(
+            color: AppColors.white,
+            elevation: 0,
+
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomNetworkImage(
-                    imageUrl: ImageHandler.imagesHandle(imageUrl),
-                    height: 52.h,
-                    width: 52.w,
-                    boxShape: BoxShape.circle,
+                  Row(
+                    children: [
+                      CustomNetworkImage(
+                        imageUrl: ImageHandler.imagesHandle(imageUrl),
+                        height: 52.h,
+                        width: 52.w,
+                        boxShape: BoxShape.circle,
+                      ),
+                      SizedBox(width: 15.w),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: name ?? "Gloria",
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          CustomText(
+                            text: lustMessage ?? "How are you?",
+                            fontSize: 12.sp,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 15.w),
+
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       CustomText(
-                        text: name ?? "Gloria",
-                        fontSize: 17.sp,
+                        text: time ?? "12:00 PM",
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
                       ),
                       CustomText(
-                        text: lustMessage ?? "How are you?",
+                        text: unseenMessageCount ?? "1",
                         fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primary,
                       ),
                     ],
                   ),
                 ],
               ),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  CustomText(
-                    text: time ?? "12:00 PM",
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  CustomText(
-                    text: unseenMessageCount ?? "1",
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
-                  ),
-                ],
-              ),
-            ],
+            ),
           ),
           SizedBox(height: 20.h),
         ],
