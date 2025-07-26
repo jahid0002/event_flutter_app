@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  final Duration delay;
+
+  const SplashScreen({super.key, this.delay = const Duration(seconds: 3)});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -14,13 +16,15 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 3), () {
-      Get.offAllNamed(AppRoutes.selectedScreen);
+    Future.delayed(widget.delay, () {
+      if (mounted) {
+        Get.offAllNamed(AppRoutes.selectedScreen);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold(body: Center(child: Text('Splash')));
   }
 }
