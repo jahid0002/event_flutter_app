@@ -87,26 +87,61 @@ class ChatController extends GetxController {
     }
   }
 
-  //====================== >> Get Message List
+  //====================== >> Get Message List.
+
+  void loadChat(String newUserId) {
+    otherUserID.value = newUserId;
+    currentPage.value = 1;
+    totalPage.value = 1;
+    // messageList.clear();
+    getAllMessage(page: 1);
+  }
+
+  RxString otherUserID = ''.obs;
+
+  RxInt currentPage = 1.obs;
+  RxInt totalPage = 1.obs;
 
   RxList<MessageModel> messageList = <MessageModel>[].obs;
 
   Rx<Status> messageStatus = Status.loading.obs;
 
-  Future<void> getAllMessage({required String otherUserID}) async {
+  Future<void> getAllMessage({int? page = 1}) async {
     var response = await ApiClient.getData(
-      ApiUrl.getMessages(otherUserID: otherUserID),
+      ApiUrl.getMessages(otherUserID: otherUserID.value, page: page.toString()),
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
-      messageList.value = List<MessageModel>.from(
+      var messages = List<MessageModel>.from(
         response.body['data']['result']['messages'].map(
           (x) => MessageModel.fromMap(x),
         ),
       );
+
+      if (page == 1) {
+        messageList.value = messages;
+      } else {
+        messageList.addAll(messages);
+      }
+
+      totalPage(response.body['data']['meta']['totalPage']);
+
+      debugPrint('total page ${totalPage.value}');
       messageStatus(Status.completed);
     } else {
       messageStatus(Status.error);
       ApiChecker.checkApi(response);
+    }
+  }
+
+  //============================= PAGINATION ==>>>>>>>>>
+  Rx<ScrollController> messageScrollController = ScrollController().obs;
+
+  RxBool isScrollToBottom = false.obs;
+
+  loadMoreMessage() async {
+    if (currentPage.value < totalPage.value) {
+      currentPage(currentPage.value + 1);
+      getAllMessage(page: currentPage.value);
     }
   }
 
@@ -172,7 +207,8 @@ class ChatController extends GetxController {
       debugPrint('Socket send error: $e');
       handleFailedSocketSend(localTempMessage);
     }
-    getAllMessage(otherUserID: receiverID);
+    getAllMessage();
+    getAllConversation();
   }
 
   void handleFailedSocketSend(MessageModel failedMessage) {
@@ -186,11 +222,22 @@ class ChatController extends GetxController {
 
   //=================== Get New Message ====================== >>
 
-  getRealTimeMessage({required String otherUserID}) async {
+  getRealTimeMessage() async {
+    final userID = await SharePrefsHelper.getString(AppConstants.userId);
+
     debugPrint('=======================>> new-message-$otherUserID');
-    SocketApi.onEvent('message-$otherUserID', (value) {
+    SocketApi.onEvent('message-$userID', (value) {
       debugPrint('message received');
-      getAllMessage(otherUserID: otherUserID);
+
+      debugPrint('message received=========>> $value');
+
+      // NO NEED TO jsonDecode
+      var newMessage = value;
+
+      messageList.insert(0, MessageModel.fromMap(newMessage));
+      getAllConversation();
+
+      // getAllMessage();
     });
   }
 
@@ -198,6 +245,11 @@ class ChatController extends GetxController {
     required String otherUserID,
     required String conversationID,
   }) async {
+    if (conversationID.isEmpty) {
+      debugPrint('conversation id is empty');
+      return;
+    }
+
     var messagePayload = {
       "conversationId": conversationID,
       "msgByUserId": otherUserID,
@@ -208,9 +260,9 @@ class ChatController extends GetxController {
       messagePayload,
       ack: (response) {
         if (response == null || response == false) {
-          debugPrint('Server failed to acknowledge message.');
+          debugPrint('Server failed to acknowledge message seen.');
         } else {
-          debugPrint('Message sent successfully');
+          debugPrint('Message seen successfully');
         }
       },
       // Optional timeout
@@ -218,12 +270,17 @@ class ChatController extends GetxController {
     );
   }
 
-  //   @override
-  //   void onInit() {
-  //     // TO DO: implement onInit.
-  //     getAllConversation();
-  //     super.onInit();
-  //   }
+  @override
+  void onInit() {
+    messageScrollController.value.addListener(() {
+      if (messageScrollController.value.position.pixels ==
+          messageScrollController.value.position.maxScrollExtent) {
+        loadMoreMessage();
+      }
+    });
+
+    super.onInit();
+  }
 }
 
 class ReceiverInformation {

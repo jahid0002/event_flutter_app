@@ -58,11 +58,11 @@ class _MessageScreenState extends State<MessageScreen> {
 
   @override
   void initState() {
+    controller.otherUserID.value = receiverInformation.receiverId ?? '';
     // TO DO: implement initState
-    controller.getAllMessage(otherUserID: receiverInformation.receiverId ?? '');
-    controller.getRealTimeMessage(
-      otherUserID: '${receiverInformation.receiverId}',
-    );
+    // controller.getAllMessage();
+    controller.loadChat(receiverInformation.receiverId ?? '');
+    // controller.getRealTimeMessage();
     controller.seenResponse(
       otherUserID: receiverInformation.receiverId ?? '',
       conversationID: receiverInformation.conversationID ?? '',
@@ -87,21 +87,15 @@ class _MessageScreenState extends State<MessageScreen> {
                     return CustomLoader();
                   case Status.error:
                     return GeneralErrorScreen(
-                      onTap:
-                          () => controller.getAllMessage(
-                            otherUserID: receiverInformation.receiverId ?? '',
-                          ),
+                      onTap: () => controller.getAllMessage(),
                     );
                   case Status.internetError:
                     return GeneralErrorScreen(
-                      onTap:
-                          () => controller.getAllMessage(
-                            otherUserID: receiverInformation.receiverId ?? '',
-                          ),
+                      onTap: () => controller.getAllMessage(),
                     );
                   case Status.completed:
                     return ListView.builder(
-                      //   controller: controller.scrollController.value,
+                      controller: controller.messageScrollController.value,
                       physics: AlwaysScrollableScrollPhysics(),
                       reverse: true,
                       itemCount: controller.messageList.length,
@@ -206,7 +200,7 @@ class _MessageScreenState extends State<MessageScreen> {
                         },
                       ),
                     ),
-                    SizedBox(width: 5),
+                    SizedBox(width: 5.w),
                     CircleAvatar(
                       backgroundColor: AppColors.primary,
                       child: IconButton(
@@ -514,7 +508,7 @@ class CustomInboxMessage extends StatelessWidget {
             children: [
               CustomText(
                 text: message,
-                fontSize: 16,
+                fontSize: 16.w,
                 fontWeight: FontWeight.w400,
                 color: isMe ? Colors.black : Colors.black,
               ),
@@ -529,7 +523,7 @@ class CustomInboxMessage extends StatelessWidget {
                   if (isMe) ...[
                     Icon(
                       Icons.done_all,
-                      size: 16,
+                      size: 16.w,
                       color: Colors.blue, // Blue if read, grey if sent
                     ),
                   ],
