@@ -200,7 +200,7 @@ class _MessageScreenState extends State<MessageScreen> {
                         },
                       ),
                     ),
-                    SizedBox(width: 5),
+                    SizedBox(width: 5.w),
                     CircleAvatar(
                       backgroundColor: AppColors.primary,
                       child: IconButton(
@@ -508,7 +508,7 @@ class CustomInboxMessage extends StatelessWidget {
             children: [
               CustomText(
                 text: message,
-                fontSize: 16,
+                fontSize: 16.w,
                 fontWeight: FontWeight.w400,
                 color: isMe ? Colors.black : Colors.black,
               ),
@@ -523,7 +523,7 @@ class CustomInboxMessage extends StatelessWidget {
                   if (isMe) ...[
                     Icon(
                       Icons.done_all,
-                      size: 16,
+                      size: 16.w,
                       color: Colors.blue, // Blue if read, grey if sent
                     ),
                   ],
