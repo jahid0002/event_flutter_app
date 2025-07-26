@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - 'v*.*.*'
+permissions:
+  contents: write  # ✅ এই লাইনটা যোগ করো
 
 jobs:
   build_and_release:
