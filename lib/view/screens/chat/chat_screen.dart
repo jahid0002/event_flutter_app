@@ -33,7 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     // TO DO: implement initState.
-
+    controller.getRealTimeMessage();
     controller.getAllConversation();
     super.initState();
   }

@@ -208,6 +208,7 @@ class ChatController extends GetxController {
       handleFailedSocketSend(localTempMessage);
     }
     getAllMessage();
+    getAllConversation();
   }
 
   void handleFailedSocketSend(MessageModel failedMessage) {
@@ -221,11 +222,22 @@ class ChatController extends GetxController {
 
   //=================== Get New Message ====================== >>
 
-  getRealTimeMessage({required String otherUserID}) async {
+  getRealTimeMessage() async {
+    final userID = await SharePrefsHelper.getString(AppConstants.userId);
+
     debugPrint('=======================>> new-message-$otherUserID');
-    SocketApi.onEvent('message-$otherUserID', (value) {
+    SocketApi.onEvent('message-$userID', (value) {
       debugPrint('message received');
-      getAllMessage();
+
+      debugPrint('message received=========>> $value');
+
+      // NO NEED TO jsonDecode
+      var newMessage = value;
+
+      messageList.insert(0, MessageModel.fromMap(newMessage));
+      getAllConversation();
+
+      // getAllMessage();
     });
   }
 

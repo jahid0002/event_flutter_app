@@ -62,9 +62,7 @@ class _MessageScreenState extends State<MessageScreen> {
     // TO DO: implement initState
     // controller.getAllMessage();
     controller.loadChat(receiverInformation.receiverId ?? '');
-    controller.getRealTimeMessage(
-      otherUserID: '${receiverInformation.receiverId}',
-    );
+    // controller.getRealTimeMessage();
     controller.seenResponse(
       otherUserID: receiverInformation.receiverId ?? '',
       conversationID: receiverInformation.conversationID ?? '',
