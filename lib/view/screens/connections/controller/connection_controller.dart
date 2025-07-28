@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
@@ -38,6 +40,38 @@ class ConnectionController extends GetxController {
       userDetailsStatus(Status.completed);
     } else {
       userDetailsStatus(Status.error);
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  //============================== Cencel  connection ================================.
+
+  Future<void> removeConnection({required String userId}) async {
+    var body = {};
+    var response = await ApiClient.postData(
+      ApiUrl.addOrRemoveConnection(userId),
+      jsonEncode(body),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      getMyConnection();
+    } else {
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  //=============================== Report connection ================================
+
+  Future<void> reportConnection({required String userId}) async {
+    var body = {};
+    var response = await ApiClient.postData(
+      ApiUrl.reportConnection,
+      jsonEncode(body),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      getMyConnection();
+    } else {
       ApiChecker.checkApi(response);
     }
   }

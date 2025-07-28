@@ -100,6 +100,13 @@ class ConnectionsScreen extends StatelessWidget {
                             arguments: connection,
                           );
                         },
+                        onCancelConnection: () {
+                          controller.removeConnection(
+                            userId: connection.otherUser?.id ?? '',
+                          );
+                        },
+                        onBlockUser: () {},
+                        onReportUser: () {},
                       );
                     },
                   );
@@ -121,6 +128,9 @@ class ConnectionsCard extends StatelessWidget {
     this.location,
     this.age,
     this.chatButton,
+    this.onCancelConnection,
+    this.onReportUser,
+    this.onBlockUser,
   });
 
   final VoidCallback? onTap;
@@ -129,6 +139,9 @@ class ConnectionsCard extends StatelessWidget {
   final String? location;
   final String? age;
   final VoidCallback? chatButton;
+  final void Function()? onCancelConnection;
+  final void Function()? onReportUser;
+  final void Function()? onBlockUser;
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +178,13 @@ class ConnectionsCard extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
 
-                    child: Center(child: UserActionPopupMenu()),
+                    child: Center(
+                      child: UserActionPopupMenu(
+                        onCancelConnection: onCancelConnection,
+                        onReportUser: onReportUser,
+                        onBlockUser: onBlockUser,
+                      ),
+                    ),
 
                     // Icon(Icons.more_horiz, color: AppColors.white),
                   ),

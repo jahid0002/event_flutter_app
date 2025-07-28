@@ -107,8 +107,8 @@ class ChatController extends GetxController {
   Rx<Status> messageStatus = Status.loading.obs;
 
   Future<void> getAllMessage({int? page = 1}) async {
-    messageStatus(Status.loading);
-    messageList.clear();
+    // messageStatus(Status.loading);
+    //  messageList.clear();
     var response = await ApiClient.getData(
       ApiUrl.getMessages(otherUserID: otherUserID.value, page: page.toString()),
     );
