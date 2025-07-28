@@ -107,7 +107,7 @@ class PhoneCallLoginOnboard extends StatelessWidget {
     );
   }
 
-  final List<Map<String, String>> countriesWithFlags = [
+  static List<Map<String, String>> countriesWithFlags = [
     {
       "code": "AF",
       "name": "Afghanistan",
