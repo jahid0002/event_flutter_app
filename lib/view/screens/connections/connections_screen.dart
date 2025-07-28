@@ -106,7 +106,12 @@ class ConnectionsScreen extends StatelessWidget {
                           );
                         },
                         onBlockUser: () {},
-                        onReportUser: () {},
+                        onReportUser: () {
+                          Get.toNamed(
+                            AppRoutes.reportScreen,
+                            arguments: connection.otherUser?.id,
+                          );
+                        },
                       );
                     },
                   );

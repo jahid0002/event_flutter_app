@@ -81,14 +81,14 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                                 color: AppColors.white,
                               ),
                             ),
-                            CircleAvatar(
-                              backgroundColor: AppColors.primary,
-                              maxRadius: 15.r,
-                              child: Icon(
-                                Icons.more_horiz,
-                                color: AppColors.white,
-                              ),
-                            ),
+                            // CircleAvatar(
+                            //   backgroundColor: AppColors.primary,
+                            //   maxRadius: 15.r,
+                            //   child: Icon(
+                            //     Icons.more_horiz,
+                            //     color: AppColors.white,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ],

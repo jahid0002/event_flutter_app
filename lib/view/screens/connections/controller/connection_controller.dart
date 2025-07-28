@@ -6,6 +6,7 @@ import 'package:event_app/service/api_url.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/screens/connections/model/connection_details_model.dart';
 import 'package:event_app/view/screens/connections/model/connection_model.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class ConnectionController extends GetxController {
@@ -59,18 +60,35 @@ class ConnectionController extends GetxController {
       ApiChecker.checkApi(response);
     }
   }
+  //=============================== Get Report Type ============================.
+
+  Future<void> getReportType() async {}
 
   //=============================== Report connection ================================
 
-  Future<void> reportConnection({required String userId}) async {
-    var body = {};
+  Rx<TextEditingController> reportIncedentController =
+      TextEditingController().obs;
+  Rx<TextEditingController> additionalInfoController =
+      TextEditingController().obs;
+
+  RxBool isReportLoading = false.obs;
+
+  Future<void> reportConnection({required String otherUserID}) async {
+    isReportLoading(true);
+    var body = {
+      "reportTo": otherUserID,
+      "incidentType": reportIncedentController.value.text.trim(),
+      "additionalNote": additionalInfoController.value.text.trim(),
+    };
     var response = await ApiClient.postData(
       ApiUrl.reportConnection,
       jsonEncode(body),
     );
-
+    isReportLoading(false);
     if (response.statusCode == 200 || response.statusCode == 201) {
       getMyConnection();
+      reportIncedentController.value.clear();
+      additionalInfoController.value.clear();
     } else {
       ApiChecker.checkApi(response);
     }

@@ -4,6 +4,7 @@ import 'package:event_app/view/screens/auth/selected_screen.dart/selected_screen
 import 'package:event_app/view/screens/chat/chat_screen.dart';
 import 'package:event_app/view/screens/chat/inner_screen/message_screen.dart';
 import 'package:event_app/view/screens/connections/connections_details/connections_details_screen.dart';
+import 'package:event_app/view/screens/connections/connections_details/report_screen.dart';
 import 'package:event_app/view/screens/connections/connections_screen.dart';
 import 'package:event_app/view/screens/home/home_screen.dart';
 import 'package:event_app/view/screens/onbording/show_your_best_self.dart';
@@ -50,6 +51,7 @@ class AppRoutes {
   static const String connectionsDetailsScreen = "/ConnectionsDetailsScreen";
   static const String messageScreen = "/MessageScreen";
   static const String selectedScreen = "/SelectedScreen";
+  static const String reportScreen = "/ReportScreen";
 
   static const String updateProfile = "/UpdateProfile";
 
@@ -108,6 +110,7 @@ class AppRoutes {
     GetPage(name: genderLoginOnboarding, page: () => GenderLoginOnboarding()),
     GetPage(name: queLoginOnboarding, page: () => QueLoginOnboarding()),
     GetPage(name: phoneCallLoginOnboard, page: () => PhoneCallLoginOnboard()),
+    GetPage(name: reportScreen, page: () => ReportScreen()),
     GetPage(
       name: talkToMeLoginOnboarding,
       page: () => TalkToMeLoginOnboarding(),
