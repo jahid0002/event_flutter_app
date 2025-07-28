@@ -8,6 +8,7 @@ import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
+import 'package:event_app/service/socket_service.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -82,7 +83,15 @@ class AuthController extends GetxController {
             AppConstants.bearerToken,
             response.body['data']['accessToken'],
           );
+
+          SharePrefsHelper.setString(
+            AppConstants.userId,
+            response.body['data']['profileId'],
+          );
+
           PopupLoader.hidePopupLoader(Get.context!);
+
+          SocketApi.init();
           if (response.body['data']['isRegistrationComplete'] == false) {
             Get.offAllNamed(AppRoutes.onbordingScreen);
           } else {
