@@ -55,7 +55,7 @@ class HomeController extends GetxController {
   RxBool inviteStatus = false.obs;
 
   Future<void> addOrRemoveConnection({required String userId}) async {
-    inviteStatus(true);
+    inviteStatus(false);
     var body = {};
     var response = await ApiClient.postData(
       ApiUrl.addOrRemoveConnection(userId),

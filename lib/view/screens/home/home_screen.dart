@@ -72,9 +72,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           switch (direction) {
                             case SwipeDirection.left:
                               debugPrint("Swiped Left to index: $loopedIndex");
+                              controller.addOrRemoveConnection(
+                                userId: controller.users[loopedIndex].id ?? '',
+                              );
                               break;
                             case SwipeDirection.right:
                               debugPrint("Swiped Right to index: $loopedIndex");
+
                               break;
                             case SwipeDirection.up:
                               debugPrint("Swiped Up!");
@@ -270,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 'PENDING':
         return 'Pending';
       case 'ACCEPTED':
-        return 'Accepted';
+        return 'Remove';
       case 'REJECTED':
         return 'Rejected';
       default:
