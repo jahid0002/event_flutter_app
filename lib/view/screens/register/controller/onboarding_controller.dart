@@ -101,7 +101,7 @@ class OnboardingController extends GetxController {
         "phone": "",
         "gender": genderController.value.text,
         "age": age,
-        "address": "",
+        "address": countryController.value.text,
         "interests": selectedInterests,
         "language": selectedLanguages,
         "checkInDate": leavingDate?.value.toUtc().toIso8601String(),
