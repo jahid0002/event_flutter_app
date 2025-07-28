@@ -324,7 +324,7 @@ class ChatCard extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 5.h),
         ],
       ),
     );
