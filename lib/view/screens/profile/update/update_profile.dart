@@ -11,7 +11,7 @@ import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_popupmenu_button/custom_popupmenu_button.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
-import 'package:event_app/view/screens/onbording/age_login_onboarding.dart';
+import 'package:event_app/view/screens/register/age_login_onboarding.dart';
 import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:event_app/utils/ToastMsg/toast_message.dart';
-import 'package:event_app/view/screens/onbording/controller/onboarding_controller.dart';
+import 'package:event_app/view/screens/register/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
