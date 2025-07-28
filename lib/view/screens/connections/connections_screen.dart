@@ -1,12 +1,12 @@
 import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
-import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_nav_bar/navbar.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
 import 'package:event_app/view/screens/connections/controller/connection_controller.dart';
+import 'package:event_app/view/screens/connections/widget/connection_shimmer_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -55,7 +55,7 @@ class ConnectionsScreen extends StatelessWidget {
         child: Obx(() {
           switch (controller.connectionsStatus.value) {
             case Status.loading:
-              return const Center(child: CustomLoader());
+              return const ConnectionsShimmerGrid();
             case Status.error:
               return GeneralErrorScreen(
                 onTap: () => controller.getMyConnection(),
@@ -72,8 +72,8 @@ class ConnectionsScreen extends StatelessWidget {
                     itemCount: controller.connections.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 8.w,
+                      crossAxisSpacing: 8.w,
                       childAspectRatio: 0.7,
                     ),
                     itemBuilder: (context, index) {
