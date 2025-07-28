@@ -5,8 +5,6 @@ import 'dart:io';
 import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
-import 'package:event_app/utils/app_icons/app_icons.dart';
-import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
@@ -45,50 +43,54 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomNetworkImage(
-                  imageUrl: ImageHandler.imagesHandle(''),
-                  height: 612.h,
-                  width: double.infinity,
-                  borderRadius: BorderRadius.circular(20.r),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20.0.w,
-                      vertical: 10.h,
+                Obx(() {
+                  return CustomNetworkImage(
+                    imageUrl: ImageHandler.imagesHandle(
+                      controller.connectionDetails.value.profileImage,
                     ),
-                    child: Column(
-                      //   mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 40.h),
+                    height: 612.h,
+                    width: double.infinity,
+                    borderRadius: BorderRadius.circular(20.r),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.0.w,
+                        vertical: 10.h,
+                      ),
+                      child: Column(
+                        //   mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 40.h),
 
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: Icon(
-                                Platform.isIOS
-                                    ? Icons.arrow_back_ios
-                                    : Icons.arrow_back,
-                                color: AppColors.white,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(
+                                  Platform.isIOS
+                                      ? Icons.arrow_back_ios
+                                      : Icons.arrow_back,
+                                  color: AppColors.white,
+                                ),
                               ),
-                            ),
-                            // CircleAvatar(
-                            //   backgroundColor: AppColors.primary,
-                            //   maxRadius: 15.r,
-                            //   child: Icon(
-                            //     Icons.more_horiz,
-                            //     color: AppColors.white,
-                            //   ),
-                            // ),
-                          ],
-                        ),
-                      ],
+                              // CircleAvatar(
+                              //   backgroundColor: AppColors.primary,
+                              //   maxRadius: 15.r,
+                              //   child: Icon(
+                              //     Icons.more_horiz,
+                              //     color: AppColors.white,
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                }),
 
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0.w),
@@ -132,6 +134,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                             ),
                       );
                     case Status.completed:
+                      final user = controller.connectionDetails.value;
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.0.w),
                         child: Column(
@@ -143,18 +146,20 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    CustomText(
-                                      top: 10.h,
-                                      left: 0.w,
-                                      text:
-                                          controller
-                                              .connectionDetails
-                                              .value
-                                              .name ??
-                                          'N/A',
-                                      fontSize: 38.w,
-                                      fontWeight: FontWeight.w600,
-                                      // color: AppColors.primary,
+                                    SizedBox(
+                                      width:
+                                          (user.name?.length ?? 0) < 6
+                                              ? 120.w
+                                              : 270.w,
+                                      child: CustomText(
+                                        top: 10.h,
+                                        left: 0.w,
+                                        text: user.name ?? 'N/A',
+                                        fontSize: 38.w,
+                                        fontWeight: FontWeight.w600,
+                                        textAlign: TextAlign.start,
+                                        // color: AppColors.primary,
+                                      ),
                                     ),
                                     CustomText(
                                       top: 10.h,
@@ -202,7 +207,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                             CustomText(
                               text:
                                   controller.connectionDetails.value.bio ??
-                                  'Figma ipsum component variant main layer. Style style opacity italic asset share arrange. Arrange figjam effect polygon clip component content connection polygon. Share ',
+                                  'N/A',
                               fontSize: 12.w,
                               fontWeight: FontWeight.w400,
                               maxLines: 5,
@@ -332,6 +337,36 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                               // ],
                             ),
                             SizedBox(height: 40.h),
+                            CustomText(
+                              top: 20.h,
+                              text: 'My Album',
+                              fontSize: 16.w,
+                              fontWeight: FontWeight.w600,
+                              bottom: 10.h,
+                            ),
+                            (user.pictures?.isEmpty ?? true)
+                                ? SizedBox()
+                                : GridView.builder(
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: user.pictures?.length ?? 0,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        mainAxisSpacing: 10.w,
+                                        crossAxisSpacing: 10.w,
+                                        childAspectRatio: 0.7,
+                                      ),
+                                  itemBuilder: (context, index) {
+                                    return CustomNetworkImage(
+                                      imageUrl: user.pictures?[index] ?? '',
+                                      height: 200.h,
+                                      width: 130.w,
+                                      borderRadius: BorderRadius.circular(10.r),
+                                    );
+                                  },
+                                ),
                           ],
                         ),
                       );
@@ -339,47 +374,47 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                 }),
               ],
             ),
-            Positioned(
-              top: 570.h,
-              left: 100.w,
-              child: Row(
-                children: [
-                  ConnectionsDetailsButton(
-                    imageSrc: Icons.close,
-                    color: AppColors.red,
-                  ),
-                  SizedBox(width: 20.w),
-                  Container(
-                    height: 84.h,
-                    width: 84.w,
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(
-                            0.1,
-                          ), // Adjust opacity as needed
-                          spreadRadius: 2,
-                          blurRadius: 10,
-                          offset: Offset(
-                            0,
-                            4,
-                          ), // horizontal, vertical shadow offset
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(25.0),
-                      child: CustomImage(
-                        imageSrc: AppIcons.connection,
-                        imageColor: AppColors.primary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Positioned(
+            //   top: 570.h,
+            //   left: 100.w,
+            //   child: Row(
+            //     children: [
+            //       ConnectionsDetailsButton(
+            //         imageSrc: Icons.close,
+            //         color: AppColors.red,
+            //       ),
+            //       SizedBox(width: 20.w),
+            //       Container(
+            //         height: 84.h,
+            //         width: 84.w,
+            //         decoration: BoxDecoration(
+            //           color: AppColors.white,
+            //           shape: BoxShape.circle,
+            //           boxShadow: [
+            //             BoxShadow(
+            //               color: Colors.black.withOpacity(
+            //                 0.1,
+            //               ), // Adjust opacity as needed
+            //               spreadRadius: 2,
+            //               blurRadius: 10,
+            //               offset: Offset(
+            //                 0,
+            //                 4,
+            //               ), // horizontal, vertical shadow offset
+            //             ),
+            //           ],
+            //         ),
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(25.0),
+            //           child: CustomImage(
+            //             imageSrc: AppIcons.connection,
+            //             imageColor: AppColors.primary,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
