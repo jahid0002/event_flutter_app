@@ -113,11 +113,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       Row(
                                         children: [
-                                          CustomText(
-                                            text: data.name ?? ' ',
-                                            fontSize: 39.w,
-                                            fontWeight: FontWeight.w600,
-                                            color: AppColors.white,
+                                          SizedBox(
+                                            width:
+                                                ((data.name?.length ?? 0) > 6)
+                                                    ? 250.w
+                                                    : 140.w,
+                                            child: CustomText(
+                                              text: data.name ?? ' ',
+                                              fontSize: 39.w,
+                                              fontWeight: FontWeight.w600,
+                                              color: AppColors.white,
+                                              textAlign: TextAlign.start,
+                                            ),
                                           ),
                                           CustomText(
                                             left: 10.w,
