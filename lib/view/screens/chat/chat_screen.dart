@@ -10,6 +10,7 @@ import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_nav_bar/navbar.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
+import 'package:event_app/view/components/custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/components/custom_text_field/custom_text_field.dart';
 import 'package:event_app/view/components/general_error.dart';
@@ -85,127 +86,140 @@ class _ChatScreenState extends State<ChatScreen> {
                     onTap: () => controller.getAllConversation(),
                   );
                 case Status.completed:
-                  return Column(
-                    children: [
-                      if (controller.chatType.value == ChatType.chat) ...[
-                        CustomTextField(
-                          isDens: true,
-                          cursorColor: AppColors.black,
-                          fillColor: AppColors.white,
-                          hintText: 'Search Here...',
-                          hintStyle: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
+                  return CustomRefreshIndicator(
+                    onRefresh: () {
+                      return controller.getAllConversation();
+                    },
+                    child: Column(
+                      children: [
+                        if (controller.chatType.value == ChatType.chat) ...[
+                          CustomTextField(
+                            isDens: true,
+                            cursorColor: AppColors.black,
+                            fillColor: AppColors.white,
+                            hintText: 'Search Here...',
+                            hintStyle: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
 
-                            color: AppColors.gray.withOpacity(.8),
+                              color: AppColors.gray.withOpacity(.8),
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10.h),
-                        SizedBox(
-                          height: 520.h,
-                          child:
-                              controller.conversationList.isNotEmpty
-                                  ? ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    shrinkWrap: true,
-                                    itemCount:
-                                        controller.conversationList.length,
-                                    itemBuilder: (context, index) {
-                                      final item =
-                                          controller.conversationList[index];
-                                      return ChatCard(
-                                        name: item.userData?.name,
-                                        imageUrl: item.userData?.profileImage,
-                                        lustMessage: item.lastMessage?.text,
-                                        time: DateConverter.formatTimeAgo(
-                                          item.lastMessage?.createdAt ?? '',
-                                        ),
-                                        onTap: () {
-                                          final ReceiverInformation
-                                          information = ReceiverInformation(
-                                            receiverId: item.userData?.id,
-                                            receiverName: item.userData?.name,
-                                            receiverImage:
-                                                item.userData?.profileImage,
-                                            conversationID:
-                                                item
-                                                    .lastMessage
-                                                    ?.conversationId,
-                                          );
+                          SizedBox(height: 10.h),
+                          SizedBox(
+                            height: 520.h,
+                            child:
+                                controller.conversationList.isNotEmpty
+                                    ? ListView.builder(
+                                      padding: EdgeInsets.zero,
+                                      shrinkWrap: true,
+                                      itemCount:
+                                          controller.conversationList.length,
+                                      itemBuilder: (context, index) {
+                                        final item =
+                                            controller.conversationList[index];
+                                        return ChatCard(
+                                          name: item.userData?.name,
+                                          imageUrl: item.userData?.profileImage,
+                                          lustMessage: item.lastMessage?.text,
+                                          time: DateConverter.formatTimeAgo(
+                                            item.lastMessage?.createdAt ?? '',
+                                          ),
+                                          onTap: () {
+                                            final ReceiverInformation
+                                            information = ReceiverInformation(
+                                              receiverId: item.userData?.id,
+                                              receiverName: item.userData?.name,
+                                              receiverImage:
+                                                  item.userData?.profileImage,
+                                              conversationID:
+                                                  item
+                                                      .lastMessage
+                                                      ?.conversationId,
+                                            );
 
-                                          Get.toNamed(
-                                            AppRoutes.messageScreen,
-                                            arguments: information,
-                                          );
-                                        },
-                                      );
-                                    },
-                                  )
-                                  : CustomText(
-                                    text: 'No Conversation',
-                                    top: 200.h,
-                                  ),
-                        ),
+                                            Get.toNamed(
+                                              AppRoutes.messageScreen,
+                                              arguments: information,
+                                            );
+                                          },
+                                        );
+                                      },
+                                    )
+                                    : CustomText(
+                                      text: 'No Conversation',
+                                      top: 200.h,
+                                    ),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   );
               }
             }),
 
             Obx(() {
-              return Column(
-                children: [
-                  if (controller.chatType.value == ChatType.notification) ...[
-                    SizedBox(height: 20.h),
+              return CustomRefreshIndicator(
+                onRefresh: () {
+                  return controller.getAllNotification();
+                },
+                child: Column(
+                  children: [
+                    if (controller.chatType.value == ChatType.notification) ...[
+                      SizedBox(height: 20.h),
 
-                    controller.notificationList.isEmpty
-                        ? Center(
-                          child: CustomText(
-                            text: "No Notification",
-                            top: 200.h,
+                      controller.notificationList.isEmpty
+                          ? Center(
+                            child: CustomText(
+                              text: "No Notification",
+                              top: 200.h,
+                            ),
+                          )
+                          : ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            itemCount:
+                                controller.notificationList.isEmpty
+                                    ? 0
+                                    : controller.notificationList.length,
+                            itemBuilder: (contex, index) {
+                              final notification =
+                                  controller.notificationList[index];
+
+                              switch (controller.notificationStatus.value) {
+                                case Status.loading:
+                                  return CustomLoader();
+                                case Status.error:
+                                  return GeneralErrorScreen(
+                                    onTap:
+                                        () => controller.getAllNotification(),
+                                  );
+                                case Status.internetError:
+                                  return GeneralErrorScreen(
+                                    onTap:
+                                        () => controller.getAllNotification(),
+                                  );
+                                case Status.completed:
+                                  return NotificationsCard(
+                                    name: notification.sender?.name,
+                                    imageUrl: notification.sender?.profileImage,
+                                    onTap: () {
+                                      controller.acceptConnectionRequest(
+                                        userID: notification.id ?? '',
+                                        index: index,
+                                      );
+                                    },
+                                    isLoading:
+                                        index ==
+                                            controller.loadingIndex.value &&
+                                        controller.isAccepted.value,
+                                  );
+                              }
+                            },
                           ),
-                        )
-                        : ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          itemCount:
-                              controller.notificationList.isEmpty
-                                  ? 0
-                                  : controller.notificationList.length,
-                          itemBuilder: (contex, index) {
-                            final notification =
-                                controller.notificationList[index];
-
-                            switch (controller.notificationStatus.value) {
-                              case Status.loading:
-                                return CustomLoader();
-                              case Status.error:
-                                return GeneralErrorScreen(
-                                  onTap: () => controller.getAllNotification(),
-                                );
-                              case Status.internetError:
-                                return GeneralErrorScreen(
-                                  onTap: () => controller.getAllNotification(),
-                                );
-                              case Status.completed:
-                                return NotificationsCard(
-                                  name: notification.sender?.name,
-                                  imageUrl: notification.sender?.profileImage,
-                                  onTap: () {
-                                    controller.acceptConnectionRequest(
-                                      userID: notification.id ?? '',
-                                      index: index,
-                                    );
-                                  },
-                                  isLoading:
-                                      index == controller.loadingIndex.value &&
-                                      controller.isAccepted.value,
-                                );
-                            }
-                          },
-                        ),
+                    ],
                   ],
-                ],
+                ),
               );
             }),
           ],

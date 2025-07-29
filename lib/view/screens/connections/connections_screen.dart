@@ -24,38 +24,38 @@ class ConnectionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomRefreshIndicator(
-      onRefresh: () async {
-        await controller.getMyConnection();
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.white,
-          surfaceTintColor: AppColors.white,
-          elevation: 0,
-          leading: BackButton(),
-          centerTitle: true,
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(width: 20),
-              const Spacer(),
-              CustomImage(
-                imageSrc: AppIcons.connection,
-                imageColor: AppColors.primary,
-              ),
-              const SizedBox(width: 6),
-              CustomText(
-                text: "Connections",
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-              const Spacer(flex: 2),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.white,
+        surfaceTintColor: AppColors.white,
+        elevation: 0,
+        leading: BackButton(),
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(width: 20),
+            const Spacer(),
+            CustomImage(
+              imageSrc: AppIcons.connection,
+              imageColor: AppColors.primary,
+            ),
+            const SizedBox(width: 6),
+            CustomText(
+              text: "Connections",
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+            const Spacer(flex: 2),
+          ],
         ),
+      ),
 
-        body: Padding(
+      body: CustomRefreshIndicator(
+        onRefresh: () async {
+          await controller.getMyConnection();
+        },
+        child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0.w),
           child: Obx(() {
             switch (controller.connectionsStatus.value) {
@@ -129,9 +129,9 @@ class ConnectionsScreen extends StatelessWidget {
             }
           }),
         ),
-
-        bottomNavigationBar: NavBar(currentIndex: 1),
       ),
+
+      bottomNavigationBar: NavBar(currentIndex: 1),
     );
   }
 }
