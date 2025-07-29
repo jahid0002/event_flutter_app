@@ -2,6 +2,7 @@ class AppConstants {
   static String bearerToken = "BearerToken";
   static String refreshToken = "RefreshToken";
   static String userId = "UserId";
+  static const String isRegistered = "isRegistered";
 
   static String onBoard = "Onboard";
 

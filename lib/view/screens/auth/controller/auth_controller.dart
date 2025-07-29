@@ -91,6 +91,11 @@ class AuthController extends GetxController {
 
           PopupLoader.hidePopupLoader(Get.context!);
 
+          SharePrefsHelper.setBool(
+            AppConstants.isRegistered,
+            response.body['data']['isRegistrationComplete'],
+          );
+
           SocketApi.init();
           if (response.body['data']['isRegistrationComplete'] == false) {
             Get.offAllNamed(AppRoutes.onbordingScreen);
