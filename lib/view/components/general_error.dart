@@ -59,14 +59,14 @@ class GeneralErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 132.h),
+            SizedBox(height: 100.h),
             // Circle with emoji-style icon
             Container(
               width: 100.r,
