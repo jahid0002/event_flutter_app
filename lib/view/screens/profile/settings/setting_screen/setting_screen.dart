@@ -1,4 +1,7 @@
+import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
+import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../../core/routes/app_routes.dart';
 import '../../../../../utils/app_colors/app_colors.dart';
@@ -40,12 +43,12 @@ class SettingScreen extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(height: 10),
-          CustomSettingsListCard(
-            text: "Account & Security",
-            onTap: () {
-              Get.toNamed(AppRoutes.accountSecurityScreen);
-            },
-          ),
+          // CustomSettingsListCard(
+          //   text: "Account & Security",
+          //   onTap: () {
+          //     Get.toNamed(AppRoutes.accountSecurityScreen);
+          //   },
+          // ),
           CustomSettingsListCard(
             text: "Notification",
             onTap: () {
@@ -74,6 +77,10 @@ class SettingScreen extends StatelessWidget {
             text: "log out",
             color: AppColors.red,
             onTap: () {
+              showLogoutDialog(context, () {
+                SharePrefsHelper.remove(AppConstants.bearerToken);
+                Get.offAllNamed(AppRoutes.selectedScreen);
+              });
               // Get.toNamed(AppRoutes.languageScreen);
             },
           ),
@@ -86,6 +93,105 @@ class SettingScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void showLogoutDialog(BuildContext context, VoidCallback onConfirm) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: AppColors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(20.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.logout, size: 50.w, color: Colors.redAccent),
+                SizedBox(height: 15.h),
+                Text(
+                  'Log Out',
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10.h),
+                Text(
+                  'Are you sure you want to log out?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: Colors.grey.shade700,
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    /// Cancel Button
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey.shade300,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 15.w,
+                          vertical: 8.h,
+                        ),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    /// Confirm Button
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.redAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        onConfirm(); // Call logout action
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 15.w,
+                          vertical: 8.h,
+                        ),
+                        child: Text(
+                          'Log Out',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

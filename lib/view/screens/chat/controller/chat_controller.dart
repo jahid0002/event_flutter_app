@@ -107,6 +107,8 @@ class ChatController extends GetxController {
   Rx<Status> messageStatus = Status.loading.obs;
 
   Future<void> getAllMessage({int? page = 1}) async {
+    // messageStatus(Status.loading);
+    //  messageList.clear();
     var response = await ApiClient.getData(
       ApiUrl.getMessages(otherUserID: otherUserID.value, page: page.toString()),
     );
@@ -116,6 +118,12 @@ class ChatController extends GetxController {
           (x) => MessageModel.fromMap(x),
         ),
       );
+
+      if (messages.isEmpty) {
+        messageList.value = [];
+        messageStatus(Status.completed);
+        return;
+      }
 
       if (page == 1) {
         messageList.value = messages;

@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use, unnecessary_null_comparison, unused_local_variable
 
+import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
@@ -72,17 +73,37 @@ class _HomeScreenState extends State<HomeScreen> {
                           switch (direction) {
                             case SwipeDirection.left:
                               debugPrint("Swiped Left to index: $loopedIndex");
+                              controller.addOrRemoveConnection(
+                                userId: controller.users[loopedIndex].id ?? '',
+                              );
                               break;
                             case SwipeDirection.right:
                               debugPrint("Swiped Right to index: $loopedIndex");
+
                               break;
                             case SwipeDirection.up:
                               debugPrint("Swiped Up!");
+                              Get.toNamed(
+                                AppRoutes.otherUserDetailsScreen,
+                                arguments:
+                                    controller.users[loopedIndex].id ?? '',
+                              );
                               break;
                             case SwipeDirection.down:
                               debugPrint("Swiped Down!");
                               break;
                           }
+                        },
+                        onWillMoveNext: (index, direction) {
+                          final loopedIndex = index % controller.users.length;
+                          if (direction == SwipeDirection.up) {
+                            Get.toNamed(
+                              AppRoutes.otherUserDetailsScreen,
+                              arguments: controller.users[loopedIndex].id ?? '',
+                            );
+                            return false; // do not advance to next card
+                          }
+                          return true; // allow left, right, down
                         },
                         itemCount: null,
                         builder: (BuildContext context, itemProperties) {
@@ -113,11 +134,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       Row(
                                         children: [
-                                          CustomText(
-                                            text: data.name ?? ' ',
-                                            fontSize: 39.w,
-                                            fontWeight: FontWeight.w600,
-                                            color: AppColors.white,
+                                          SizedBox(
+                                            width:
+                                                ((data.name?.length ?? 0) > 6)
+                                                    ? 250.w
+                                                    : 140.w,
+                                            child: CustomText(
+                                              text: data.name ?? ' ',
+                                              fontSize: 39.w,
+                                              fontWeight: FontWeight.w600,
+                                              color: AppColors.white,
+                                              textAlign: TextAlign.start,
+                                            ),
                                           ),
                                           CustomText(
                                             left: 10.w,
@@ -263,7 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 'PENDING':
         return 'Pending';
       case 'ACCEPTED':
-        return 'Accepted';
+        return 'Remove';
       case 'REJECTED':
         return 'Rejected';
       default:

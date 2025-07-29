@@ -101,7 +101,7 @@ class OnboardingController extends GetxController {
         "phone": "",
         "gender": genderController.value.text,
         "age": age,
-        "address": "",
+        "address": countryController.value.text,
         "interests": selectedInterests,
         "language": selectedLanguages,
         "checkInDate": leavingDate?.value.toUtc().toIso8601String(),
@@ -117,12 +117,10 @@ class OnboardingController extends GetxController {
         MultipartBody('profile_image', selectedImage.value!),
       ],
     );
-
+    userRegistered(false);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      userRegistered(false);
       Get.offAllNamed(AppRoutes.homeScreen);
     } else {
-      userRegistered(false);
       ApiChecker.checkApi(response);
     }
   }

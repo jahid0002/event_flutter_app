@@ -6,7 +6,7 @@ import 'package:event_app/view/screens/profile/controller/profile_controller.dar
 import 'package:event_app/view/screens/profile/settings/controller/settings_controller.dart';
 import 'package:get/get.dart';
 
-import '../../view/screens/onbording/controller/onboarding_controller.dart';
+import '../../view/screens/register/controller/onboarding_controller.dart';
 
 class DependencyInjection extends Bindings {
   @override

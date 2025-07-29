@@ -1,33 +1,9 @@
 import 'package:event_app/core/routes/app_routes.dart';
+import 'package:event_app/utils/app_icons/app_icons.dart';
+import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// class SplashScreen extends StatefulWidget {
-//   final Duration delay;
-
-//   const SplashScreen({super.key, this.delay = const Duration(seconds: 3)});
-
-//   @override
-//   State<SplashScreen> createState() => _SplashScreenState();
-// }
-
-// class _SplashScreenState extends State<SplashScreen> {
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     Future.delayed(widget.delay, () {
-//       if (mounted) {
-//         Get.offAllNamed(AppRoutes.selectedScreen);
-//       }
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Scaffold(body: Center(child: Text('Splash')));
-//   }
-// }
 import 'dart:async';
 
 class SplashScreen extends StatefulWidget {
@@ -56,6 +32,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text('Splash Screen')));
+    return const Scaffold(
+      body: Center(child: CustomImage(imageSrc: AppIcons.logo2)),
+    );
   }
 }

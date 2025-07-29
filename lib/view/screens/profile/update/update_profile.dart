@@ -11,8 +11,9 @@ import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_popupmenu_button/custom_popupmenu_button.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
-import 'package:event_app/view/screens/onbording/age_login_onboarding.dart';
+import 'package:event_app/view/screens/register/age_login_onboarding.dart';
 import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
+import 'package:event_app/view/screens/register/phone_call_login_onboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -143,6 +144,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                     },
                   ),
                   CustomFormCard(
+                    readOnly: true,
                     title: 'Living in',
                     controller: controller.addressController.value,
                     hintText: 'Enter your country',
@@ -152,6 +154,15 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       }
                       return null;
                     },
+                    suffixIcon: CustomPopupmenuButton(
+                      onChanged: (value) {
+                        controller.addressController.value.text = value;
+                      },
+                      items:
+                          PhoneCallLoginOnboard.countriesWithFlags
+                              .map((e) => e['name']!)
+                              .toList(),
+                    ),
                   ),
                   CustomFormCard(
                     readOnly: true,

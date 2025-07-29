@@ -1,6 +1,6 @@
 import 'package:event_app/utils/ToastMsg/toast_message.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
-import 'package:event_app/view/screens/onbording/controller/onboarding_controller.dart';
+import 'package:event_app/view/screens/register/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -107,7 +107,7 @@ class PhoneCallLoginOnboard extends StatelessWidget {
     );
   }
 
-  final List<Map<String, String>> countriesWithFlags = [
+  static List<Map<String, String>> countriesWithFlags = [
     {
       "code": "AF",
       "name": "Afghanistan",

@@ -11,7 +11,7 @@ class ApiChecker {
       await SharePrefsHelper.remove(AppConstants.bearerToken);
       Get.offAllNamed(AppRoutes.selectedScreen);
     } else {
-      showCustomSnackBar(response.body['message']!, getXSnackBar: getXSnackBar);
+      showCustomSnackBar(response.body['message']!, isError: true);
     }
   }
 }

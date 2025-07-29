@@ -201,7 +201,7 @@ class ApiClient extends GetxService {
       return Response(
         statusCode: response.statusCode,
         statusText: somethingWentWrong,
-        body: content,
+        body: jsonDecode(content),
       );
     } catch (e) {
       debugPrint('------------${e.toString()}');
@@ -262,7 +262,7 @@ class ApiClient extends GetxService {
       return Response(
         statusCode: response.statusCode,
         statusText: somethingWentWrong,
-        body: content,
+        body: jsonDecode(content),
       );
     } catch (e) {
       debugPrint('------------${e.toString()}');
