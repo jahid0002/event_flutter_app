@@ -60,9 +60,21 @@ class ConnectionController extends GetxController {
       ApiChecker.checkApi(response);
     }
   }
-  //=============================== Get Report Type ============================.
+  //=============================== Block Connection ============================.
 
-  Future<void> getReportType() async {}
+  Future<void> blockUser({required String userID}) async {
+    var body = {};
+    var response = await ApiClient.postData(
+      ApiUrl.blockUser(userID: userID),
+      jsonEncode(body),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      getMyConnection();
+    } else {
+      ApiChecker.checkApi(response);
+    }
+  }
 
   //=============================== Report connection ================================
 

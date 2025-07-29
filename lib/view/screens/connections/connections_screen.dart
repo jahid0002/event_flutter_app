@@ -105,7 +105,11 @@ class ConnectionsScreen extends StatelessWidget {
                             userId: connection.otherUser?.id ?? '',
                           );
                         },
-                        onBlockUser: () {},
+                        onBlockUser: () {
+                          controller.blockUser(
+                            userID: connection.otherUser?.id ?? '',
+                          );
+                        },
                         onReportUser: () {
                           Get.toNamed(
                             AppRoutes.reportScreen,
