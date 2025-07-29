@@ -7,12 +7,12 @@ import 'package:event_app/helper/time_converter/date_converter.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/components/custom_app_bar/custom_app_bar.dart';
-import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/components/custom_text_field/custom_text_field.dart';
 import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
+import 'package:event_app/view/screens/chat/widget/message_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -84,7 +84,7 @@ class _MessageScreenState extends State<MessageScreen> {
               child: Obx(() {
                 switch (controller.messageStatus.value) {
                   case Status.loading:
-                    return CustomLoader();
+                    return MessageShimmer();
                   case Status.error:
                     return GeneralErrorScreen(
                       onTap: () => controller.getAllMessage(),
