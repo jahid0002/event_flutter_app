@@ -23,85 +23,89 @@ class YourNameLoginOnboarding extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Form(
             key: _formKey,
-            child: Column(
-              children: [
-                // Back Button
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: AppColors.primary,
-                        child: Icon(Icons.arrow_back, color: Colors.white),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // Back Button
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: AppColors.primary,
+                          child: Icon(Icons.arrow_back, color: Colors.white),
+                        ),
                       ),
-                    ),
-                    CustomText(
-                      text: "Back",
-                      fontSize: 16.w,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
-                      left: 8,
-                    ),
-                  ],
-                ),
-                CustomText(
-                  top: 40,
-                  text: "Your name 😎",
-                  fontSize: 24.w,
-                  fontWeight: FontWeight.w700,
-                ),
-                CustomText(
-                  top: 10,
-                  text:
-                      "Confirm your name or create a unique nickname that represents you. It's how others will know and remember you.",
-                  fontSize: 14.w,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.softWhite,
-                  maxLines: 3,
-                  bottom: 180,
-                ),
-                CustomTextField(
-                  cursorColor: AppColors.black,
-                  fillColor: Color(0xffF9FAFB),
-                  hintText: "Your name ",
-                  textEditingController: controller.nameController.value,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
-                ),
-                Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    CustomText(
-                      text: "Next",
-                      fontSize: 16.w,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
-                      right: 8,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          debugPrint(controller.nameController.value.text);
-                          debugPrint(controller.leavingDate?.value.toString());
-                          Get.toNamed(AppRoutes.yourEmailLoginOnboarding);
-                        }
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: AppColors.primary,
-                        maxRadius: 20,
-                        child: Icon(Icons.arrow_forward, color: Colors.white),
+                      CustomText(
+                        text: "Back",
+                        fontSize: 16.w,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primary,
+                        left: 8,
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                  CustomText(
+                    top: 40,
+                    text: "Your name 😎",
+                    fontSize: 24.w,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  CustomText(
+                    top: 10,
+                    text:
+                        "Confirm your name or create a unique nickname that represents you. It's how others will know and remember you.",
+                    fontSize: 14.w,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.softWhite,
+                    maxLines: 3,
+                    bottom: 180,
+                  ),
+                  CustomTextField(
+                    cursorColor: AppColors.black,
+                    fillColor: Color(0xffF9FAFB),
+                    hintText: "Your name ",
+                    textEditingController: controller.nameController.value,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
+                  ),
+                  Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CustomText(
+                        text: "Next",
+                        fontSize: 16.w,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primary,
+                        right: 8,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            debugPrint(controller.nameController.value.text);
+                            debugPrint(
+                              controller.leavingDate?.value.toString(),
+                            );
+                            Get.toNamed(AppRoutes.yourEmailLoginOnboarding);
+                          }
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: AppColors.primary,
+                          maxRadius: 20,
+                          child: Icon(Icons.arrow_forward, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
