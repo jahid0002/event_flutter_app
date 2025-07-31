@@ -3,6 +3,7 @@ import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/components/custom_nav_bar/navbar.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
+import 'package:event_app/view/components/custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
 import 'package:event_app/view/screens/connections/controller/connection_controller.dart';
@@ -50,73 +51,84 @@ class ConnectionsScreen extends StatelessWidget {
         ),
       ),
 
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-        child: Obx(() {
-          switch (controller.connectionsStatus.value) {
-            case Status.loading:
-              return const ConnectionsShimmerGrid();
-            case Status.error:
-              return GeneralErrorScreen(
-                onTap: () => controller.getMyConnection(),
-              );
-            case Status.internetError:
-              return GeneralErrorScreen(
-                onTap: () => controller.getMyConnection(),
-              );
-            case Status.completed:
-              return controller.connections.isEmpty
-                  ? const Center(child: CustomText(text: "No connection yet"))
-                  : GridView.builder(
-                    padding: EdgeInsets.only(top: 20.h),
-                    itemCount: controller.connections.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 8.w,
-                      crossAxisSpacing: 8.w,
-                      childAspectRatio: 0.7,
-                    ),
-                    itemBuilder: (context, index) {
-                      final connection = controller.connections[index];
-                      return ConnectionsCard(
-                        chatButton: () {
-                          ReceiverInformation information = ReceiverInformation(
-                            receiverId: connection.otherUser?.id,
-                            receiverName: connection.otherUser?.name,
-                            receiverImage: connection.otherUser?.profileImage,
-                          );
-                          Get.toNamed(
-                            AppRoutes.messageScreen,
-                            arguments: information,
-                          );
-                        },
-                        name: connection.otherUser?.name,
-                        image: connection.otherUser?.profileImage,
-                        location: connection.otherUser?.address,
-                        age: connection.otherUser?.age?.toString(),
-                        onTap: () {
-                          Get.toNamed(
-                            AppRoutes.connectionsDetailsScreen,
-                            arguments: connection,
-                          );
-                        },
-                        onCancelConnection: () {
-                          controller.removeConnection(
-                            userId: connection.otherUser?.id ?? '',
-                          );
-                        },
-                        onBlockUser: () {},
-                        onReportUser: () {
-                          Get.toNamed(
-                            AppRoutes.reportScreen,
-                            arguments: connection.otherUser?.id,
-                          );
-                        },
-                      );
-                    },
-                  );
-          }
-        }),
+      body: CustomRefreshIndicator(
+        onRefresh: () async {
+          await controller.getMyConnection();
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+          child: Obx(() {
+            switch (controller.connectionsStatus.value) {
+              case Status.loading:
+                return const ConnectionsShimmerGrid();
+              case Status.error:
+                return GeneralErrorScreen(
+                  onTap: () => controller.getMyConnection(),
+                );
+              case Status.internetError:
+                return GeneralErrorScreen(
+                  onTap: () => controller.getMyConnection(),
+                );
+              case Status.completed:
+                return controller.connections.isEmpty
+                    ? const Center(child: CustomText(text: "No connection yet"))
+                    : GridView.builder(
+                      padding: EdgeInsets.only(top: 20.h),
+                      itemCount: controller.connections.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 8.w,
+                        crossAxisSpacing: 8.w,
+                        childAspectRatio: 0.7,
+                      ),
+                      itemBuilder: (context, index) {
+                        final connection = controller.connections[index];
+                        return ConnectionsCard(
+                          chatButton: () {
+                            ReceiverInformation information =
+                                ReceiverInformation(
+                                  receiverId: connection.otherUser?.id,
+                                  receiverName: connection.otherUser?.name,
+                                  receiverImage:
+                                      connection.otherUser?.profileImage,
+                                );
+                            Get.toNamed(
+                              AppRoutes.messageScreen,
+                              arguments: information,
+                            );
+                          },
+                          name: connection.otherUser?.name,
+                          image: connection.otherUser?.profileImage,
+                          location: connection.otherUser?.address,
+                          age: connection.otherUser?.age?.toString(),
+                          onTap: () {
+                            Get.toNamed(
+                              AppRoutes.connectionsDetailsScreen,
+                              arguments: connection,
+                            );
+                          },
+                          onCancelConnection: () {
+                            controller.removeConnection(
+                              userId: connection.otherUser?.id ?? '',
+                            );
+                          },
+                          onBlockUser: () {
+                            controller.blockUser(
+                              userID: connection.otherUser?.id ?? '',
+                            );
+                          },
+                          onReportUser: () {
+                            Get.toNamed(
+                              AppRoutes.reportScreen,
+                              arguments: connection.otherUser?.id,
+                            );
+                          },
+                        );
+                      },
+                    );
+            }
+          }),
+        ),
       ),
 
       bottomNavigationBar: NavBar(currentIndex: 1),

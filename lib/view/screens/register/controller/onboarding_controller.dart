@@ -3,9 +3,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:event_app/core/routes/app_routes.dart';
+import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
+import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -119,6 +121,7 @@ class OnboardingController extends GetxController {
     );
     userRegistered(false);
     if (response.statusCode == 200 || response.statusCode == 201) {
+      SharePrefsHelper.setBool(AppConstants.isRegistered, true);
       Get.offAllNamed(AppRoutes.homeScreen);
     } else {
       ApiChecker.checkApi(response);

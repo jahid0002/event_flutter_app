@@ -203,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               onTap: () {
                                                 _swipableStackController.next(
                                                   swipeDirection:
-                                                      SwipeDirection.left,
+                                                      SwipeDirection.right,
                                                 );
                                               },
                                               title: 'No Interest',

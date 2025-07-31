@@ -28,127 +28,129 @@ class _TalkToMeLoginOnboardingState extends State<TalkToMeLoginOnboarding> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              // Back Button
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.primary,
-                      child: Icon(Icons.arrow_back, color: Colors.white),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // Back Button
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: AppColors.primary,
+                        child: Icon(Icons.arrow_back, color: Colors.white),
+                      ),
                     ),
-                  ),
-                  CustomText(
-                    text: "Back",
-                    fontSize: 16.w,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
-                    left: 8,
-                  ),
-                ],
-              ),
-              CustomText(
-                top: 40,
-                text: "What languages do you speak? 🌍",
-                fontSize: 24.w,
-                fontWeight: FontWeight.w700,
-                maxLines: 2,
-              ),
-              CustomText(
-                top: 40,
-                text:
-                    "Choose your language to start connecting your way. Select at least 1, and as many as you want.\n\nSelect at least 1, and as many as you want.",
-                fontSize: 14.w,
-                fontWeight: FontWeight.w400,
-                color: AppColors.softWhite,
-                maxLines: 4,
-                bottom: 50,
-              ),
-              _languageTile(
-                'English',
-                isSelected: selectedLanguages.contains('English'),
-              ),
-              const SizedBox(height: 12),
-              _languageTile(
-                'Spanish',
-                isSelected: selectedLanguages.contains('Spanish'),
-              ),
-              const SizedBox(height: 12),
-              _languageTile(
-                'German',
-                isSelected: selectedLanguages.contains('German'),
-              ),
-              const SizedBox(height: 12),
-              _languageTile(
-                'French',
-                isSelected: selectedLanguages.contains('French'),
-              ),
-              SizedBox(height: 20),
-              TextField(),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    flex: 3,
-                    child: CustomText(
-                      text:
-                          "Type the language and tap 'add' to save it to your profile.",
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      maxLines: 2,
-                      textAlign: TextAlign.start,
-                      color: Color(0xff828693),
+                    CustomText(
+                      text: "Back",
+                      fontSize: 16.w,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                      left: 8,
                     ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: CustomButton(
-                      onTap: () {},
-                      title: "add",
-                      height: 30,
-                      width: 60,
-                      fontSize: 12,
+                  ],
+                ),
+                CustomText(
+                  top: 40,
+                  text: "What languages do you speak? 🌍",
+                  fontSize: 24.w,
+                  fontWeight: FontWeight.w700,
+                  maxLines: 2,
+                ),
+                CustomText(
+                  top: 40,
+                  text:
+                      "Choose your language to start connecting your way. Select at least 1, and as many as you want.\n\nSelect at least 1, and as many as you want.",
+                  fontSize: 14.w,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.softWhite,
+                  maxLines: 4,
+                  bottom: 50,
+                ),
+                _languageTile(
+                  'English',
+                  isSelected: selectedLanguages.contains('English'),
+                ),
+                const SizedBox(height: 12),
+                _languageTile(
+                  'Spanish',
+                  isSelected: selectedLanguages.contains('Spanish'),
+                ),
+                const SizedBox(height: 12),
+                _languageTile(
+                  'German',
+                  isSelected: selectedLanguages.contains('German'),
+                ),
+                const SizedBox(height: 12),
+                _languageTile(
+                  'French',
+                  isSelected: selectedLanguages.contains('French'),
+                ),
+                SizedBox(height: 20),
+                TextField(),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      flex: 3,
+                      child: CustomText(
+                        text:
+                            "Type the language and tap 'add' to save it to your profile.",
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        maxLines: 2,
+                        textAlign: TextAlign.start,
+                        color: Color(0xff828693),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CustomText(
-                    text: "Next",
-                    fontSize: 16.w,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
-                    right: 8,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      if (selectedLanguages.isEmpty) {
-                        showCustomSnackBar(
-                          "Please select at least one language",
-                        );
-                        return;
-                      }
-                      controller.selectedLanguages.value = selectedLanguages;
-                      debugPrint(controller.selectedLanguages.toString());
-                      Get.toNamed(AppRoutes.signatureLookOnboarding);
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.primary,
-                      maxRadius: 20,
-                      child: Icon(Icons.arrow_forward, color: Colors.white),
+                    Flexible(
+                      flex: 1,
+                      child: CustomButton(
+                        onTap: () {},
+                        title: "add",
+                        height: 30,
+                        width: 60,
+                        fontSize: 12,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+                Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CustomText(
+                      text: "Next",
+                      fontSize: 16.w,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                      right: 8,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        if (selectedLanguages.isEmpty) {
+                          showCustomSnackBar(
+                            "Please select at least one language",
+                          );
+                          return;
+                        }
+                        controller.selectedLanguages.value = selectedLanguages;
+                        debugPrint(controller.selectedLanguages.toString());
+                        Get.toNamed(AppRoutes.signatureLookOnboarding);
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: AppColors.primary,
+                        maxRadius: 20,
+                        child: Icon(Icons.arrow_forward, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

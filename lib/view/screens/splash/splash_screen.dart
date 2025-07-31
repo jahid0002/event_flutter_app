@@ -1,4 +1,6 @@
 import 'package:event_app/core/routes/app_routes.dart';
+import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
+import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/utils/app_icons/app_icons.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +21,29 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer(const Duration(seconds: 3), () {
-      Get.offAllNamed(AppRoutes.selectedScreen);
+    _timer = Timer(const Duration(seconds: 2), () {
+      checkUser();
     });
+  }
+
+  checkUser() async {
+    final String token = await SharePrefsHelper.getString(
+      AppConstants.bearerToken,
+    );
+
+    final bool? isRegistered = await SharePrefsHelper.getBool(
+      AppConstants.isRegistered,
+    );
+
+    if (token.isNotEmpty && isRegistered == true) {
+      Get.offAllNamed(AppRoutes.homeScreen);
+    } else if (isRegistered == false && token.isNotEmpty) {
+      Get.offAllNamed(AppRoutes.onbordingScreen);
+    } else if (token.isEmpty) {
+      Get.offAllNamed(AppRoutes.selectedScreen);
+    } else {
+      Get.offAllNamed(AppRoutes.selectedScreen);
+    }
   }
 
   @override

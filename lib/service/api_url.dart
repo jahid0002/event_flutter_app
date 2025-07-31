@@ -38,6 +38,9 @@ class ApiUrl {
 
   static String reportConnection = '/report/create-report';
 
+  static String blockUser({required String userID}) =>
+      '/block/block-unblock-user/$userID';
+
   //================================ Profile ============================
 
   static const String getOwnProfile = '/user/get-my-profile';
