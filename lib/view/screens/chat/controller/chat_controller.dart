@@ -70,12 +70,21 @@ class ChatController extends GetxController {
 
   // ======================  Chat Section ================================.
 
+  Rx<TextEditingController> searchController = TextEditingController().obs;
+
   //====================>> Get Connection List
   RxList<ConversationModel> conversationList = <ConversationModel>[].obs;
   Rx<Status> conversationStatus = Status.loading.obs;
 
   Future<void> getAllConversation() async {
-    var response = await ApiClient.getData(ApiUrl.getConversation);
+    var response =
+        searchController.value.text.isEmpty
+            ? await ApiClient.getData(ApiUrl.getConversation)
+            : await ApiClient.getData(
+              ApiUrl.getConversationWithSearch(
+                searchTerm: searchController.value.text,
+              ),
+            );
     if (response.statusCode == 200 || response.statusCode == 201) {
       conversationList.value = List<ConversationModel>.from(
         response.body['data']['data'].map((x) => ConversationModel.fromMap(x)),
