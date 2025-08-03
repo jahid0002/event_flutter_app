@@ -28,9 +28,17 @@ class ProfileScreen extends StatelessWidget {
           case Status.loading:
             return ProfileShimmer();
           case Status.error:
-            return GeneralErrorScreen(onTap: () => controller.getOwnProfile());
+            return Center(
+              child: GeneralErrorScreen(
+                onTap: () => controller.getOwnProfile(),
+              ),
+            );
           case Status.internetError:
-            return GeneralErrorScreen(onTap: () => controller.getOwnProfile());
+            return Center(
+              child: GeneralErrorScreen(
+                onTap: () => controller.getOwnProfile(),
+              ),
+            );
           case Status.completed:
             return Column(
               children: [

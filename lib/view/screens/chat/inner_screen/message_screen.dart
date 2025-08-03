@@ -173,101 +173,110 @@ class _MessageScreenState extends State<MessageScreen> {
                 //     ),
                 //   ),
                 // ],
+                if (receiverInformation.blockByOther ?? false) ...[
+                  const CustomText(text: 'This user is blocked by you'),
+                ],
+                if (receiverInformation.blockByMe ?? false) ...[
+                  const CustomText(text: 'You are blocked by this user'),
+                ],
 
                 // SizedBox(height: 10.h),
-                Row(
-                  children: [
-                    // IconButton(
-                    //   icon: const Icon(
-                    //     Icons.attach_file,
-                    //     color: AppColors.primary,
-                    //   ),
-                    //   onPressed:
-                    //       controller.pickMultipleImages, // Updated function
-                    // ),
-                    SizedBox(width: 5),
-                    Expanded(
-                      child: CustomTextField(
-                        isDens: true,
-                        cursorColor: AppColors.black,
-                        fillColor: AppColors.fillColor,
-                        textEditingController:
-                            controller.messageController.value,
-                        hintText: 'Type a message',
-                        fieldBorderColor: Colors.grey,
-                        onChanged: (text) {
-                          // setState(() {}); // Update UI
-                        },
+                if ((receiverInformation.blockByOther ?? false) == false &&
+                    (receiverInformation.blockByMe ?? false) == false) ...[
+                  Row(
+                    children: [
+                      // IconButton(
+                      //   icon: const Icon(
+                      //     Icons.attach_file,
+                      //     color: AppColors.primary,
+                      //   ),
+                      //   onPressed:
+                      //       controller.pickMultipleImages, // Updated function
+                      // ),
+                      SizedBox(width: 5),
+                      Expanded(
+                        child: CustomTextField(
+                          isDens: true,
+                          cursorColor: AppColors.black,
+                          fillColor: AppColors.fillColor,
+                          textEditingController:
+                              controller.messageController.value,
+                          hintText: 'Type a message',
+                          fieldBorderColor: Colors.grey,
+                          onChanged: (text) {
+                            // setState(() {}); // Update UI
+                          },
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 5.w),
-                    CircleAvatar(
-                      backgroundColor: AppColors.primary,
-                      child: IconButton(
-                        icon: const Icon(Icons.send, color: Colors.white),
-                        onPressed: () {
-                          controller.sendMessage(
-                            receiverID: receiverInformation.receiverId ?? '',
-                          );
+                      SizedBox(width: 5.w),
+                      CircleAvatar(
+                        backgroundColor: AppColors.primary,
+                        child: IconButton(
+                          icon: const Icon(Icons.send, color: Colors.white),
+                          onPressed: () {
+                            controller.sendMessage(
+                              receiverID: receiverInformation.receiverId ?? '',
+                            );
 
-                          // if (controller.selectedImages.isNotEmpty ||
-                          //     controller
-                          //         .messageController
-                          //         .value
-                          //         .text
-                          //         .isNotEmpty) {
-                          //   if (controller.selectedImages.isEmpty) {
-                          //     MessageModel model = MessageModel(
-                          //       senderId: controller.userID.value,
-                          //       message:
-                          //           controller.messageController.value.text,
-                          //       messageType: 'manual',
-                          //     );
+                            // if (controller.selectedImages.isNotEmpty ||
+                            //     controller
+                            //         .messageController
+                            //         .value
+                            //         .text
+                            //         .isNotEmpty) {
+                            //   if (controller.selectedImages.isEmpty) {
+                            //     MessageModel model = MessageModel(
+                            //       senderId: controller.userID.value,
+                            //       message:
+                            //           controller.messageController.value.text,
+                            //       messageType: 'manual',
+                            //     );
 
-                          //     controller.messageList.insert(0, model);
-                          //     controller.sendMessage(
-                          //       receiverID: user.id ?? '',
-                          //       usertype: user.userType ?? '',
-                          //     );
-                          //   } else {
-                          //     List<String> imageUrls = [];
-                          //     for (
-                          //       int i = 0;
-                          //       i < controller.selectedImages.length;
-                          //       i++
-                          //     ) {
-                          //       imageUrls.add(
-                          //         controller.selectedImages[i].path,
-                          //       );
-                          //     }
+                            //     controller.messageList.insert(0, model);
+                            //     controller.sendMessage(
+                            //       receiverID: user.id ?? '',
+                            //       usertype: user.userType ?? '',
+                            //     );
+                            //   } else {
+                            //     List<String> imageUrls = [];
+                            //     for (
+                            //       int i = 0;
+                            //       i < controller.selectedImages.length;
+                            //       i++
+                            //     ) {
+                            //       imageUrls.add(
+                            //         controller.selectedImages[i].path,
+                            //       );
+                            //     }
 
-                          //     MessageModel model = MessageModel(
-                          //       senderId: controller.userID.value,
-                          //       message:
-                          //           controller.messageController.value.text,
-                          //       messageType: 'manualImage',
-                          //       mediaUrl: imageUrls,
-                          //     );
-                          //     controller.showImagesSection.value = false;
-                          //     controller.showImagesSection.refresh();
-                          //     controller.messageList.insert(0, model);
+                            //     MessageModel model = MessageModel(
+                            //       senderId: controller.userID.value,
+                            //       message:
+                            //           controller.messageController.value.text,
+                            //       messageType: 'manualImage',
+                            //       mediaUrl: imageUrls,
+                            //     );
+                            //     controller.showImagesSection.value = false;
+                            //     controller.showImagesSection.refresh();
+                            //     controller.messageList.insert(0, model);
 
-                          //     controller.messageFileSend(
-                          //       receiverID: user.id ?? '',
-                          //       usertype: user.userType ?? '',
-                          //     );
-                          //   }
+                            //     controller.messageFileSend(
+                            //       receiverID: user.id ?? '',
+                            //       usertype: user.userType ?? '',
+                            //     );
+                            //   }
 
-                          //   // setState(() {
-                          //   //   controller.selectedImages
-                          //   //       .clear(); // Clear images after sending
-                          //   // });
-                          // }
-                        },
+                            //   // setState(() {
+                            //   //   controller.selectedImages
+                            //   //       .clear(); // Clear images after sending
+                            //   // });
+                            // }
+                          },
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
                 SizedBox(height: 20.h),
               ],
             ),

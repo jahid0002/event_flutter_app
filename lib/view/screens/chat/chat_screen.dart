@@ -94,6 +94,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       children: [
                         if (controller.chatType.value == ChatType.chat) ...[
                           CustomTextField(
+                            textEditingController:
+                                controller.searchController.value,
                             isDens: true,
                             cursorColor: AppColors.black,
                             fillColor: AppColors.white,
@@ -104,6 +106,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
                               color: AppColors.gray.withOpacity(.8),
                             ),
+                            onChanged: (value) {
+                              controller.getAllConversation();
+                            },
                           ),
                           SizedBox(height: 10.h),
                           SizedBox(
@@ -128,6 +133,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                           onTap: () {
                                             final ReceiverInformation
                                             information = ReceiverInformation(
+                                              blockByMe: item.isBlockedByMe,
+                                              blockByOther: item.isBlockedMe,
                                               receiverId: item.userData?.id,
                                               receiverName: item.userData?.name,
                                               receiverImage:

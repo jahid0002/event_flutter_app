@@ -54,6 +54,8 @@ class ApiUrl {
   //============================ Chat ================================.
 
   static const String getConversation = '/conversation/get-chat-list';
+  static String getConversationWithSearch({required String searchTerm}) =>
+      '/conversation/get-chat-list?searchTerm=$searchTerm';
   static String getMessages({
     required String otherUserID,
     required String page,
