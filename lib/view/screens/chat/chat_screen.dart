@@ -133,6 +133,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                           onTap: () {
                                             final ReceiverInformation
                                             information = ReceiverInformation(
+                                              blockByMe: item.isBlockedByMe,
+                                              blockByOther: item.isBlockedMe,
                                               receiverId: item.userData?.id,
                                               receiverName: item.userData?.name,
                                               receiverImage:

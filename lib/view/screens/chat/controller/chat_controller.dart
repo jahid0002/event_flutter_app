@@ -305,11 +305,15 @@ class ReceiverInformation {
   final String? receiverName;
   final String? receiverImage;
   final String? conversationID;
+  final bool? blockByMe;
+  final bool? blockByOther;
 
   ReceiverInformation({
     this.receiverId,
     this.receiverName,
     this.receiverImage,
     this.conversationID,
+    this.blockByMe,
+    this.blockByOther,
   });
 }
