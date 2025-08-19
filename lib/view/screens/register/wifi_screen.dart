@@ -8,6 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/routes/app_routes.dart';
+import 'dart:io' show Platform;
+import 'package:app_settings/app_settings.dart';
 
 class WifiScreen extends StatelessWidget {
   const WifiScreen({super.key});
@@ -61,13 +63,38 @@ class WifiScreen extends StatelessWidget {
             Spacer(),
             CustomButton(
               onTap: () {
-                Get.toNamed(AppRoutes.calenderLoginOnboarding);
+                SettingsHelper.openWifiSettings();
+                // Get.toNamed(AppRoutes.calenderLoginOnboarding);
               },
               title: "Go to my WIFI configuration",
+            ),
+            SizedBox(height: 20.h),
+            CustomButton(
+              width: 150.w,
+              height: 44.h,
+              onTap: () {
+                Get.toNamed(AppRoutes.calenderLoginOnboarding);
+              },
+              title: "Next",
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+class SettingsHelper {
+  static void openWifiSettings() {
+    if (Platform.isAndroid) {
+      // Android → directly open WiFi settings
+      AppSettings.openAppSettingsPanel(AppSettingsPanelType.wifi); //();
+    } else if (Platform.isIOS) {
+      // iOS → can’t go to WiFi directly, open App Settings instead
+      AppSettings.openAppSettings();
+    } else {
+      // Other platforms (Web, Desktop) → do nothing or show message
+      debugPrint("WiFi settings not available on this platform");
+    }
   }
 }
