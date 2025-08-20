@@ -69,27 +69,47 @@ class _TalkToMeLoginOnboardingState extends State<TalkToMeLoginOnboarding> {
                   maxLines: 4,
                   bottom: 50,
                 ),
-                _languageTile(
-                  'English',
-                  isSelected: selectedLanguages.contains('English'),
-                ),
-                const SizedBox(height: 12),
-                _languageTile(
-                  'Spanish',
-                  isSelected: selectedLanguages.contains('Spanish'),
-                ),
-                const SizedBox(height: 12),
-                _languageTile(
-                  'German',
-                  isSelected: selectedLanguages.contains('German'),
-                ),
-                const SizedBox(height: 12),
-                _languageTile(
-                  'French',
-                  isSelected: selectedLanguages.contains('French'),
-                ),
+
+                Obx(() {
+                  return Column(
+                    children: List.generate(controller.languages.length, (
+                      index,
+                    ) {
+                      return Column(
+                        children: [
+                          _languageTile(
+                            controller.languages[index],
+                            isSelected: selectedLanguages.contains(
+                              controller.languages[index],
+                            ),
+                          ),
+                          SizedBox(height: 10.h),
+                        ],
+                      );
+                    }),
+                  );
+                }),
+                // _languageTile(
+                //   'English',
+                //   isSelected: selectedLanguages.contains('English'),
+                // ),
+                // const SizedBox(height: 12),
+                // _languageTile(
+                //   'Spanish',
+                //   isSelected: selectedLanguages.contains('Spanish'),
+                // ),
+                // const SizedBox(height: 12),
+                // _languageTile(
+                //   'German',
+                //   isSelected: selectedLanguages.contains('German'),
+                // ),
+                // const SizedBox(height: 12),
+                // _languageTile(
+                //   'French',
+                //   isSelected: selectedLanguages.contains('French'),
+                // ),
                 SizedBox(height: 20),
-                TextField(),
+                TextField(controller: controller.languageController.value),
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,7 +129,20 @@ class _TalkToMeLoginOnboardingState extends State<TalkToMeLoginOnboarding> {
                     Flexible(
                       flex: 1,
                       child: CustomButton(
-                        onTap: () {},
+                        onTap: () {
+                          if (controller
+                              .languageController
+                              .value
+                              .text
+                              .isNotEmpty) {
+                            setState(() {
+                              controller.languages.add(
+                                controller.languageController.value.text,
+                              );
+                            });
+                            controller.languageController.value.clear();
+                          }
+                        },
                         title: "add",
                         height: 30,
                         width: 60,
@@ -118,7 +151,7 @@ class _TalkToMeLoginOnboardingState extends State<TalkToMeLoginOnboarding> {
                     ),
                   ],
                 ),
-                Spacer(),
+                // Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

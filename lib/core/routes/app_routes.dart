@@ -22,7 +22,7 @@ import '../../view/screens/register/onbording_screen.dart';
 import '../../view/screens/register/phone_call_login_onboard.dart';
 import '../../view/screens/register/que_login_onboarding.dart';
 import '../../view/screens/register/signature_look_onboarding.dart';
-import '../../view/screens/register/talk_to_me_login_onboarding.dart';
+import '../../view/screens/register/langues_screen.dart';
 import '../../view/screens/register/wifi_screen.dart';
 import '../../view/screens/register/your_email_login_onboarding.dart';
 import '../../view/screens/register/your_name_login_onboarding.dart';

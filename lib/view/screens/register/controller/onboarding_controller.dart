@@ -84,6 +84,11 @@ class OnboardingController extends GetxController {
     );
   }
 
+  RxList<String> languages =
+      <String>['English', 'Spanish', 'German', 'French'].obs;
+
+  Rx<TextEditingController> languageController = TextEditingController().obs;
+
   Rx<DateTime>? leavingDate;
   Rx<TextEditingController> nameController = TextEditingController().obs;
   Rx<TextEditingController> emailController = TextEditingController().obs;
