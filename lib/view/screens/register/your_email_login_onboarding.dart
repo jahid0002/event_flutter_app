@@ -73,7 +73,9 @@ class YourEmailLoginOnboarding extends StatelessWidget {
                       return null;
                     },
                   ),
-                  Spacer(),
+
+                  //  SizedBox(height: 280.h), Spacer(),
+                  SizedBox(height: 280.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

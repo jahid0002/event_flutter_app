@@ -4,6 +4,9 @@ class AppConstants {
   static String userId = "UserId";
   static const String isRegistered = "isRegistered";
 
+  static String email = "email";
+  static String name = "name";
+
   static String onBoard = "Onboard";
 
   /// <====================== All Response Message Static==============================>

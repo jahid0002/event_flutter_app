@@ -61,6 +61,7 @@ dependencies:
   shared_preferences: ^2.5.3
   swipable_stack: ^2.0.0
   flutter_html: ^3.0.0
+  app_settings: ^6.1.1
   
   
 

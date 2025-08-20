@@ -63,6 +63,12 @@ class AuthController extends GetxController {
         debugPrint(' Photo URL: ${user.photoURL}');
         debugPrint(' Phone Number: ${user.phoneNumber}');
 
+        // registerController.emailController.value.text = user.email ?? '';
+        // registerController.nameController.value.text = user.displayName ?? '';
+
+        SharePrefsHelper.setString(AppConstants.email, user.email ?? '');
+        SharePrefsHelper.setString(AppConstants.name, user.displayName ?? '');
+
         var body = {
           "token": googleAuth.idToken,
           "provider": "google", // google | apple | facebook

@@ -137,8 +137,8 @@ class _CustomTextFieldState extends State<CustomTextFieldForAge> {
       context: context,
       builder: (context) {
         return NumberPickerCarousel(
-          initialNumber: selectedNumber ?? 18,
-          min: 0,
+          initialNumber: selectedNumber ?? 22,
+          min: 18,
           max: 150,
         );
       },
