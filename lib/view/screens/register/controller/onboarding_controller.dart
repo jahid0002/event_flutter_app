@@ -75,6 +75,15 @@ class OnboardingController extends GetxController {
     leavingDate = Rx<DateTime>(date);
   }
 
+  initField() async {
+    nameController.value.text = await SharePrefsHelper.getString(
+      AppConstants.name,
+    );
+    emailController.value.text = await SharePrefsHelper.getString(
+      AppConstants.email,
+    );
+  }
+
   Rx<DateTime>? leavingDate;
   Rx<TextEditingController> nameController = TextEditingController().obs;
   Rx<TextEditingController> emailController = TextEditingController().obs;

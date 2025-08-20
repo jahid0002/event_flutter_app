@@ -75,7 +75,8 @@ class YourNameLoginOnboarding extends StatelessWidget {
                       return null;
                     },
                   ),
-                  Spacer(),
+                  SizedBox(height: 280.h),
+                  // Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

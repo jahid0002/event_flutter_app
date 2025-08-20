@@ -3,6 +3,7 @@ import 'package:event_app/utils/app_icons/app_icons.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
+import 'package:event_app/view/screens/register/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -11,8 +12,23 @@ import '../../../core/routes/app_routes.dart';
 import 'dart:io' show Platform;
 import 'package:app_settings/app_settings.dart';
 
-class WifiScreen extends StatelessWidget {
+class WifiScreen extends StatefulWidget {
   const WifiScreen({super.key});
+
+  @override
+  State<WifiScreen> createState() => _WifiScreenState();
+}
+
+class _WifiScreenState extends State<WifiScreen> {
+  final OnboardingController controller = Get.find<OnboardingController>();
+
+  @override
+  void initState() {
+    // TO DO: implement initState
+    super.initState();
+
+    controller.initField();
+  }
 
   @override
   Widget build(BuildContext context) {
