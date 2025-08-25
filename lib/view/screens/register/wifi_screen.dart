@@ -1,14 +1,16 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_icons/app_icons.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/screens/register/controller/onboarding_controller.dart';
+import 'package:event_app/view/screens/register/controller/wifi_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../core/routes/app_routes.dart';
 import 'dart:io' show Platform;
 import 'package:app_settings/app_settings.dart';
 
@@ -21,6 +23,8 @@ class WifiScreen extends StatefulWidget {
 
 class _WifiScreenState extends State<WifiScreen> {
   final OnboardingController controller = Get.find<OnboardingController>();
+  final WifiSettingsController wifiSettingsController =
+      Get.find<WifiSettingsController>();
 
   @override
   void initState() {
@@ -78,18 +82,36 @@ class _WifiScreenState extends State<WifiScreen> {
             ),
             Spacer(),
             CustomButton(
-              onTap: () {
-                SettingsHelper.openWifiSettings();
+              onTap: () async {
+                wifiSettingsController.openWifiSettings();
+
                 // Get.toNamed(AppRoutes.calenderLoginOnboarding);
               },
               title: "Go to my WIFI configuration",
             ),
             SizedBox(height: 20.h),
             CustomButton(
+              borderWidth: 2,
+              isBorder: true,
+              fillColor: AppColors.white,
+              textColor: AppColors.primary,
               width: 150.w,
               height: 44.h,
-              onTap: () {
-                Get.toNamed(AppRoutes.calenderLoginOnboarding);
+              onTap: () async {
+                final connectivity = Connectivity();
+                var result = await connectivity.checkConnectivity();
+
+                if (result.contains(ConnectivityResult.wifi)) {
+                  // Wi-Fi is connected → navigate
+                  Get.toNamed(AppRoutes.calenderLoginOnboarding);
+                } else {
+                  // Wi-Fi not connected → show a message
+                  Get.snackbar(
+                    "No Wi-Fi",
+                    "Please connect to a Wi-Fi network first.",
+                    snackPosition: SnackPosition.BOTTOM,
+                  );
+                }
               },
               title: "Next",
             ),
