@@ -100,7 +100,7 @@ class OnboardingController extends GetxController {
   RxList<String> selectedLanguages = <String>[].obs;
   RxList<File> imageFiles = <File>[].obs;
   final Rx<File?> selectedImage = Rx<File?>(null);
-  Rx<DateTime>? selectedLustDate; // Add this line
+  // Rx<DateTime>? selectedLustDate; // Add this line
 
   RxBool userRegistered = false.obs;
 
@@ -112,26 +112,21 @@ class OnboardingController extends GetxController {
     Map<String, String> body = {
       'data': jsonEncode({
         "name": nameController.value.text,
-        "bio": "",
-        "email": emailController.value.text,
-        "phone": "",
+
         "gender": genderController.value.text,
         "age": age,
         "address": countryController.value.text,
         "interests": selectedInterests,
         "language": selectedLanguages,
-        "checkInDate": leavingDate?.value.toUtc().toIso8601String(),
-        "checkOutDate": selectedLustDate?.value.toUtc().toIso8601String(),
+
+        "checkOutDate": leavingDate?.value.toUtc().toIso8601String(),
       }),
     };
 
     var response = await ApiClient.postMultipartData(
       ApiUrl.register,
       body,
-      multipartBody: [
-        ...imageFiles.map((e) => MultipartBody('pictures', e)),
-        MultipartBody('profile_image', selectedImage.value!),
-      ],
+      multipartBody: [...imageFiles.map((e) => MultipartBody('pictures', e))],
     );
     userRegistered(false);
     if (response.statusCode == 200 || response.statusCode == 201) {
