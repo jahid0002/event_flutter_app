@@ -172,7 +172,7 @@ class _TalkToMeLoginOnboardingState extends State<TalkToMeLoginOnboarding> {
                         }
                         controller.selectedLanguages.value = selectedLanguages;
                         debugPrint(controller.selectedLanguages.toString());
-                        Get.toNamed(AppRoutes.signatureLookOnboarding);
+                        Get.toNamed(AppRoutes.showYourBestSelf);
                       },
                       child: CircleAvatar(
                         backgroundColor: AppColors.primary,

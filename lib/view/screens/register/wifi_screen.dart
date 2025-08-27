@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_type_check
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
@@ -11,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import 'dart:io' show Platform;
+import 'dart:io' show InternetAddress, Platform;
 import 'package:app_settings/app_settings.dart';
 
 class WifiScreen extends StatefulWidget {
@@ -98,20 +100,56 @@ class _WifiScreenState extends State<WifiScreen> {
               width: 150.w,
               height: 44.h,
               onTap: () async {
-                final connectivity = Connectivity();
-                var result = await connectivity.checkConnectivity();
+                // if (await isWifiConnected()) {
+                //   Get.toNamed(AppRoutes.calenderLoginOnboarding);
+                // } else {
+                //   Get.snackbar(
+                //     "No Wi-Fi",
+                //     "Please connect to a Wi-Fi network first.",
+                //     snackPosition: SnackPosition.BOTTOM,
+                //   );
+                // }
 
-                if (result.contains(ConnectivityResult.wifi)) {
-                  // Wi-Fi is connected → navigate
-                  Get.toNamed(AppRoutes.calenderLoginOnboarding);
-                } else {
-                  // Wi-Fi not connected → show a message
-                  Get.snackbar(
-                    "No Wi-Fi",
-                    "Please connect to a Wi-Fi network first.",
-                    snackPosition: SnackPosition.BOTTOM,
-                  );
-                }
+                Get.toNamed(AppRoutes.calenderLoginOnboarding);
+                // final connectivity = Connectivity();
+                // var result = await connectivity.checkConnectivity();
+
+                // if (result.contains(ConnectivityResult.wifi)) {
+                //   // Wi-Fi is connected → navigate
+                //   Get.toNamed(AppRoutes.calenderLoginOnboarding);
+                // } else {
+                //   // Wi-Fi not connected → show a message
+                //   Get.snackbar(
+                //     "No Wi-Fi",
+                //     "Please connect to a Wi-Fi network first.",
+                //     snackPosition: SnackPosition.BOTTOM,
+                //   );
+                // }
+
+                // final connectivity = Connectivity();
+                // var result = await connectivity.checkConnectivity();
+
+                // if (result is List<ConnectivityResult>) {
+                //   // Desktop/Web
+                //   if (result.contains(ConnectivityResult.wifi)) {
+                //     Get.toNamed(AppRoutes.calenderLoginOnboarding);
+                //   } else {
+                //     Get.snackbar(
+                //       "No Wi-Fi",
+                //       "Please connect to a Wi-Fi network first.",
+                //     );
+                //   }
+                // } else if (result is ConnectivityResult) {
+                //   // Mobile
+                //   if (result == ConnectivityResult.wifi) {
+                //     Get.toNamed(AppRoutes.calenderLoginOnboarding);
+                //   } else {
+                //     Get.snackbar(
+                //       "No Wi-Fi",
+                //       "Please connect to a Wi-Fi network first.",
+                //     );
+                //   }
+                // }
               },
               title: "Next",
             ),
@@ -119,6 +157,25 @@ class _WifiScreenState extends State<WifiScreen> {
         ),
       ),
     );
+  }
+
+  Future<bool> isWifiConnected() async {
+    final connectivity = Connectivity();
+    final result = await connectivity.checkConnectivity();
+
+    if (result.contains(ConnectivityResult.wifi)) {
+      try {
+        // Try a real internet lookup
+        final lookup = await InternetAddress.lookup('google.com');
+        if (lookup.isNotEmpty && lookup.first.rawAddress.isNotEmpty) {
+          return true; // Wi-Fi + Internet available
+        }
+      } catch (_) {
+        return false; // Wi-Fi but no internet
+      }
+    }
+
+    return false; // Not Wi-Fi
   }
 }
 

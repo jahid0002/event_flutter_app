@@ -94,7 +94,7 @@ class YourNameLoginOnboarding extends StatelessWidget {
                             debugPrint(
                               controller.leavingDate?.value.toString(),
                             );
-                            Get.toNamed(AppRoutes.yourEmailLoginOnboarding);
+                            Get.toNamed(AppRoutes.ageLoginOnboarding);
                           }
                         },
                         child: CircleAvatar(
