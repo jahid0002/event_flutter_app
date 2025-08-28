@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_type_check
 
+//import 'dart:nativewrappers/_internal/vm/lib/ffi_native_type_patch.dart';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
@@ -85,7 +87,27 @@ class _WifiScreenState extends State<WifiScreen> {
             Spacer(),
             CustomButton(
               onTap: () async {
-                wifiSettingsController.openWifiSettings();
+                //  wifiSettingsController.openWifiSettings();
+
+                SettingsHelper.openWifiSettings(
+                  onSettingsPanelClosed: () async {
+                    if (await isWifiConnected()) {
+                      debugPrint(
+                        "+=++++++++++============== >> Wifi connected",
+                      );
+                    } else {
+                      Get.showSnackbar(
+                        const GetSnackBar(
+                          message: "Wifi not connected",
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
+                      debugPrint(
+                        "+=++++++++++============== >> Wifi not connected",
+                      );
+                    }
+                  },
+                );
 
                 // Get.toNamed(AppRoutes.calenderLoginOnboarding);
               },
@@ -110,7 +132,21 @@ class _WifiScreenState extends State<WifiScreen> {
                 //   );
                 // }
 
-                Get.toNamed(AppRoutes.calenderLoginOnboarding);
+                //  Get.toNamed(AppRoutes.calenderLoginOnboarding);
+
+                // SettingsHelper.openWifiSettings(
+                //   onSettingsPanelClosed: () async {
+                //     if (await isWifiConnected()) {
+                //       debugPrint(
+                //         "+=++++++++++============== >> Wifi connected",
+                //       );
+                //     } else {
+                //       debugPrint(
+                //         "+=++++++++++============== >> Wifi not connected",
+                //       );
+                //     }
+                //   },
+                // );
                 // final connectivity = Connectivity();
                 // var result = await connectivity.checkConnectivity();
 
@@ -179,17 +215,54 @@ class _WifiScreenState extends State<WifiScreen> {
   }
 }
 
-class SettingsHelper {
-  static void openWifiSettings() {
+// Make sure you have the app_settings package installed
+
+// Make sure to import this package
+
+class SettingsHelper with WidgetsBindingObserver {
+  static void openWifiSettings({VoidCallback? onSettingsPanelClosed}) {
     if (Platform.isAndroid) {
-      // Android → directly open WiFi settings
-      AppSettings.openAppSettingsPanel(AppSettingsPanelType.wifi); //();
+      // Android → open WiFi settings
+      AppSettings.openAppSettingsPanel(AppSettingsPanelType.wifi).then((_) {
+        // Monitor app lifecycle to detect when it comes back to the foreground
+        _startAppLifecycleListener(onSettingsPanelClosed);
+      });
     } else if (Platform.isIOS) {
-      // iOS → can’t go to WiFi directly, open App Settings instead
-      AppSettings.openAppSettings();
+      // iOS → can't go directly to WiFi, so open App Settings
+      AppSettings.openAppSettings().then((_) {
+        // Monitor app lifecycle to detect when it comes back to the foreground
+        _startAppLifecycleListener(onSettingsPanelClosed);
+      });
     } else {
-      // Other platforms (Web, Desktop) → do nothing or show message
+      // Other platforms
       debugPrint("WiFi settings not available on this platform");
+      if (onSettingsPanelClosed != null) {
+        onSettingsPanelClosed();
+      }
+    }
+  }
+
+  static void _startAppLifecycleListener(VoidCallback? onSettingsPanelClosed) {
+    // Register as observer to listen for app lifecycle changes
+    WidgetsBinding.instance.addObserver(SettingsHelper());
+    // Save the callback to be triggered when app comes back to foreground
+    if (onSettingsPanelClosed != null) {
+      _onSettingsPanelClosed = onSettingsPanelClosed;
+    }
+  }
+
+  static VoidCallback? _onSettingsPanelClosed;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Trigger callback when app comes back to the foreground
+    if (state == AppLifecycleState.resumed) {
+      // If the settings panel was opened and the app is resumed, call the callback
+      if (_onSettingsPanelClosed != null) {
+        _onSettingsPanelClosed!();
+        // Unregister from the lifecycle observer once done
+        WidgetsBinding.instance.removeObserver(this);
+      }
     }
   }
 }

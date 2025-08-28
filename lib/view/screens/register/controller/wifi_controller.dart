@@ -54,6 +54,8 @@ class WifiSettingsController extends GetxController
     WidgetsBinding.instance.removeObserver(this);
     super.onClose();
   }
+
+  checkOurWifi() async {}
 }
 
 // import 'package:event_app/view/screens/register/wifi_screen.dart';
