@@ -60,4 +60,8 @@ class ApiUrl {
     required String otherUserID,
     required String page,
   }) => '/message/get-messages/$otherUserID?page=$page&limit=15';
+
+  //================================= Check WiFi ===============================
+
+  static const String checkWifi = '/auth/check-wifi-ip-range';
 }

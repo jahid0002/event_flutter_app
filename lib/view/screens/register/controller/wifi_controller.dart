@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:event_app/core/routes/app_routes.dart';
+import 'package:event_app/service/api_check.dart';
+import 'package:event_app/service/api_client.dart';
+import 'package:event_app/service/api_url.dart';
 import 'package:event_app/view/screens/register/wifi_screen.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -55,7 +60,22 @@ class WifiSettingsController extends GetxController
     super.onClose();
   }
 
-  checkOurWifi() async {}
+  checkOurWifi({required VoidCallback onSuccess}) async {
+    var body = {};
+
+    var response = await ApiClient.postData(ApiUrl.checkWifi, jsonEncode(body));
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.body['data']['isWifiRangeMatched'] == true) {
+        Get.snackbar("Success", 'your are connecting to our wifi');
+        onSuccess();
+      } else {
+        Get.snackbar("Error", 'your are not connecting to our wifi');
+      }
+    } else {
+      ApiChecker.checkApi(response);
+    }
+  }
 }
 
 // import 'package:event_app/view/screens/register/wifi_screen.dart';

@@ -92,6 +92,11 @@ class _WifiScreenState extends State<WifiScreen> {
                 SettingsHelper.openWifiSettings(
                   onSettingsPanelClosed: () async {
                     if (await isWifiConnected()) {
+                      wifiSettingsController.checkOurWifi(
+                        onSuccess: () {
+                          Get.toNamed(AppRoutes.calenderLoginOnboarding);
+                        },
+                      );
                       debugPrint(
                         "+=++++++++++============== >> Wifi connected",
                       );
