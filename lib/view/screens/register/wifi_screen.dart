@@ -118,82 +118,82 @@ class _WifiScreenState extends State<WifiScreen> {
               },
               title: "Go to my WIFI configuration",
             ),
-            SizedBox(height: 20.h),
-            CustomButton(
-              borderWidth: 2,
-              isBorder: true,
-              fillColor: AppColors.white,
-              textColor: AppColors.primary,
-              width: 150.w,
-              height: 44.h,
-              onTap: () async {
-                // if (await isWifiConnected()) {
-                //   Get.toNamed(AppRoutes.calenderLoginOnboarding);
-                // } else {
-                //   Get.snackbar(
-                //     "No Wi-Fi",
-                //     "Please connect to a Wi-Fi network first.",
-                //     snackPosition: SnackPosition.BOTTOM,
-                //   );
-                // }
+            // SizedBox(height: 20.h),
+            // CustomButton(
+            //   borderWidth: 2,
+            //   isBorder: true,
+            //   fillColor: AppColors.white,
+            //   textColor: AppColors.primary,
+            //   width: 150.w,
+            //   height: 44.h,
+            //   onTap: () async {
+            // if (await isWifiConnected()) {
+            //   Get.toNamed(AppRoutes.calenderLoginOnboarding);
+            // } else {
+            //   Get.snackbar(
+            //     "No Wi-Fi",
+            //     "Please connect to a Wi-Fi network first.",
+            //     snackPosition: SnackPosition.BOTTOM,
+            //   );
+            // }
 
-                //  Get.toNamed(AppRoutes.calenderLoginOnboarding);
+            //  Get.toNamed(AppRoutes.calenderLoginOnboarding);
 
-                // SettingsHelper.openWifiSettings(
-                //   onSettingsPanelClosed: () async {
-                //     if (await isWifiConnected()) {
-                //       debugPrint(
-                //         "+=++++++++++============== >> Wifi connected",
-                //       );
-                //     } else {
-                //       debugPrint(
-                //         "+=++++++++++============== >> Wifi not connected",
-                //       );
-                //     }
-                //   },
-                // );
-                // final connectivity = Connectivity();
-                // var result = await connectivity.checkConnectivity();
+            // SettingsHelper.openWifiSettings(
+            //   onSettingsPanelClosed: () async {
+            //     if (await isWifiConnected()) {
+            //       debugPrint(
+            //         "+=++++++++++============== >> Wifi connected",
+            //       );
+            //     } else {
+            //       debugPrint(
+            //         "+=++++++++++============== >> Wifi not connected",
+            //       );
+            //     }
+            //   },
+            // );
+            // final connectivity = Connectivity();
+            // var result = await connectivity.checkConnectivity();
 
-                // if (result.contains(ConnectivityResult.wifi)) {
-                //   // Wi-Fi is connected → navigate
-                //   Get.toNamed(AppRoutes.calenderLoginOnboarding);
-                // } else {
-                //   // Wi-Fi not connected → show a message
-                //   Get.snackbar(
-                //     "No Wi-Fi",
-                //     "Please connect to a Wi-Fi network first.",
-                //     snackPosition: SnackPosition.BOTTOM,
-                //   );
-                // }
+            // if (result.contains(ConnectivityResult.wifi)) {
+            //   // Wi-Fi is connected → navigate
+            //   Get.toNamed(AppRoutes.calenderLoginOnboarding);
+            // } else {
+            //   // Wi-Fi not connected → show a message
+            //   Get.snackbar(
+            //     "No Wi-Fi",
+            //     "Please connect to a Wi-Fi network first.",
+            //     snackPosition: SnackPosition.BOTTOM,
+            //   );
+            // }
 
-                // final connectivity = Connectivity();
-                // var result = await connectivity.checkConnectivity();
+            // final connectivity = Connectivity();
+            // var result = await connectivity.checkConnectivity();
 
-                // if (result is List<ConnectivityResult>) {
-                //   // Desktop/Web
-                //   if (result.contains(ConnectivityResult.wifi)) {
-                //     Get.toNamed(AppRoutes.calenderLoginOnboarding);
-                //   } else {
-                //     Get.snackbar(
-                //       "No Wi-Fi",
-                //       "Please connect to a Wi-Fi network first.",
-                //     );
-                //   }
-                // } else if (result is ConnectivityResult) {
-                //   // Mobile
-                //   if (result == ConnectivityResult.wifi) {
-                //     Get.toNamed(AppRoutes.calenderLoginOnboarding);
-                //   } else {
-                //     Get.snackbar(
-                //       "No Wi-Fi",
-                //       "Please connect to a Wi-Fi network first.",
-                //     );
-                //   }
-                // }
-              },
-              title: "Next",
-            ),
+            // if (result is List<ConnectivityResult>) {
+            //   // Desktop/Web
+            //   if (result.contains(ConnectivityResult.wifi)) {
+            //     Get.toNamed(AppRoutes.calenderLoginOnboarding);
+            //   } else {
+            //     Get.snackbar(
+            //       "No Wi-Fi",
+            //       "Please connect to a Wi-Fi network first.",
+            //     );
+            //   }
+            // } else if (result is ConnectivityResult) {
+            //   // Mobile
+            //   if (result == ConnectivityResult.wifi) {
+            //     Get.toNamed(AppRoutes.calenderLoginOnboarding);
+            //   } else {
+            //     Get.snackbar(
+            //       "No Wi-Fi",
+            //       "Please connect to a Wi-Fi network first.",
+            //     );
+            //   }
+            // }
+            //   },
+            //   title: "Next",
+            // ),
           ],
         ),
       ),
