@@ -74,7 +74,7 @@ class _AgeLoginOnboardingState extends State<AgeLoginOnboarding> {
                 "Your age will be public",
                 style: TextStyle(color: Colors.grey, fontSize: 13),
               ),
-              Spacer(),
+              //Spacer(),
             ],
           ),
         ),
