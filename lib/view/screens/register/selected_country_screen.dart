@@ -70,38 +70,41 @@ class PhoneCallLoginOnboard extends StatelessWidget {
               //   fillColor: Color(0xffF9FAFB),
               //   hintText: "Where are your from?",
               // ),
-              Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CustomText(
-                    text: "Next",
-                    fontSize: 16.w,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
-                    right: 8,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      if (controller.countryController.value.text.isEmpty) {
-                        showCustomSnackBar("Please select your country");
-                        return;
-                      }
-                      debugPrint(
-                        "Country: ${controller.countryController.value.text}",
-                      );
-                      Get.toNamed(AppRoutes.talkToMeLoginOnboarding);
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.primary,
-                      maxRadius: 20,
-                      child: Icon(Icons.arrow_forward, color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
+              //   Spacer(),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CustomText(
+              text: "Next",
+              fontSize: 16.w,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primary,
+              right: 8,
+            ),
+            GestureDetector(
+              onTap: () {
+                if (controller.countryController.value.text.isEmpty) {
+                  showCustomSnackBar("Please select your country");
+                  return;
+                }
+                debugPrint(
+                  "Country: ${controller.countryController.value.text}",
+                );
+                Get.toNamed(AppRoutes.talkToMeLoginOnboarding);
+              },
+              child: CircleAvatar(
+                backgroundColor: AppColors.primary,
+                maxRadius: 20,
+                child: Icon(Icons.arrow_forward, color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
     );
