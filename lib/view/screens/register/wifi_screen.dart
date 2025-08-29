@@ -17,6 +17,7 @@ import 'package:get/get.dart';
 
 import 'dart:io' show InternetAddress, Platform;
 import 'package:app_settings/app_settings.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 
 class WifiScreen extends StatefulWidget {
   const WifiScreen({super.key});
@@ -200,23 +201,67 @@ class _WifiScreenState extends State<WifiScreen> {
     );
   }
 
+  // Future<bool> isWifiConnected() async {
+  //   final connectivity = Connectivity();
+  //   final result = await connectivity.checkConnectivity();
+
+  //   if (result.contains(ConnectivityResult.wifi)) {
+  //     try {
+  //       // Try a real internet lookup
+  //       final lookup = await InternetAddress.lookup('google.com');
+  //       if (lookup.isNotEmpty && lookup.first.rawAddress.isNotEmpty) {
+  //         return true; // Wi-Fi + Internet available
+  //       }
+  //     } catch (_) {
+  //       return false; // Wi-Fi but no internet
+  //     }
+  //   }
+
+  //   return false; // Not Wi-Fi
+  // }.
+
   Future<bool> isWifiConnected() async {
+    if (Platform.isAndroid) {
+      return await _isWifiConnectedAndroid();
+    } else if (Platform.isIOS) {
+      return await _isWifiConnectedIOS();
+    }
+    return false; // অন্য প্ল্যাটফর্মের জন্য (Web, Windows, etc.)
+  }
+
+  ///  Android WiFi + Internet Check
+  Future<bool> _isWifiConnectedAndroid() async {
     final connectivity = Connectivity();
     final result = await connectivity.checkConnectivity();
 
     if (result.contains(ConnectivityResult.wifi)) {
-      try {
-        // Try a real internet lookup
-        final lookup = await InternetAddress.lookup('google.com');
-        if (lookup.isNotEmpty && lookup.first.rawAddress.isNotEmpty) {
-          return true; // Wi-Fi + Internet available
-        }
-      } catch (_) {
-        return false; // Wi-Fi but no internet
-      }
+      return await _hasInternet();
+    }
+    return false;
+  }
+
+  ///  iOS WiFi (SSID) + Internet Check
+  Future<bool> _isWifiConnectedIOS() async {
+    final info = NetworkInfo();
+
+    // WiFi SSID চেক
+    final wifiName = await info.getWifiName();
+    if (wifiName == null) {
+      return false; // WiFi-তে যুক্ত নেই
     }
 
-    return false; // Not Wi-Fi
+    // Internet Reachability চেক
+    return await _hasInternet();
+  }
+
+  ///  Common Internet Test
+  Future<bool> _hasInternet() async {
+    try {
+      final lookup = await InternetAddress.lookup('google.com');
+      return lookup.isNotEmpty && lookup.first.rawAddress.isNotEmpty;
+    } catch (_) {
+      return false;
+    }
   }
 }
 
