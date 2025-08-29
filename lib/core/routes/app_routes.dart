@@ -20,7 +20,7 @@ import '../../view/screens/register/gender_login_onboarding.dart';
 import '../../view/screens/register/confirm_check_out_screen.dart';
 import '../../view/screens/register/onbording_screen.dart';
 import '../../view/screens/register/selected_country_screen.dart';
-import '../../view/screens/register/que_login_onboarding.dart';
+import '../../view/screens/register/selected_intesrest_screen.dart';
 import '../../view/screens/register/select_profile_image.dart';
 import '../../view/screens/register/langues_screen.dart';
 import '../../view/screens/register/wifi_screen.dart';
