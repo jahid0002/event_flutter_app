@@ -112,7 +112,7 @@ class OnboardingController extends GetxController {
     Map<String, String> body = {
       'data': jsonEncode({
         "name": nameController.value.text,
-
+        "bio": "",
         "gender": genderController.value.text,
         "age": age,
         "address": countryController.value.text,
