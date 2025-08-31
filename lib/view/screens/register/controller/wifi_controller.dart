@@ -75,10 +75,15 @@ class WifiSettingsController extends GetxController
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       if (response.body['data']['isWifiRangeMatched'] == true) {
-        Get.snackbar("Success", 'your are connecting to our wifi');
+        Get.snackbar("Success", 'You are sucssfully connected to our wifi');
         onSuccess();
       } else {
-        Get.snackbar("Error", 'your are not connecting to our wifi');
+        Get.snackbar(
+          "Error",
+          'You are connected to wrong wifi network',
+          borderColor: AppColors.red,
+          colorText: AppColors.red,
+        );
       }
     } else {
       ApiChecker.checkApi(response);
