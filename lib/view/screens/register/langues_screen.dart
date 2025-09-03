@@ -151,40 +151,42 @@ class _TalkToMeLoginOnboardingState extends State<TalkToMeLoginOnboarding> {
                     ),
                   ],
                 ),
+
                 // Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    CustomText(
-                      text: "Next",
-                      fontSize: 16.w,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
-                      right: 8,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        if (selectedLanguages.isEmpty) {
-                          showCustomSnackBar(
-                            "Please select at least one language",
-                          );
-                          return;
-                        }
-                        controller.selectedLanguages.value = selectedLanguages;
-                        debugPrint(controller.selectedLanguages.toString());
-                        Get.toNamed(AppRoutes.signatureLookOnboarding);
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: AppColors.primary,
-                        maxRadius: 20,
-                        child: Icon(Icons.arrow_forward, color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CustomText(
+              text: "Next",
+              fontSize: 16.w,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primary,
+              right: 8,
+            ),
+            GestureDetector(
+              onTap: () {
+                if (selectedLanguages.isEmpty) {
+                  showCustomSnackBar("Please select at least one language");
+                  return;
+                }
+                controller.selectedLanguages.value = selectedLanguages;
+                debugPrint(controller.selectedLanguages.toString());
+                Get.toNamed(AppRoutes.showYourBestSelf);
+              },
+              child: CircleAvatar(
+                backgroundColor: AppColors.primary,
+                maxRadius: 20,
+                child: Icon(Icons.arrow_forward, color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
     );

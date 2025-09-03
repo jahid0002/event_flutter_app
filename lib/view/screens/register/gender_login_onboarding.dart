@@ -67,33 +67,37 @@ class _GenderLoginOnboardingState extends State<GenderLoginOnboarding> {
               const SizedBox(height: 12),
               _languageTile('FEMALE'),
               const SizedBox(height: 12),
+
               //  _languageTile('Other'),
-              Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CustomText(
-                    text: "Next",
-                    fontSize: 16.w,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
-                    right: 8,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      debugPrint(controller.genderController.value.text);
-                      Get.toNamed(AppRoutes.queLoginOnboarding);
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.primary,
-                      maxRadius: 20,
-                      child: Icon(Icons.arrow_forward, color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
+              // Spacer(),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CustomText(
+              text: "Next",
+              fontSize: 16.w,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primary,
+              right: 8,
+            ),
+            GestureDetector(
+              onTap: () {
+                debugPrint(controller.genderController.value.text);
+                Get.toNamed(AppRoutes.queLoginOnboarding);
+              },
+              child: CircleAvatar(
+                backgroundColor: AppColors.primary,
+                maxRadius: 20,
+                child: Icon(Icons.arrow_forward, color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
     );

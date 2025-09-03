@@ -198,47 +198,45 @@ class _QueLoginOnboardingState extends State<QueLoginOnboarding> {
               ),
 
               // Next Button
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CustomText(
-                    text: "Next",
-                    fontSize: 16.w,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
-                    right: 8,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      if (selectedIndices.isNotEmpty) {
-                        controller.selectedInterests.value =
-                            selectedIndices
-                                .map(
-                                  (index) =>
-                                      purposes[index]['title'].toString(),
-                                )
-                                .toList();
-
-                        debugPrint(controller.selectedInterests.toString());
-
-                        Get.toNamed(AppRoutes.phoneCallLoginOnboard);
-                      } else {
-                        showCustomSnackBar(
-                          'Please select at least one interest.',
-                        );
-                      }
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.primary,
-                      maxRadius: 20,
-                      child: Icon(Icons.arrow_forward, color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
               SizedBox(height: 16),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CustomText(
+              text: "Next",
+              fontSize: 16.w,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primary,
+              right: 8,
+            ),
+            GestureDetector(
+              onTap: () {
+                if (selectedIndices.isNotEmpty) {
+                  controller.selectedInterests.value =
+                      selectedIndices
+                          .map((index) => purposes[index]['title'].toString())
+                          .toList();
+
+                  debugPrint(controller.selectedInterests.toString());
+
+                  Get.toNamed(AppRoutes.phoneCallLoginOnboard);
+                } else {
+                  showCustomSnackBar('Please select at least one interest.');
+                }
+              },
+              child: CircleAvatar(
+                backgroundColor: AppColors.primary,
+                maxRadius: 20,
+                child: Icon(Icons.arrow_forward, color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
     );

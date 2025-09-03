@@ -28,6 +28,14 @@ class _JustOneThingLoginOnboardingState
   DateTime? _selectedDay;
 
   @override
+  void initState() {
+    // TO DO: implement initState
+
+    _selectedDay = controller.leavingDate?.value;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -104,7 +112,7 @@ class _JustOneThingLoginOnboardingState
                     setState(() {
                       _selectedDay = selectedDay;
                       _focusedDay = focusedDay;
-                      controller.selectedLustDate = selectedDay.obs;
+                      controller.leavingDate = selectedDay.obs;
                     });
                   },
                   calendarStyle: CalendarStyle(
@@ -135,15 +143,15 @@ class _JustOneThingLoginOnboardingState
                       ? CustomLoader()
                       : CustomButton(
                         onTap: () {
-                          controller.selectedLustDate?.value =
+                          controller.leavingDate?.value =
                               _selectedDay ?? DateTime.now();
 
-                          if (controller.selectedLustDate?.value == null) {
+                          if (controller.leavingDate?.value == null) {
                             showCustomSnackBar('Please select a date');
                             return;
                           }
 
-                          debugPrint(controller.selectedLustDate.toString());
+                          debugPrint(controller.leavingDate.toString());
                           // Get.toNamed(AppRoutes.homeScreen);
                           controller.userRegistration();
                         },

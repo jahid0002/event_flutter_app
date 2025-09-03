@@ -74,39 +74,40 @@ class _AgeLoginOnboardingState extends State<AgeLoginOnboarding> {
                 "Your age will be public",
                 style: TextStyle(color: Colors.grey, fontSize: 13),
               ),
-              Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CustomText(
-                    text: "Next",
-                    fontSize: 16.w,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
-                    right: 8,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      if (controller.ageController.value.text.isNotEmpty) {
-                        debugPrint(
-                          "age ${controller.ageController.value.text}",
-                        );
-
-                        Get.toNamed(AppRoutes.genderLoginOnboarding);
-                      } else {
-                        showCustomSnackBar("Please enter your age");
-                      }
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.primary,
-                      maxRadius: 20,
-                      child: Icon(Icons.arrow_forward, color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
+              //Spacer(),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CustomText(
+              text: "Next",
+              fontSize: 16.w,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primary,
+              right: 8,
+            ),
+            GestureDetector(
+              onTap: () {
+                if (controller.ageController.value.text.isNotEmpty) {
+                  debugPrint("age ${controller.ageController.value.text}");
+
+                  Get.toNamed(AppRoutes.genderLoginOnboarding);
+                } else {
+                  showCustomSnackBar("Please enter your age");
+                }
+              },
+              child: CircleAvatar(
+                backgroundColor: AppColors.primary,
+                maxRadius: 20,
+                child: Icon(Icons.arrow_forward, color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
     );

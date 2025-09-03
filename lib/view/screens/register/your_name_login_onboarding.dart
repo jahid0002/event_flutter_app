@@ -76,39 +76,41 @@ class YourNameLoginOnboarding extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 280.h),
+
                   // Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CustomText(
-                        text: "Next",
-                        fontSize: 16.w,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.primary,
-                        right: 8,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            debugPrint(controller.nameController.value.text);
-                            debugPrint(
-                              controller.leavingDate?.value.toString(),
-                            );
-                            Get.toNamed(AppRoutes.yourEmailLoginOnboarding);
-                          }
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: AppColors.primary,
-                          maxRadius: 20,
-                          child: Icon(Icons.arrow_forward, color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CustomText(
+              text: "Next",
+              fontSize: 16.w,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primary,
+              right: 8,
+            ),
+            GestureDetector(
+              onTap: () {
+                if (_formKey.currentState!.validate()) {
+                  debugPrint(controller.nameController.value.text);
+                  debugPrint(controller.leavingDate?.value.toString());
+                  Get.toNamed(AppRoutes.ageLoginOnboarding);
+                }
+              },
+              child: CircleAvatar(
+                backgroundColor: AppColors.primary,
+                maxRadius: 20,
+                child: Icon(Icons.arrow_forward, color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
     );

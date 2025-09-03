@@ -122,36 +122,39 @@ class ShowYourBestSelf extends StatelessWidget {
               // ),
               //========= Font-end Design Flutter Image Picker Code ===========//
               //  Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CustomText(
-                    text: "Next",
-                    fontSize: 16.w,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
-                    right: 8,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      // Get.toNamed(AppRoutes.showYourBestSelf);
-
-                      if (controller.imageFiles.isEmpty) {
-                        showCustomSnackBar("Please select at least one image");
-                        return;
-                      }
-                      Get.toNamed(AppRoutes.justOneThingLoginOnboarding);
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.primary,
-                      maxRadius: 20,
-                      child: Icon(Icons.arrow_forward, color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CustomText(
+              text: "Next",
+              fontSize: 16.w,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primary,
+              right: 8,
+            ),
+            GestureDetector(
+              onTap: () {
+                // Get.toNamed(AppRoutes.showYourBestSelf);
+
+                if (controller.imageFiles.isEmpty) {
+                  showCustomSnackBar("Please select at least one image");
+                  return;
+                }
+                Get.toNamed(AppRoutes.justOneThingLoginOnboarding);
+              },
+              child: CircleAvatar(
+                backgroundColor: AppColors.primary,
+                maxRadius: 20,
+                child: Icon(Icons.arrow_forward, color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
     );

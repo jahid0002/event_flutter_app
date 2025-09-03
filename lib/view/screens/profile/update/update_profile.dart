@@ -13,7 +13,7 @@ import 'package:event_app/view/components/custom_popupmenu_button/custom_popupme
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/screens/register/age_login_onboarding.dart';
 import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
-import 'package:event_app/view/screens/register/phone_call_login_onboard.dart';
+import 'package:event_app/view/screens/register/selected_country_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

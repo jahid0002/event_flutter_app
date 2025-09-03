@@ -1,6 +1,16 @@
+import 'dart:convert';
+
 import 'package:event_app/core/routes/app_routes.dart';
+import 'package:event_app/service/api_check.dart';
+import 'package:event_app/service/api_client.dart';
+import 'package:event_app/service/api_url.dart';
+import 'package:event_app/utils/app_colors/app_colors.dart';
+import 'package:event_app/view/components/custom_loader/custom_loader.dart';
+import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/screens/register/wifi_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -54,6 +64,31 @@ class WifiSettingsController extends GetxController
     WidgetsBinding.instance.removeObserver(this);
     super.onClose();
   }
+
+  checkOurWifi({required VoidCallback onSuccess}) async {
+    await PopupLoader.showLoading(Get.context!);
+    var body = {};
+
+    var response = await ApiClient.postData(ApiUrl.checkWifi, jsonEncode(body));
+
+    PopupLoader.hideLoading();
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.body['data']['isWifiRangeMatched'] == true) {
+        Get.snackbar("Success", 'You are sucssfully connected to our wifi');
+        onSuccess();
+      } else {
+        Get.snackbar(
+          "Error",
+          'You are connected to wrong wifi network',
+          borderColor: AppColors.red,
+          colorText: AppColors.red,
+        );
+      }
+    } else {
+      ApiChecker.checkApi(response);
+    }
+  }
 }
 
 // import 'package:event_app/view/screens/register/wifi_screen.dart';
@@ -96,3 +131,61 @@ class WifiSettingsController extends GetxController
 //     super.onClose();
 //   }
 // }
+
+class PopupLoader {
+  // ignore: library_private_types_in_public_api
+  static GlobalKey<_PopupLoaderState> loaderKey =
+      GlobalKey<_PopupLoaderState>();
+
+  // Function to show the loader
+  static Future<void> showLoading(BuildContext context) async {
+    // Show the loader dialog
+    showDialog(
+      context: context,
+      barrierDismissible:
+          false, // Prevent dismissing the dialog by tapping outside
+      builder: (context) {
+        return PopupLoaderWidget(key: loaderKey);
+      },
+    );
+  }
+
+  // Function to hide the loader (can be called from outside)
+  static void hideLoading() {
+    loaderKey.currentState?.close();
+  }
+}
+
+class PopupLoaderWidget extends StatefulWidget {
+  const PopupLoaderWidget({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _PopupLoaderState createState() => _PopupLoaderState();
+}
+
+class _PopupLoaderState extends State<PopupLoaderWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const CustomLoader(),
+          CustomText(
+            text: "Wi-Fi Checking...",
+            fontSize: 16.w,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primary,
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Close the popup loader
+  void close() {
+    Navigator.of(context).pop();
+  }
+}

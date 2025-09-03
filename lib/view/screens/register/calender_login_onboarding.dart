@@ -153,43 +153,41 @@ class _LeavingDateScreenState extends State<CalenderLoginOnboarding> {
               color: AppColors.softWhite,
             ),
 
-            const Spacer(),
+            //const Spacer(),
 
             // Next button
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CustomText(
-                    text: "Next",
-                    fontSize: 16.w,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
-                    right: 8,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      if (_selectedDay.isAfter(DateTime.now())) {
-                        controller.leavingDate = Rx<DateTime>(_selectedDay);
-                        Get.toNamed(AppRoutes.yourNameLoginOnboarding);
-                      } else {
-                        showCustomSnackBar(
-                          "Please select a valid leaving date",
-                          isError: true,
-                        );
-                      }
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.primary,
-                      maxRadius: 20,
-                      child: const Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
+          ],
+        ),
+      ),
+
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 16.0, right: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CustomText(
+              text: "Next",
+              fontSize: 16.w,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primary,
+              right: 8,
+            ),
+            GestureDetector(
+              onTap: () {
+                if (_selectedDay.isAfter(DateTime.now())) {
+                  controller.leavingDate = Rx<DateTime>(_selectedDay);
+                  Get.toNamed(AppRoutes.yourNameLoginOnboarding);
+                } else {
+                  showCustomSnackBar(
+                    "Please select a valid leaving date",
+                    isError: true,
+                  );
+                }
+              },
+              child: CircleAvatar(
+                backgroundColor: AppColors.primary,
+                maxRadius: 20,
+                child: const Icon(Icons.arrow_forward, color: Colors.white),
               ),
             ),
           ],
