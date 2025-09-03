@@ -9,7 +9,6 @@ import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/screens/register/wifi_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
