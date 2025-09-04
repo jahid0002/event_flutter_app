@@ -1,6 +1,7 @@
 import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_icons/app_icons.dart';
+import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +76,23 @@ class OnbordingScreen extends StatelessWidget {
 
             Spacer(),
 
+            CustomText(
+              text: 'Already have an account?',
+              bottom: 10.h,
+              fontSize: 14.w,
+              fontWeight: FontWeight.w400,
+              color: AppColors.softGray,
+            ),
+
+            CustomButton(
+              onTap: () {
+                Get.toNamed(AppRoutes.wifiScreen);
+              },
+              width: 280.w,
+              title: 'Sign In',
+            ),
+
+            SizedBox(height: 20),
             // Sign In Button
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
