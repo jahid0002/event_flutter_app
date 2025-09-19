@@ -5,6 +5,7 @@ import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/firebase_options.dart';
 import 'package:event_app/service/socket_service.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +23,8 @@ void main() async {
   // ...
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  requestIOSPermissions();
 
   runApp(const MyApp());
 }
@@ -78,4 +81,11 @@ class CustomTheme {
       // Customize your dark theme here
     );
   }
+}
+
+Future<void> requestIOSPermissions() async {
+  NotificationSettings settings = await FirebaseMessaging.instance
+      .requestPermission(alert: true, badge: true, sound: true);
+
+  debugPrint("Permission status: ${settings.authorizationStatus}");
 }
