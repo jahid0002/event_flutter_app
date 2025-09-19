@@ -174,10 +174,10 @@ class _MessageScreenState extends State<MessageScreen> {
                 //   ),
                 // ],
                 if (receiverInformation.blockByOther ?? false) ...[
-                  const CustomText(text: 'This user is blocked by you'),
+                  const CustomText(text: 'You are blocked by this user'),
                 ],
                 if (receiverInformation.blockByMe ?? false) ...[
-                  const CustomText(text: 'You are blocked by this user'),
+                  const CustomText(text: 'You have blocked this user'),
                 ],
 
                 // SizedBox(height: 10.h),
