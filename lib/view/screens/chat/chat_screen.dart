@@ -76,7 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
             }),
 
             SizedBox(height: 10.h),
-
+            //======================================= >> Chat Section ===============================>>
             Obx(() {
               switch (controller.conversationStatus.value) {
                 case Status.loading:
@@ -171,6 +171,7 @@ class _ChatScreenState extends State<ChatScreen> {
               }
             }),
 
+            /// ======================================= Notification Section =================================
             Obx(() {
               return CustomRefreshIndicator(
                 onRefresh: () {
