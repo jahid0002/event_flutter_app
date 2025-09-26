@@ -68,4 +68,18 @@ class AppStrings {
   static const myInterests = 'My intereses';
   static const languages = 'Languages';
   static const defaultGender = 'Woman';
+
+  // ================= Report Screen =================
+  static const String report = "Report";
+  static const String incidentType = "Incident Type";
+  static const String selectIncidentType = "Select Incident Type";
+  static const String additionalNote = "Additional Note";
+  static const String enterAdditionalNote = "Enter Additional Note";
+  static const String pleaseSelectIncidentType = "Please select incident type";
+  static const String submit = "Submit";
+
+  static const String unprofessionalBehavior = "Unprofessional Behavior";
+  static const String failureToCollaborate = "Failure to collaborate";
+  static const String spam = "Spam";
+  static const String other = "Other";
 }

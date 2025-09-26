@@ -1,6 +1,7 @@
 import 'package:event_app/utils/ToastMsg/toast_message.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_icons/app_icons.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_from_card/custom_from_card.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
@@ -44,7 +45,7 @@ class _ReportScreenState extends State<ReportScreen> {
             ),
             const SizedBox(width: 6),
             CustomText(
-              text: "Report",
+              text: AppStrings.report.tr,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -58,8 +59,8 @@ class _ReportScreenState extends State<ReportScreen> {
           children: [
             CustomFormCard(
               readOnly: true,
-              hintText: 'Select Incident Type',
-              title: 'Incident Type',
+              hintText: AppStrings.selectIncidentType.tr,
+              title: AppStrings.incidentType.tr,
               controller: controller.reportIncedentController.value,
 
               suffixIcon: CustomPopupmenuButton(
@@ -67,17 +68,17 @@ class _ReportScreenState extends State<ReportScreen> {
                   controller.reportIncedentController.value.text = value;
                 },
                 items: [
-                  'Unprofessional Behavior',
-                  'Failure to collaborate',
-                  'Spam',
-                  'Other',
+                  AppStrings.unprofessionalBehavior.tr,
+                  AppStrings.failureToCollaborate.tr,
+                  AppStrings.spam.tr,
+                  AppStrings.other.tr,
                 ],
               ),
             ),
 
             CustomFormCard(
-              hintText: 'Enter Additional Note',
-              title: 'Additional Note',
+              hintText: AppStrings.enterAdditionalNote.tr,
+              title: AppStrings.additionalNote.tr,
               controller: controller.additionalInfoController.value,
               maxLine: 3,
             ),
@@ -95,7 +96,7 @@ class _ReportScreenState extends State<ReportScreen> {
                           .text
                           .isEmpty) {
                         showCustomSnackBar(
-                          'Please select incident type',
+                          AppStrings.pleaseSelectIncidentType.tr,
                           isError: true,
                         );
                         return;
@@ -103,7 +104,7 @@ class _ReportScreenState extends State<ReportScreen> {
                         controller.reportConnection(otherUserID: reportID);
                       }
                     },
-                    title: 'Submit',
+                    title: AppStrings.report.tr,
                     height: 48.h,
                   );
             }),
