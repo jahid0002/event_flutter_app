@@ -134,4 +134,67 @@ class AppStrings {
   static const String english = "English";
 
   static const String save = "Save";
+
+  // // Report Screen
+  //   static const String reportTitle = "Report";
+  //   static const String incidentTypeTitle = "Incident Type";
+  //   static const String incidentTypeHint = "Select Incident Type";
+  //   static const String additionalNoteTitle = "Additional Note";
+  //   static const String additionalNoteHint = "Enter Additional Note";
+  //   static const String submitButton = "Submit";
+
+  //   // Incident Type Options
+  //   static const String incidentUnprofessional = "Unprofessional Behavior";
+  //   static const String incidentFailure = "Failure to collaborate";
+  //   static const String incidentSpam = "Spam";
+  //   static const String incidentOther = "Other";
+
+  // Account & Security Screen
+  static const String accountSecurityTitle = "Account & Security";
+  static const String linkedAccountsTitle = "Linked Accounts";
+  static const String googleLabel = "Google";
+  static const String facebookLabel = "Facebook";
+  static const String appleLabel = "Apple";
+  static const String removeLabel = "Remove";
+  static const String linkLabel = "Link";
+  static const String accountDeletionTitle = "Account Deletion";
+  static const String accountDeletionSubtitle =
+      "Once you delete your account, all your data will be permanently removed.";
+  static const String deleteAccountButton = "Delete Account";
+
+  // Help & Support Screen
+  static const String helpSupportTitle = "Help & Support";
+
+  // Notifications Screen
+  static const String notificationsTitle = "Notifications";
+
+  static const String generalNotificationsTitle = "General Notifications";
+  static const String generalNotificationsSubtitle =
+      "Enable notifications for app updates, system alerts, and other important notifications.";
+
+  static const String matchNotificationsTitle = "Match Notifications";
+  static const String matchNotificationsSubtitle =
+      "Get notified when someone matches with you based on your profile preferences.";
+
+  static const String messageNotificationsTitle = "Message Notifications";
+  static const String messageNotificationsSubtitle =
+      "Get notified when you receive new messages in the chat.";
+
+  // Privacy Policy Screen
+  static const String privacyPolicyTitle = "Privacy Policy";
+
+  // ================= Settings Screen =================
+
+  static const String notification = "Notification";
+  static const String helpSupport = "Help & Support";
+  static const String privacyPolicy = "Privacy Policy";
+  static const String termsConditions = "Terms & Conditions";
+  static const String logOut = "Log Out";
+  static const String deleteAccount = "Delete Account";
+
+  // ================= Logout Dialog =================
+  static const String logOutTitle = "Log Out";
+  static const String logOutMessage = "Are you sure you want to log out?";
+  static const String cancel = "Cancel";
+  static const String confirmLogOut = "Log Out";
 }

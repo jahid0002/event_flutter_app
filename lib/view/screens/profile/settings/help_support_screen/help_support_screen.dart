@@ -1,4 +1,6 @@
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 
 import '../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../utils/app_icons/app_icons.dart';
@@ -28,7 +30,7 @@ class HelpSupportScreen extends StatelessWidget {
             ),
             const SizedBox(width: 6),
             CustomText(
-              text: "Help & Support",
+              text: AppStrings.helpSupportTitle.tr,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),

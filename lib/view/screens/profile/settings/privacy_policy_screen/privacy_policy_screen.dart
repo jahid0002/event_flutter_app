@@ -1,4 +1,5 @@
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/profile/settings/controller/settings_controller.dart';
@@ -47,7 +48,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
             ),
             const SizedBox(width: 6),
             CustomText(
-              text: "Privacy Policy",
+              text: AppStrings.privacyPolicyTitle.tr,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -91,7 +92,10 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
                         // },
                       )
                       : Center(
-                        child: CustomText(text: "No Data Found", top: 200.h),
+                        child: CustomText(
+                          text: AppStrings.notAvailable.tr,
+                          top: 200.h,
+                        ),
                       ),
                 ],
               ),

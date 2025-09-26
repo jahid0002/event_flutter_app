@@ -1,5 +1,7 @@
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../utils/app_icons/app_icons.dart';
 import '../../../../components/custom_image/custom_image.dart';
@@ -34,7 +36,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
             ),
             const SizedBox(width: 6),
             CustomText(
-              text: "Language",
+              text: AppStrings.languages.tr,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),

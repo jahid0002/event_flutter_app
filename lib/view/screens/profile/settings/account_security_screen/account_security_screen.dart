@@ -1,5 +1,7 @@
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../utils/app_icons/app_icons.dart';
 import '../../../../components/custom_image/custom_image.dart';
@@ -28,7 +30,7 @@ class AccountSecurityScreen extends StatelessWidget {
             ),
             const SizedBox(width: 6),
             CustomText(
-              text: "Account & Security",
+              text: AppStrings.accountSecurityTitle.tr,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -41,8 +43,8 @@ class AccountSecurityScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Linked Accounts",
+            Text(
+              AppStrings.linkedAccountsTitle.tr,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 12),
@@ -56,42 +58,42 @@ class AccountSecurityScreen extends StatelessWidget {
                 children: [
                   _linkedItem(
                     icon: AppIcons.google, // Replace with your icon asset
-                    label: 'Google',
-                    actionLabel: 'Remove',
+                    label: AppStrings.googleLabel.tr,
+                    actionLabel: AppStrings.removeLabel.tr,
                     actionColor: Colors.grey,
                   ),
                   const Divider(height: 1),
                   _linkedItem(
                     icon: AppIcons.facbook,
-                    label: 'Facebook',
-                    actionLabel: 'Remove',
+                    label: AppStrings.facebookLabel.tr,
+                    actionLabel: AppStrings.removeLabel.tr,
                     actionColor: Colors.grey,
                   ),
                   const Divider(height: 1),
                   _linkedItem(
                     icon: AppIcons.apple,
-                    label: 'Apple',
-                    actionLabel: 'Link',
+                    label: AppStrings.appleLabel.tr,
+                    actionLabel: AppStrings.linkLabel.tr,
                     actionColor: Color(0xFF00C29E),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 30),
-            const Text(
-              "Account Deletion",
+            Text(
+              AppStrings.accountDeletionTitle.tr,
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 6),
-            const Text(
-              "Once you delete your account, all your data will be permanently removed.",
+            Text(
+              AppStrings.accountDeletionSubtitle.tr,
               style: TextStyle(color: Colors.black54, fontSize: 14),
             ),
             const Spacer(),
             CustomButton(
               onTap: () {},
               borderRadius: 30,
-              title: "Delete Account",
+              title: AppStrings.deleteAccountButton.tr,
             ),
             SizedBox(height: 30),
           ],
