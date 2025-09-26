@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_app_bar/custom_app_bar.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_from_card/custom_from_card.dart';
@@ -40,7 +41,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Edit Profile'),
+      appBar: CustomAppBar(title: AppStrings.editProfile.tr),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0.w),
@@ -87,11 +88,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       Expanded(
                         child: CustomFormCard(
                           hintText: 'John Doe',
-                          title: 'Name',
+                          title: AppStrings.name.tr,
                           controller: controller.nameController.value,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please enter your name';
+                              return AppStrings.pleaseEnterName.tr;
                             }
                             return null;
                           },
@@ -102,7 +103,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                         child: CustomTextFieldForAge2(
                           controller: controller.ageController.value,
                           fillColor: AppColors.naveWhite,
-                          hintText: 'Select your age',
+                          hintText: AppStrings.selectYourAge.tr,
                         ),
 
                         //  CustomFormCard(
@@ -126,31 +127,31 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   ),
 
                   CustomFormCard(
-                    title: 'Gender',
+                    title: AppStrings.gender.tr,
                     controller: controller.genderController.value,
-                    hintText: 'MALE',
+                    hintText: AppStrings.male.tr,
                     readOnly: true,
                     suffixIcon: CustomPopupmenuButton(
                       onChanged: (value) {
                         controller.genderController.value.text = value;
                       },
-                      items: ["MALE", "FEMALE"],
+                      items: [AppStrings.male.tr, AppStrings.female.tr],
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please enter your gender';
+                        return AppStrings.pleaseEnterGender.tr;
                       }
                       return null;
                     },
                   ),
                   CustomFormCard(
                     readOnly: true,
-                    title: 'Living in',
+                    title: AppStrings.livingIn.tr,
                     controller: controller.addressController.value,
-                    hintText: 'Enter your country',
+                    hintText: AppStrings.enterYourCountry.tr,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please enter your address';
+                        return AppStrings.pleaseEnterAddress.tr;
                       }
                       return null;
                     },
@@ -167,7 +168,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   CustomFormCard(
                     readOnly: true,
 
-                    title: 'My stay',
+                    title: AppStrings.myStay.tr,
                     controller: controller.myStayController.value,
                     hintText: '25/10/1992',
                     onTap: () {
@@ -185,20 +186,19 @@ class _UpdateProfileState extends State<UpdateProfile> {
                     ),
                   ),
                   CustomFormCard(
-                    title: 'About me',
+                    title: AppStrings.aboutMe.tr,
                     controller: controller.bioController.value,
                     maxLine: 4,
-                    hintText:
-                        'Enter a short description about yourself and your interests',
+                    hintText: AppStrings.aboutMeHint.tr,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please enter your bio';
+                        return AppStrings.pleaseEnterBio.tr;
                       }
                       return null;
                     },
                   ),
                   CustomFormCard(
-                    title: 'Languages',
+                    title: AppStrings.languages.tr,
                     controller: controller.languageController.value,
                     hintText: 'Spanish',
                     readOnly: true,
@@ -210,7 +210,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                     ),
                   ),
                   CustomText(
-                    text: 'My interests',
+                    text: AppStrings.myInterests.tr,
                     fontSize: 16.w,
                     fontWeight: FontWeight.w600,
                     bottom: 10.h,
@@ -229,7 +229,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                               },
                               height: 40.h,
                               width: 174.w,
-                              title: 'Save',
+                              title: AppStrings.save.tr,
                               borderRadius: 10.r,
                             ),
                   ),

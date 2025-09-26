@@ -95,4 +95,43 @@ class AppStrings {
   static const String pending = "Pending";
   static const String accepted = "Remove";
   static const String rejected = "Rejected";
+
+  // ================== Other User Details Screen ==================
+
+  static const String myAlbum = "My Album";
+
+  // ================== Profile Screen ==================
+  static const String profile = "Profile";
+  static const String appLanguage = " App Language";
+  static const String settings = "Settings";
+  static const String notAvailable = "N/A";
+
+  // ================== Update Profile ==================
+  static const String editProfile = "Edit Profile";
+  static const String name = "Name";
+  static const String nameHint = "John Doe";
+  static const String pleaseEnterName = "Please enter your name";
+
+  static const String age = "Age";
+  static const String selectYourAge = "Select your age";
+
+  static const String male = "MALE";
+  static const String female = "FEMALE";
+  static const String pleaseEnterGender = "Please enter your gender";
+
+  static const String livingIn = "Living in";
+  static const String enterYourCountry = "Enter your country";
+  static const String pleaseEnterAddress = "Please enter your address";
+
+  static const String myStay = "My stay";
+  static const String defaultStayDate = "25/10/1992";
+
+  static const String aboutMeHint =
+      "Enter a short description about yourself and your interests";
+  static const String pleaseEnterBio = "Please enter your bio";
+
+  static const String spanish = "Spanish";
+  static const String english = "English";
+
+  static const String save = "Save";
 }
