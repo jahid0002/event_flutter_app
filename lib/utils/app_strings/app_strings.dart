@@ -82,4 +82,17 @@ class AppStrings {
   static const String failureToCollaborate = "Failure to collaborate";
   static const String spam = "Spam";
   static const String other = "Other";
+
+  // ================== Home Screen ==================
+  static const String noUserFound = "No User Found";
+  static const String swipedLeft = "Swiped Left";
+  static const String swipedRight = "Swiped Right";
+  static const String swipedUp = "Swiped Up!";
+  static const String swipedDown = "Swiped Down!";
+
+  static const String noInterest = "No Interest";
+  static const String invite = "Invite";
+  static const String pending = "Pending";
+  static const String accepted = "Remove";
+  static const String rejected = "Rejected";
 }

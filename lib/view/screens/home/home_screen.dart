@@ -4,6 +4,7 @@ import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_nav_bar/navbar.dart';
@@ -60,7 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (controller.homeStatus.value == Status.completed) {
                 return controller.users.isEmpty
                     ? Center(
-                      child: CustomText(text: "No User Found", top: 200.h),
+                      child: CustomText(
+                        text: AppStrings.noUserFound.tr,
+                        top: 200.h,
+                      ),
                     )
                     : SizedBox(
                       height: 570.h,
@@ -206,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       SwipeDirection.right,
                                                 );
                                               },
-                                              title: 'No Interest',
+                                              title: AppStrings.noInterest.tr,
                                               height: 47.h,
                                               fillColor: Colors.grey
                                                   .withOpacity(.8),
@@ -246,7 +250,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     },
                                                     title:
                                                         data.connection == null
-                                                            ? 'Invite'
+                                                            ? AppStrings
+                                                                .invite
+                                                                .tr
                                                             : getText(
                                                               data.connection,
                                                             ),
@@ -289,13 +295,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
     switch (connection.status) {
       case 'PENDING':
-        return 'Pending';
+        return AppStrings.pending.tr;
       case 'ACCEPTED':
-        return 'Remove';
+        return AppStrings.accepted.tr;
       case 'REJECTED':
-        return 'Rejected';
+        return AppStrings.rejected.tr;
       default:
-        return 'Invite';
+        return AppStrings.invite.tr;
     }
   }
 }
