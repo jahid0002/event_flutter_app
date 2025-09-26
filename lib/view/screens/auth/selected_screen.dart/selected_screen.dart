@@ -2,6 +2,7 @@
 
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_icons/app_icons.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/screens/auth/controller/auth_controller.dart';
@@ -25,14 +26,14 @@ class SelectedScreen extends StatelessWidget {
             Center(child: CustomImage(imageSrc: AppIcons.logo2)),
             CustomText(
               top: 50.h,
-              text: 'Let’s dive in into your account!',
+              text: AppStrings.letsDive.tr,
               fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               color: Colors.grey,
               bottom: 200.h,
             ),
             SocialButton(
-              text: 'Continue with Google'.toUpperCase(),
+              text: AppStrings.continueWithGoogle.toUpperCase().tr,
               icon: AppIcons.google,
               onPressed: () {
                 // Get.to(() => const OnbordingScreen());
@@ -40,12 +41,12 @@ class SelectedScreen extends StatelessWidget {
               },
             ),
             SocialButton(
-              text: 'Continue with Facebook'.toUpperCase(),
+              text: AppStrings.continueWithFacebook.toUpperCase().tr,
               icon: AppIcons.facbook,
               onPressed: () {},
             ),
             SocialButton(
-              text: 'Continue with Apple'.toUpperCase(),
+              text: AppStrings.continueWithApple.toUpperCase().tr,
               icon: AppIcons.apple,
               onPressed: () {},
             ),
