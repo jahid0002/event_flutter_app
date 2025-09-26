@@ -35,14 +35,16 @@ class _SplashScreenState extends State<SplashScreen> {
       AppConstants.isRegistered,
     );
 
-    if (token.isNotEmpty && isRegistered == true) {
-      Get.offAllNamed(AppRoutes.homeScreen);
-    } else if (isRegistered == false && token.isNotEmpty) {
-      Get.offAllNamed(AppRoutes.onbordingScreen);
-    } else if (token.isEmpty) {
+    if (token.isEmpty) {
       Get.offAllNamed(AppRoutes.selectedScreen);
     } else {
-      Get.offAllNamed(AppRoutes.selectedScreen);
+      if (isRegistered == true) {
+        Get.offAllNamed(AppRoutes.homeScreen);
+      } else if (isRegistered == false) {
+        Get.offAllNamed(AppRoutes.onbordingScreen);
+      } else {
+        Get.offAllNamed(AppRoutes.selectedScreen);
+      }
     }
   }
 

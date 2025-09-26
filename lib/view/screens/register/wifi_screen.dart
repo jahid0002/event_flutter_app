@@ -37,6 +37,17 @@ class _WifiScreenState extends State<WifiScreen> {
     super.initState();
 
     controller.initField();
+    checkConnection();
+  }
+
+  checkConnection() async {
+    if (await isWifiConnected()) {
+      wifiSettingsController.checkOurWifi(
+        onSuccess: () {
+          Get.toNamed(AppRoutes.calenderLoginOnboarding);
+        },
+      );
+    }
   }
 
   @override

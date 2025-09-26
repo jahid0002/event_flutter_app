@@ -165,24 +165,6 @@ class ChatController extends GetxController {
   //=================>>. SEND MESSAGE METHODE
   Rx<TextEditingController> messageController = TextEditingController().obs;
 
-  // Future<void> sendMessage({required String receiverID}) async {
-  //   if (messageController.value.text.isEmpty) {
-  //     debugPrint('message is empty');
-  //     return;
-  //   }
-
-  //   var body = {
-  //     "text": messageController.value.text.trim(),
-  //     "receiver": receiverID,
-  //   };
-
-  //   SocketApi.sendEvent('send-message', body);
-
-  //   debugPrint('message sent');
-  //   messageController.value.clear();
-  //   getAllMessage(otherUserID: receiverID);
-  // }
-
   Future<void> sendMessage({required String receiverID}) async {
     if (messageController.value.text.trim().isEmpty) {
       debugPrint('Message is empty');

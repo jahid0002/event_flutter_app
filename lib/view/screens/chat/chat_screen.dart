@@ -36,6 +36,7 @@ class _ChatScreenState extends State<ChatScreen> {
     // TO DO: implement initState.
     controller.getRealTimeMessage();
     controller.getAllConversation();
+    controller.getAllNotification();
     super.initState();
   }
 
@@ -47,10 +48,12 @@ class _ChatScreenState extends State<ChatScreen> {
         padding: EdgeInsets.symmetric(horizontal: 20.0.w),
         child: Column(
           children: [
+            SizedBox(height: 10),
             Obx(() {
               return Row(
                 children: [
                   ChatButton(
+                    unreadItem: 0,
                     title: "Chats",
                     isSelected: controller.chatType.value == ChatType.chat,
                     onTap: () {
@@ -59,6 +62,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   const Spacer(),
                   ChatButton(
+                    unreadItem: 0,
                     title: "Notifications",
                     isSelected:
                         controller.chatType.value == ChatType.notification,
@@ -72,7 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
             }),
 
             SizedBox(height: 10.h),
-
+            //======================================= >> Chat Section ===============================>>
             Obx(() {
               switch (controller.conversationStatus.value) {
                 case Status.loading:
@@ -130,6 +134,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                           time: DateConverter.formatTimeAgo(
                                             item.lastMessage?.createdAt ?? '',
                                           ),
+                                          unseenMessageCount:
+                                              item.unseenMsg?.toString() ?? '0',
                                           onTap: () {
                                             final ReceiverInformation
                                             information = ReceiverInformation(
@@ -165,6 +171,7 @@ class _ChatScreenState extends State<ChatScreen> {
               }
             }),
 
+            /// ======================================= Notification Section =================================
             Obx(() {
               return CustomRefreshIndicator(
                 onRefresh: () {
@@ -244,15 +251,17 @@ class ChatButton extends StatelessWidget {
     required this.onTap,
     required this.isSelected,
     this.title,
+    this.unreadItem = 0,
   });
 
   final VoidCallback onTap;
   final bool isSelected;
   final String? title;
+  final int? unreadItem;
 
   @override
   Widget build(BuildContext context) {
-    return CustomButton(
+    final button = CustomButton(
       fillColor:
           isSelected ? AppColors.primary : AppColors.gray.withOpacity(.5),
       onTap: onTap,
@@ -261,6 +270,13 @@ class ChatButton extends StatelessWidget {
       title: title ?? '',
       borderRadius: 10.r,
     );
+
+    // show badge only when unreadItem > 0
+    if (unreadItem != null && unreadItem! > 0) {
+      return Badge.count(count: unreadItem!, child: button);
+    }
+
+    return button;
   }
 }
 

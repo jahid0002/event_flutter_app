@@ -88,6 +88,8 @@ class HomeController extends GetxController {
       ApiChecker.checkApi(response);
     }
   }
+
+  //============= >>
   // String getText(Connection? connection, String userId) {
 
   //   for(user)
