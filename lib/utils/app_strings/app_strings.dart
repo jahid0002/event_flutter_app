@@ -135,20 +135,6 @@ class AppStrings {
 
   static const String save = "Save";
 
-  // // Report Screen
-  //   static const String reportTitle = "Report";
-  //   static const String incidentTypeTitle = "Incident Type";
-  //   static const String incidentTypeHint = "Select Incident Type";
-  //   static const String additionalNoteTitle = "Additional Note";
-  //   static const String additionalNoteHint = "Enter Additional Note";
-  //   static const String submitButton = "Submit";
-
-  //   // Incident Type Options
-  //   static const String incidentUnprofessional = "Unprofessional Behavior";
-  //   static const String incidentFailure = "Failure to collaborate";
-  //   static const String incidentSpam = "Spam";
-  //   static const String incidentOther = "Other";
-
   // Account & Security Screen
   static const String accountSecurityTitle = "Account & Security";
   static const String linkedAccountsTitle = "Linked Accounts";
@@ -197,4 +183,20 @@ class AppStrings {
   static const String logOutMessage = "Are you sure you want to log out?";
   static const String cancel = "Cancel";
   static const String confirmLogOut = "Log Out";
+
+  // ================= Age Login Onboarding Screen =================
+  static const String back = "Back";
+  static const String howOldAreYou = "How old are you?🎂";
+  static const String ageInfo =
+      "We just need it to match you with the right people.";
+  static const String enterYourAge = "Enter your age";
+  static const String agePublic = "Your age will be public";
+  static const String next = "Next";
+
+  // ================= Age Picker BottomSheet =================
+  static const String selectAge = "Select Age";
+  static const String confirm = "Confirm";
+
+  // ================= Validation Messages =================
+  static const String pleaseEnterYourAge = "Please enter your age";
 }
