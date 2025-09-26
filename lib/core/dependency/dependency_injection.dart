@@ -3,6 +3,7 @@ import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
 import 'package:event_app/view/screens/connections/controller/connection_controller.dart';
 import 'package:event_app/view/screens/home/controller/home_controller.dart';
 import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
+import 'package:event_app/view/screens/profile/settings/controller/langues_controller.dart';
 import 'package:event_app/view/screens/profile/settings/controller/settings_controller.dart';
 import 'package:event_app/view/screens/register/controller/wifi_controller.dart';
 import 'package:get/get.dart';
@@ -23,5 +24,6 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => ProfileController(), fenix: true);
     Get.lazyPut(() => SettingsController(), fenix: true);
     Get.lazyPut(() => WifiSettingsController(), fenix: true);
+    Get.lazyPut(() => LanguageController(), fenix: true);
   }
 }

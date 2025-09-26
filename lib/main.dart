@@ -1,9 +1,11 @@
-// ignore_for_file: deprecated_member_use, unused_element
+// ignore_for_file: deprecated_member_use, unused_element, unused_local_variable
 
 import 'package:event_app/core/dependency/dependency_injection.dart';
 import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/firebase_options.dart';
 import 'package:event_app/service/socket_service.dart';
+import 'package:event_app/utils/app_langues/app_langues.dart';
+import 'package:event_app/view/screens/profile/settings/controller/langues_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -13,47 +15,49 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'utils/app_colors/app_colors.dart';
 import 'view/components/device_utils/device_utils.dart';
-// Localization generated files
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'; // Add this import
+
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+
+//   DeviceUtils.lockDevicePortrait();
+
+//   DependencyInjection di = DependencyInjection();
+//   di.dependencies();
+//   final LanguageController languageController = Get.find<LanguageController>();
+
+//   SocketApi.init();
+
+//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+//   requestIOSPermissions();
+
+//   runApp(const MyApp());
+// }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Lock Orientation
   DeviceUtils.lockDevicePortrait();
 
-  /// Dependency Injection
   DependencyInjection di = DependencyInjection();
   di.dependencies();
 
-  /// Socket API Init
+  // Initialize LanguageController and set initial locale
+  final languageController = Get.put(LanguageController());
+  await languageController.initializeLocale();
+
   SocketApi.init();
-
-  /// Firebase Init
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  /// iOS Push Notification Permission
   requestIOSPermissions();
 
-  runApp(const MyApp());
+  runApp(MyApp(languageController: languageController));
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class MyApp extends StatelessWidget {
+  final LanguageController languageController;
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  Locale _locale = const Locale('en'); // Default English
-
-  void changeLanguage(Locale locale) {
-    setState(() {
-      _locale = locale;
-    });
-  }
+  const MyApp({super.key, required this.languageController});
 
   @override
   Widget build(BuildContext context) {
@@ -62,24 +66,77 @@ class _MyAppState extends State<MyApp> {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return GetMaterialApp(
-          title: "Multi Language App",
-          theme: CustomTheme.lightTheme,
-          debugShowCheckedModeBanner: false,
-          defaultTransition: Transition.fadeIn,
-          transitionDuration: const Duration(milliseconds: 200),
-          navigatorKey: Get.key,
-          initialRoute: AppRoutes.splashScreen,
-          getPages: AppRoutes.routes,
+        return Obx(() {
+          return GetMaterialApp(
+            title: "InviteeMe",
+            theme: CustomTheme.lightTheme,
+            debugShowCheckedModeBanner: false,
+            defaultTransition: Transition.fadeIn,
+            transitionDuration: const Duration(milliseconds: 200),
+            navigatorKey: Get.key,
+            initialRoute: AppRoutes.splashScreen,
+            getPages: AppRoutes.routes,
 
-          locale: _locale,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-        );
+            translations: AppTranslations(),
+            locale: languageController.currentLocale.value,
+
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+
+            supportedLocales: const [Locale('en', 'US'), Locale('es', 'ES')],
+
+            fallbackLocale: const Locale('en', 'US'),
+          );
+        });
       },
     );
   }
 }
+
+// class MyApp extends StatefulWidget {
+//   const MyApp({super.key});
+
+//   @override
+//   State<MyApp> createState() => _MyAppState();
+// }
+
+// class _MyAppState extends State<MyApp> {
+//   Locale _locale = const Locale('en'); // Default English
+
+//   void changeLanguage(Locale locale) {
+//     setState(() {
+//       _locale = locale;
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return ScreenUtilInit(
+//       designSize: const Size(393, 852),
+//       minTextAdapt: true,
+//       splitScreenMode: true,
+//       builder: (context, child) {
+//         return GetMaterialApp(
+//           title: "InviteeMe",
+//           theme: CustomTheme.lightTheme,
+//           debugShowCheckedModeBanner: false,
+//           defaultTransition: Transition.fadeIn,
+//           transitionDuration: const Duration(milliseconds: 200),
+//           navigatorKey: Get.key,
+//           initialRoute: AppRoutes.splashScreen,
+//           getPages: AppRoutes.routes,
+
+//           locale: _locale,
+//           localizationsDelegates: AppLocalizations.localizationsDelegates,
+//           supportedLocales: AppLocalizations.supportedLocales,
+//         );
+//       },
+//     );
+//   }
+// }
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
 //   DeviceUtils.lockDevicePortrait();
