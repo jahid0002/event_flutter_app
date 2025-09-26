@@ -7,6 +7,7 @@ import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/utils/app_icons/app_icons.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_loader/custom_loader.dart';
@@ -101,7 +102,7 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                   child: CustomText(
                     top: 50.h,
                     left: 35.w,
-                    text: 'About me',
+                    text: AppStrings.aboutMe.tr,
                     fontSize: 16.w,
                     fontWeight: FontWeight.w600,
                     color: AppColors.primary,
@@ -157,7 +158,7 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                                               .connectionDetails
                                               .value
                                               .name ??
-                                          'N/A',
+                                          AppStrings.na.tr,
                                       fontSize: 38.w,
                                       fontWeight: FontWeight.w600,
                                       // color: AppColors.primary,
@@ -166,7 +167,7 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                                       top: 10.h,
                                       left: 10.w,
                                       text:
-                                          '${connection.otherUser?.age ?? 'N/A'}',
+                                          '${connection.otherUser?.age ?? AppStrings.na.tr}',
                                       fontSize: 24.w,
                                       fontWeight: FontWeight.w400,
                                       // color: AppColors.primary,
@@ -200,7 +201,7 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                             ),
                             SizedBox(height: 20.h),
                             CustomText(
-                              text: 'About Me',
+                              text: AppStrings.aboutMeTitle.tr,
                               fontSize: 16.w,
                               fontWeight: FontWeight.w600,
                               bottom: 15.h,
@@ -208,7 +209,7 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                             CustomText(
                               text:
                                   conntroller.connectionDetails.value.bio ??
-                                  'Figma ipsum component variant main layer. Style style opacity italic asset share arrange. Arrange figjam effect polygon clip component content connection polygon. Share ',
+                                  AppStrings.na.tr,
                               fontSize: 12.w,
                               fontWeight: FontWeight.w400,
                               maxLines: 5,
@@ -220,7 +221,7 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomText(
-                                  text: 'Gender',
+                                  text: AppStrings.gender.tr,
                                   fontSize: 16.w,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -239,7 +240,7 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomText(
-                                  text: 'From',
+                                  text: AppStrings.from.tr,
                                   fontSize: 16.w,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -250,13 +251,13 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                                           .connectionDetails
                                           .value
                                           .address ??
-                                      'N/A',
+                                      AppStrings.na.tr,
                                 ),
                               ],
                             ),
                             CustomText(
                               top: 20.h,
-                              text: 'My intereses',
+                              text: AppStrings.myInterests.tr,
                               fontSize: 16.w,
                               fontWeight: FontWeight.w600,
                               bottom: 10.h,
@@ -278,7 +279,7 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                                             .connectionDetails
                                             .value
                                             .interests?[index] ??
-                                        'N/A',
+                                        AppStrings.na.tr,
                                   );
                                 },
                               ),
@@ -299,7 +300,7 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                             ),
                             CustomText(
                               top: 20.h,
-                              text: 'Languages',
+                              text: AppStrings.languages.tr,
                               fontSize: 16.w,
                               fontWeight: FontWeight.w600,
                               bottom: 10.h,
@@ -321,7 +322,7 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                                             .connectionDetails
                                             .value
                                             .language?[index] ??
-                                        'N/A',
+                                        AppStrings.na.tr,
                                   );
                                 },
                               ),
@@ -443,7 +444,7 @@ class ModifyButton extends StatelessWidget {
           height: 30.h,
           width: width ?? 100.w,
           onTap: () {},
-          title: title ?? 'Woman',
+          title: title ?? AppStrings.na.tr,
           fontSize: 14.w,
           fontWeight: FontWeight.w700,
           fillColor: AppColors.white,

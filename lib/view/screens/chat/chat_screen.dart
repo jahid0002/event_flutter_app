@@ -5,6 +5,7 @@ import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/helper/time_converter/date_converter.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_app_bar/custom_app_bar.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_loader/custom_loader.dart';
@@ -43,7 +44,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Chat"),
+      appBar: CustomAppBar(title: AppStrings.chat.tr),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w),
         child: Column(
@@ -54,7 +55,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: [
                   ChatButton(
                     unreadItem: 0,
-                    title: "Chats",
+                    title: AppStrings.chats.tr,
                     isSelected: controller.chatType.value == ChatType.chat,
                     onTap: () {
                       controller.chatType.value = ChatType.chat;
@@ -63,7 +64,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   const Spacer(),
                   ChatButton(
                     unreadItem: 0,
-                    title: "Notifications",
+                    title: AppStrings.notifications.tr,
                     isSelected:
                         controller.chatType.value == ChatType.notification,
                     onTap: () {
@@ -103,7 +104,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             isDens: true,
                             cursorColor: AppColors.black,
                             fillColor: AppColors.white,
-                            hintText: 'Search Here...',
+                            hintText: AppStrings.searchHere.tr,
                             hintStyle: GoogleFonts.poppins(
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
@@ -160,7 +161,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                       },
                                     )
                                     : CustomText(
-                                      text: 'No Conversation',
+                                      text: AppStrings.noConversation.tr,
                                       top: 200.h,
                                     ),
                           ),
@@ -185,7 +186,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       controller.notificationList.isEmpty
                           ? Center(
                             child: CustomText(
-                              text: "No Notification",
+                              text: AppStrings.noNotification.tr,
                               top: 200.h,
                             ),
                           )
@@ -406,7 +407,10 @@ class NotificationsCard extends StatelessWidget {
                       fontSize: 17.sp,
                       fontWeight: FontWeight.w600,
                     ),
-                    CustomText(text: "Pending Connection", fontSize: 12.sp),
+                    CustomText(
+                      text: AppStrings.pendingConnection.tr,
+                      fontSize: 12.sp,
+                    ),
                   ],
                 ),
               ],
@@ -418,7 +422,7 @@ class NotificationsCard extends StatelessWidget {
                   onTap: onTap ?? () {},
                   height: 40.h,
                   width: 100.w,
-                  title: "Accept",
+                  title: AppStrings.accept.tr,
                   borderRadius: 100.r,
                 ),
           ],
