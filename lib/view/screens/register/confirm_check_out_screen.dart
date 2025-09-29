@@ -110,7 +110,7 @@ class _JustOneThingLoginOnboardingState
                   ),
                 ),
                 Divider(
-                  thickness: 3,
+                  thickness: 1,
                   color: AppColors.primary,
                   indent: 130.w,
                   endIndent: 130.w,
