@@ -100,7 +100,22 @@ class _JustOneThingLoginOnboardingState
                   ),
                 ),
 
-                SizedBox(height: 40),
+                SizedBox(height: 20),
+                Center(
+                  child: CustomText(
+                    text: controller.formatDate(_selectedDay ?? DateTime.now()),
+                    fontSize: 16.w,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primary,
+                  ),
+                ),
+                Divider(
+                  thickness: 3,
+                  color: AppColors.primary,
+                  indent: 130.w,
+                  endIndent: 130.w,
+                ),
+                SizedBox(height: 10),
 
                 // Calendar
                 TableCalendar(

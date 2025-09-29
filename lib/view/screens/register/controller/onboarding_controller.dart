@@ -11,6 +11,7 @@ import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class OnboardingController extends GetxController {
   //========= Image Picker GetX Controller Code ===========//
@@ -139,5 +140,9 @@ class OnboardingController extends GetxController {
 
   String formatToUtcIsoString(DateTime dateTime) {
     return dateTime.toUtc().toIso8601String();
+  }
+
+  String formatDate(DateTime date) {
+    return DateFormat('d MMM').format(date);
   }
 }
