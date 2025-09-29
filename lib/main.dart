@@ -55,9 +55,9 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final LanguageController languageController;
+  final LanguageController? languageController;
 
-  const MyApp({super.key, required this.languageController});
+  const MyApp({super.key, this.languageController});
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
             getPages: AppRoutes.routes,
 
             translations: AppTranslations(),
-            locale: languageController.currentLocale.value,
+            locale: languageController?.currentLocale.value,
 
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,

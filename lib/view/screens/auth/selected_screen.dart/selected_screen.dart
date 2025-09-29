@@ -40,15 +40,25 @@ class SelectedScreen extends StatelessWidget {
                 controller.signInWithGoogle();
               },
             ),
-            SocialButton(
-              text: AppStrings.continueWithFacebook.toUpperCase().tr,
-              icon: AppIcons.facbook,
-              onPressed: () {},
-            ),
+            // SocialButton(
+            //   text: AppStrings.continueWithFacebook.toUpperCase().tr,
+            //   icon: AppIcons.facbook,
+            //   onPressed: () {},
+            // ),
             SocialButton(
               text: AppStrings.continueWithApple.toUpperCase().tr,
               icon: AppIcons.apple,
               onPressed: () {},
+            ),
+
+            Spacer(),
+            CustomText(
+              bottom: 30.h,
+              maxLines: 4,
+              fontSize: 12.sp,
+              color: AppColors.gray,
+              text:
+                  'Creating an account means you accept our Terms and Privacy Policy. No worries, your data is safe with us.',
             ),
           ],
         ),
