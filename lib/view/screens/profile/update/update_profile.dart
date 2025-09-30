@@ -206,7 +206,22 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       onChanged: (value) {
                         controller.languageController.value.text = value;
                       },
-                      items: ["Spanish", "English"],
+                      items: [
+                        "Spanish",
+                        "English",
+                        "French",
+                        "German",
+                        "Italian",
+                        "Portuguese",
+                        "Russian",
+                        "Chinese (Mandarin)",
+                        "Hindi",
+                        "Arabic",
+                        "Japanese",
+                        "Korean",
+                        "Bengali",
+                        "Urdu",
+                      ],
                     ),
                   ),
                   CustomText(
