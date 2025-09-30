@@ -24,7 +24,7 @@ class _QueLoginOnboardingState extends State<QueLoginOnboarding> {
 
   final List<Map<String, String>> purposes = [
     {
-      "title": "Getting to know the city 🏙️",
+      "title": "Getting to know the city 🍽️",
       "subtitle":
           "Discover the city while eating or having a drink with someone.",
     },
@@ -34,7 +34,7 @@ class _QueLoginOnboardingState extends State<QueLoginOnboarding> {
           "Find travel buddies to continue your journey to other cities.",
     },
     {
-      "title": "Casual 😁",
+      "title": "Casual 😄",
       "subtitle": "Meet people who share similar hobbies or interests.",
     },
     {
@@ -43,7 +43,7 @@ class _QueLoginOnboardingState extends State<QueLoginOnboarding> {
           "Connect with people for professional or work-related interests.",
     },
     {
-      "title": "Work Out 🏃",
+      "title": "Workout 🏃‍♂️",
       "subtitle": "Play sports and stay active with others in the city.",
     },
   ];
