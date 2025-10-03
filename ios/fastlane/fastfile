@@ -1,0 +1,29 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Build and upload to TestFlight"
+  lane :beta do
+    app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_API_ISSUER_ID"],
+      key_content: ENV["APP_STORE_CONNECT_API_KEY_CONTENT"],
+      in_house: false
+    )
+    
+    gym(scheme: "Innviteme") # ipa build করবে
+    pilot                    # TestFlight এ আপলোড করবে
+  end
+
+  desc "Release app to App Store"
+  lane :release do
+    app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_API_ISSUER_ID"],
+      key_content: ENV["APP_STORE_CONNECT_API_KEY_CONTENT"],
+      in_house: false
+    )
+
+    gym(scheme: "Innviteme") 
+    deliver(force: true)     # App Store এ সাবমিট করবে
+  end
+end

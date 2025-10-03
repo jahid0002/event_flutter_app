@@ -1,0 +1,15 @@
+# App identification
+app_identifier "com.inviteeME"        # আপনার আসল Bundle ID
+username "tss.sta.gpt@gmail.com"      # আপনার Apple ID (Developer Account)
+
+# Metadata configuration
+# এখানে চাইলে description, keywords, release notes আলাদা ফাইল থেকে রাখতে পারেন
+# deliver --metadata_path "./fastlane/metadata" দিয়ে ব্যবহার করা যায়
+
+# Submission settings
+submit_for_review false               # অটো সাবমিট করবেন না (CI/CD থেকে ম্যানুয়ালি কন্ট্রোল করবেন)
+automatic_release false               # রিভিউ পাস করলে অটো রিলিজ হবে না (ম্যানুয়ালি রিলিজ করবেন)
+
+# Optional settings (আপনার প্রয়োজন অনুযায়ী চালু/বন্ধ করবেন)
+force true                            # কোনো কনফ্লিক্ট হলে ওভাররাইড করবে
+overwrite_screenshots true            # আগের স্ক্রিনশট রিপ্লেস করবে
