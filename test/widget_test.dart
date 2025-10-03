@@ -44,7 +44,6 @@ void main() {
     // Wait for animations and builds
     await tester.pumpAndSettle();
 
-    // ✅ Verify something from your splash screen (change this based on real splash content)
     expect(find.byType(Scaffold), findsWidgets);
     expect(
       find.textContaining('Event'),
