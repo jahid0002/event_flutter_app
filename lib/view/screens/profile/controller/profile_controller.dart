@@ -132,6 +132,11 @@ class ProfileController extends GetxController {
     isUpdating(true);
     num age = num.parse(ageController.value.text);
 
+    if (selectedInterests.isEmpty) {
+      showCustomSnackBar('Please select at least one interest');
+      return;
+    }
+
     try {
       Map<String, String> body = {
         "data": jsonEncode({

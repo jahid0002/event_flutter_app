@@ -11,85 +11,192 @@ class AppStrings {
   static const String passwordNotMatch = "Passwords do not match";
   static const String noDataFound = "No Data Found";
 
-  //================== Custom Controller String ===================//
-  static const String item = "Item";
+  //========= Selected Screen ===
 
-  ///============================ Commom Auth =========================//
-  static const String welcomeBack = "Welcome Back !";
-  static const String pleaseEnterYourPersonalData =
-      "Please Enter Your Personal Data";
-  static const String email = "Email";
-  static const String title = "Title";
-  static const String enterYourName = "Enter Your Name";
-  static const String enterYourEmail = "Enter Your Email";
-  static const String password = "Password";
-  static const String newPassword = "New Password";
-  static const String enterYourPassword = "Enter Your Password";
-  static const String rememberMe = "Remember me";
-  static const String forgotPassword = "Forgot Password?";
-  static const String signin = "Sign In!";
-  static const String dontHaveAccount = "Don’t have account ? ";
-  static const String signUp = "Sign Up";
-  static const String hi = "HI !";
-  static const String pleaseSelectHowYou =
-      "Pleas select how you want to use this app";
-  static const String professional = "Professional";
-  static const String user = "User";
-  static const String fullName = "Full name";
-  static const String phoneNumber = "Phone Number";
-  static const String enterYourPhone = "Enter Your Phone No";
-  static const String confirmPassword = "Confirm Password";
-  static const String iAgree = "I agree with terms of service and ";
-  static const String iAgree1 = "I agree with ";
-  static const String iAgree2 = "Terms";
-  static const String edit = "Edit Event";
-  static const String iAgree3 = "of Service and ";
-  static const String privacyPolicy = "Privacy policy";
-  static const String termsAndConditions = "Terms and Conditions";
-  static const String singUp = "Sing Up";
-  static const String singUpText = "SIGN UP";
-  static const String singInText = "SIGN IN!";
-  static const String haveAnyAccount = "Have any account?";
-  static const String logIn = "Log in";
+  static const String letsDive = "Let’s dive in into your account!";
+  static const String continueWithGoogle = "Continue with Google";
+  static const String continueWithFacebook = "Continue with Facebook";
+  static const String continueWithApple = "Continue with Apple";
+
+  // ========= Chat Screen =========
+  static const String chat = "Chat";
+  static const String chats = "Chats";
+  static const String notifications = "Notifications";
+  static const String searchHere = "Search Here...";
+  static const String noConversation = "No Conversation";
+  static const String noNotification = "No Notification";
+  static const String pendingConnection = "Pending Connection";
+  static const String accept = "Accept";
+
+  // General
+
+  static const String typeAMessage = 'Type a message';
+  static const String na = 'N/A';
+  // Chat Screen
+  static const String youAreBlocked = 'You are blocked by this user';
+  static const String youHaveBlocked = 'You have blocked this user';
+
+  // Example Messages
+  static const String hiMia = 'Hi Mia!';
+  static const String helloSam = 'Hello Sam!';
+  static const String howDoYouKnow = 'How do you know Utsav Gandhi';
+
+  // Button / Action
+  static const String send = 'Send';
+
+  // Error / Status
+  static const String loading = 'Loading...';
+  static const String errorOccurred = 'Something went wrong';
+  static const String noInternet = 'No Internet Connection';
+
+  //========================= Connection ===================.
+
+  static const connections = "Connections";
+  static const noConnectionYet = "No connection yet";
+
+  static const defaultAge = "00";
+  static const cancelConnection = "Cancel Connection";
+  static const reportUser = "Report User";
+  static const blockUser = "Block User";
+
+  static const aboutMe = 'About me';
+  static const aboutMeTitle = 'About Me';
+  static const defaultBio =
+      'Figma ipsum component variant main layer. Style style opacity italic asset share arrange. Arrange figjam effect polygon clip component content connection polygon. Share ';
+  static const gender = 'Gender';
+  static const from = 'From';
+  static const myInterests = 'My intereses';
+  static const languages = 'Languages';
+  static const defaultGender = 'Woman';
+
+  // ================= Report Screen =================
+  static const String report = "Report";
+  static const String incidentType = "Incident Type";
+  static const String selectIncidentType = "Select Incident Type";
+  static const String additionalNote = "Additional Note";
+  static const String enterAdditionalNote = "Enter Additional Note";
+  static const String pleaseSelectIncidentType = "Please select incident type";
+  static const String submit = "Submit";
+
+  static const String unprofessionalBehavior = "Unprofessional Behavior";
+  static const String failureToCollaborate = "Failure to collaborate";
+  static const String spam = "Spam";
+  static const String other = "Other";
+
+  // ================== Home Screen ==================
+  static const String noUserFound = "No User Found";
+  static const String swipedLeft = "Swiped Left";
+  static const String swipedRight = "Swiped Right";
+  static const String swipedUp = "Swiped Up!";
+  static const String swipedDown = "Swiped Down!";
+
+  static const String noInterest = "No Interest";
+  static const String invite = "Invite";
+  static const String pending = "Pending";
+  static const String accepted = "Remove";
+  static const String rejected = "Rejected";
+
+  // ================== Other User Details Screen ==================
+
+  static const String myAlbum = "My Album";
+
+  // ================== Profile Screen ==================
+  static const String profile = "Profile";
+  static const String appLanguage = " App Language";
+  static const String settings = "Settings";
+  static const String notAvailable = "N/A";
+
+  // ================== Update Profile ==================
+  static const String editProfile = "Edit Profile";
+  static const String name = "Name";
+  static const String nameHint = "John Doe";
+  static const String pleaseEnterName = "Please enter your name";
+
+  static const String age = "Age";
+  static const String selectYourAge = "Select your age";
+
+  static const String male = "MALE";
+  static const String female = "FEMALE";
+  static const String pleaseEnterGender = "Please enter your gender";
+
+  static const String livingIn = "Living in";
+  static const String enterYourCountry = "Enter your country";
+  static const String pleaseEnterAddress = "Please enter your address";
+
+  static const String myStay = "My stay";
+  static const String defaultStayDate = "25/10/1992";
+
+  static const String aboutMeHint =
+      "Enter a short description about yourself and your interests";
+  static const String pleaseEnterBio = "Please enter your bio";
+
+  static const String spanish = "Spanish";
+  static const String english = "English";
+
+  static const String save = "Save";
+
+  // Account & Security Screen
+  static const String accountSecurityTitle = "Account & Security";
+  static const String linkedAccountsTitle = "Linked Accounts";
+  static const String googleLabel = "Google";
+  static const String facebookLabel = "Facebook";
+  static const String appleLabel = "Apple";
+  static const String removeLabel = "Remove";
+  static const String linkLabel = "Link";
+  static const String accountDeletionTitle = "Account Deletion";
+  static const String accountDeletionSubtitle =
+      "Once you delete your account, all your data will be permanently removed.";
+  static const String deleteAccountButton = "Delete Account";
+
+  // Help & Support Screen
+  static const String helpSupportTitle = "Help & Support";
+
+  // Notifications Screen
+  static const String notificationsTitle = "Notifications";
+
+  static const String generalNotificationsTitle = "General Notifications";
+  static const String generalNotificationsSubtitle =
+      "Enable notifications for app updates, system alerts, and other important notifications.";
+
+  static const String matchNotificationsTitle = "Match Notifications";
+  static const String matchNotificationsSubtitle =
+      "Get notified when someone matches with you based on your profile preferences.";
+
+  static const String messageNotificationsTitle = "Message Notifications";
+  static const String messageNotificationsSubtitle =
+      "Get notified when you receive new messages in the chat.";
+
+  // Privacy Policy Screen
+  static const String privacyPolicyTitle = "Privacy Policy";
+
+  // ================= Settings Screen =================
+
+  static const String notification = "Notification";
+  static const String helpSupport = "Help & Support";
+  static const String privacyPolicy = "Privacy Policy";
+  static const String termsConditions = "Terms & Conditions";
   static const String logOut = "Log Out";
   static const String deleteAccount = "Delete Account";
-  static const String yesDelete = "YES,DELETE";
-  static const String updatePasswordText = "UPDATE PASSWORD";
-  static const String scan = "Order History";
-  static const String enterCode = "Enter 4 Digits Code";
-  static const String enterTheCodeTitle =
-      "Enter the 6 digits code that you received on your email";
-  static const String ididntFind = "I didn't find confirmation code,";
-  static const String sendAgain = "Send Again";
-  static const String confirm = "CONFIRM";
-  static const String yourAccountIsReady = "Your account is ready";
-  static const String emailConfirmation = "Email Confirmation";
-  static const String enterYourEmailForVerification =
-      "Enter Your email for verification.";
-  static const String sendVerificationCode = "Send Verification Code";
-  static const String verifyCode = "Verify Code";
-  static const String resendConfirmationCode = "Resend Confirmation Code";
-  static const String resetPassword = "Reset Password !";
-  static const String updatePassword = "Update Password";
-  static const String welcome = "Welcome";
-  static const String nextAppointment = "Next Appointment";
-  static const String popularServices = "Popular services";
-  static const String viewAll = "View all";
-  static const String offers = "Offers";
-  static const String oldPassword = "Old password";
-  static const String changePassword = "Change password";
-  static const String yourName = "Your Name";
-  static const String yourFirstName = "Your Name";
-  static const String userName = "User Name";
-  static const String yourLastName = "Your Last Name";
 
-  ///========================== Nav Bar =====================//
+  // ================= Logout Dialog =================
+  static const String logOutTitle = "Log Out";
+  static const String logOutMessage = "Are you sure you want to log out?";
+  static const String cancel = "Cancel";
+  static const String confirmLogOut = "Log Out";
 
-  static const String home = "Home";
-  static const String map = "Map";
-  static const String chat = "Chat";
-  static const String profile = "Profile";
-  static const String myHouse = "My house";
+  // ================= Age Login Onboarding Screen =================
+  static const String back = "Back";
+  static const String howOldAreYou = "How old are you?🎂";
+  static const String ageInfo =
+      "We just need it to match you with the right people.";
+  static const String enterYourAge = "Enter your age";
+  static const String agePublic = "Your age will be public";
+  static const String next = "Next";
 
-  ///===================================================
+  // ================= Age Picker BottomSheet =================
+  static const String selectAge = "Select Age";
+  static const String confirm = "Confirm";
+
+  // ================= Validation Messages =================
+  static const String pleaseEnterYourAge = "Please enter your age";
 }

@@ -1,4 +1,5 @@
 import 'package:event_app/utils/ToastMsg/toast_message.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/screens/register/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,7 +42,7 @@ class _AgeLoginOnboardingState extends State<AgeLoginOnboarding> {
                     ),
                   ),
                   CustomText(
-                    text: "Back",
+                    text: AppStrings.back.tr,
                     fontSize: 16.w,
                     fontWeight: FontWeight.w700,
                     color: AppColors.primary,
@@ -51,13 +52,13 @@ class _AgeLoginOnboardingState extends State<AgeLoginOnboarding> {
               ),
               CustomText(
                 top: 40,
-                text: "How old are you?🎂",
+                text: AppStrings.howOldAreYou.tr,
                 fontSize: 24.w,
                 fontWeight: FontWeight.w700,
               ),
               CustomText(
                 top: 10,
-                text: "We just need it to match you with the right people.",
+                text: AppStrings.ageInfo.tr,
                 fontSize: 14.w,
                 fontWeight: FontWeight.w400,
                 color: AppColors.softWhite,
@@ -66,12 +67,12 @@ class _AgeLoginOnboardingState extends State<AgeLoginOnboarding> {
               ),
               CustomTextFieldForAge(
                 fillColor: Color(0xffF9FAFB),
-                hintText: "Enter your age",
+                hintText: AppStrings.enterYourAge.tr,
               ),
 
               SizedBox(height: 8),
               Text(
-                "Your age will be public",
+                AppStrings.agePublic.tr,
                 style: TextStyle(color: Colors.grey, fontSize: 13),
               ),
               //Spacer(),
@@ -85,7 +86,7 @@ class _AgeLoginOnboardingState extends State<AgeLoginOnboarding> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             CustomText(
-              text: "Next",
+              text: AppStrings.next.tr,
               fontSize: 16.w,
               fontWeight: FontWeight.w700,
               color: AppColors.primary,
@@ -98,7 +99,7 @@ class _AgeLoginOnboardingState extends State<AgeLoginOnboarding> {
 
                   Get.toNamed(AppRoutes.genderLoginOnboarding);
                 } else {
-                  showCustomSnackBar("Please enter your age");
+                  showCustomSnackBar(AppStrings.pleaseEnterYourAge.tr);
                 }
               },
               child: CircleAvatar(

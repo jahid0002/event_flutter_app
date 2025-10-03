@@ -1,4 +1,6 @@
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../utils/app_icons/app_icons.dart';
@@ -38,7 +40,7 @@ class _NotificationSettingsScreenState extends State<NotificationsScreen> {
             ),
             const SizedBox(width: 6),
             CustomText(
-              text: "Notifications",
+              text: AppStrings.notifications.tr,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -64,25 +66,23 @@ class _NotificationSettingsScreenState extends State<NotificationsScreen> {
           child: Column(
             children: [
               _buildToggleTile(
-                title: "General Notifications",
-                subtitle:
-                    "Enable notifications for app updates, system alerts, and other important notifications.",
+                title: AppStrings.generalNotificationsTitle.tr,
+                subtitle: AppStrings.generalNotificationsSubtitle.tr,
                 value: generalNotifications,
                 onChanged: (val) => setState(() => generalNotifications = val),
               ),
               const Divider(),
               _buildToggleTile(
-                title: "Match Notifications",
-                subtitle:
-                    "Get notified when someone matches with you based on your profile preferences.",
+                title: AppStrings.matchNotificationsTitle.tr,
+                subtitle: AppStrings.matchNotificationsSubtitle.tr,
+                // "Get notified when someone matches with you based on your profile preferences.",
                 value: matchNotifications,
                 onChanged: (val) => setState(() => matchNotifications = val),
               ),
               const Divider(),
               _buildToggleTile(
-                title: "Message Notifications",
-                subtitle:
-                    "Get notified when you receive new messages in the chat.",
+                title: AppStrings.messageNotificationsTitle.tr,
+                subtitle: AppStrings.messageNotificationsSubtitle.tr,
                 value: messageNotifications,
                 onChanged: (val) => setState(() => messageNotifications = val),
               ),

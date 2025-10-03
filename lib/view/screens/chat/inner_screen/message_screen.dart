@@ -6,6 +6,7 @@ import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/helper/time_converter/date_converter.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_app_bar/custom_app_bar.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
@@ -74,7 +75,9 @@ class _MessageScreenState extends State<MessageScreen> {
   Widget build(BuildContext context) {
     debugPrint(receiverInformation.receiverId);
     return Scaffold(
-      appBar: CustomAppBar(title: receiverInformation.receiverName ?? 'N/A'),
+      appBar: CustomAppBar(
+        title: receiverInformation.receiverName ?? AppStrings.na.tr,
+      ),
       body: Column(
         children: [
           //==================== Chat Messages List ====================
@@ -174,10 +177,10 @@ class _MessageScreenState extends State<MessageScreen> {
                 //   ),
                 // ],
                 if (receiverInformation.blockByOther ?? false) ...[
-                  const CustomText(text: 'You are blocked by this user'),
+                  CustomText(text: AppStrings.youAreBlocked.tr),
                 ],
                 if (receiverInformation.blockByMe ?? false) ...[
-                  const CustomText(text: 'You have blocked this user'),
+                  CustomText(text: AppStrings.youHaveBlocked.tr),
                 ],
 
                 // SizedBox(height: 10.h),
@@ -201,7 +204,7 @@ class _MessageScreenState extends State<MessageScreen> {
                           fillColor: AppColors.fillColor,
                           textEditingController:
                               controller.messageController.value,
-                          hintText: 'Type a message',
+                          hintText: AppStrings.typeAMessage.tr,
                           fieldBorderColor: Colors.grey,
                           onChanged: (text) {
                             // setState(() {}); // Update UI

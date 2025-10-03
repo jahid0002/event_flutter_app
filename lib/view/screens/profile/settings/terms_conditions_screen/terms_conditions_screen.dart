@@ -1,4 +1,5 @@
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/profile/settings/controller/settings_controller.dart';
@@ -49,7 +50,7 @@ class _TermsConditionsScreenState extends State<TermsConditionsScreen> {
             ),
             const SizedBox(width: 6),
             CustomText(
-              text: "Terms & Conditions",
+              text: AppStrings.termsConditions.tr,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -80,7 +81,10 @@ class _TermsConditionsScreenState extends State<TermsConditionsScreen> {
                   controller.termsCondition.value.description != null
                       ? Html(data: controller.termsCondition.value.description)
                       : Center(
-                        child: CustomText(text: "No Data Found", top: 200.h),
+                        child: CustomText(
+                          text: AppStrings.noDataFound.tr,
+                          top: 200.h,
+                        ),
                       ),
                 ],
               ),

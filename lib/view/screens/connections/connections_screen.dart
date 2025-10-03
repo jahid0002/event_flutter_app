@@ -1,6 +1,7 @@
 import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_nav_bar/navbar.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_refresh_indicator/custom_refresh_indicator.dart';
@@ -42,7 +43,7 @@ class ConnectionsScreen extends StatelessWidget {
             ),
             const SizedBox(width: 6),
             CustomText(
-              text: "Connections",
+              text: AppStrings.connections.tr,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -71,7 +72,9 @@ class ConnectionsScreen extends StatelessWidget {
                 );
               case Status.completed:
                 return controller.connections.isEmpty
-                    ? const Center(child: CustomText(text: "No connection yet"))
+                    ? Center(
+                      child: CustomText(text: AppStrings.noConnectionYet.tr),
+                    )
                     : GridView.builder(
                       padding: EdgeInsets.only(top: 20.h),
                       itemCount: controller.connections.length,
@@ -411,7 +414,7 @@ class UserActionPopupMenu extends StatelessWidget {
               child: _MenuItem(
                 icon: Icons.person_off_outlined,
                 iconColor: Colors.green,
-                text: "Cancel Connection",
+                text: AppStrings.cancelConnection.tr,
               ),
             ),
             PopupMenuItem(
@@ -419,7 +422,7 @@ class UserActionPopupMenu extends StatelessWidget {
               child: _MenuItem(
                 icon: Icons.report_outlined,
                 iconColor: Colors.orange,
-                text: "Report User",
+                text: AppStrings.reportUser.tr,
               ),
             ),
             PopupMenuItem(
@@ -427,7 +430,7 @@ class UserActionPopupMenu extends StatelessWidget {
               child: _MenuItem(
                 icon: Icons.lock_outline,
                 iconColor: Colors.green,
-                text: "Block User",
+                text: AppStrings.blockUser.tr,
               ),
             ),
           ],

@@ -1,5 +1,6 @@
 import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -32,7 +33,7 @@ class SettingScreen extends StatelessWidget {
             ),
             const SizedBox(width: 6),
             CustomText(
-              text: "Settings",
+              text: AppStrings.settings.tr,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -50,31 +51,31 @@ class SettingScreen extends StatelessWidget {
           //   },
           // ),
           CustomSettingsListCard(
-            text: "Notification",
+            text: AppStrings.notification.tr,
             onTap: () {
               Get.toNamed(AppRoutes.notificationsScreen);
             },
           ),
           CustomSettingsListCard(
-            text: "Help & Support",
+            text: AppStrings.helpSupport.tr,
             onTap: () {
               Get.toNamed(AppRoutes.helpSupportScreen);
             },
           ),
           CustomSettingsListCard(
-            text: "Privacy Policy",
+            text: AppStrings.privacyPolicy.tr,
             onTap: () {
               Get.toNamed(AppRoutes.privacyPolicyScreen);
             },
           ),
           CustomSettingsListCard(
-            text: "Terms & Conditions",
+            text: AppStrings.termsConditions.tr,
             onTap: () {
               Get.toNamed(AppRoutes.termsConditionsScreen);
             },
           ),
           CustomSettingsListCard(
-            text: "log out",
+            text: AppStrings.logOut.tr,
             color: AppColors.red,
             onTap: () {
               showLogoutDialog(context, () {
@@ -85,7 +86,7 @@ class SettingScreen extends StatelessWidget {
             },
           ),
           CustomSettingsListCard(
-            text: "Delete Account",
+            text: AppStrings.deleteAccount.tr,
             color: AppColors.red,
             onTap: () {
               // Get.toNamed(AppRoutes.languageScreen);
@@ -114,7 +115,7 @@ class SettingScreen extends StatelessWidget {
                 Icon(Icons.logout, size: 50.w, color: Colors.redAccent),
                 SizedBox(height: 15.h),
                 Text(
-                  'Log Out',
+                  AppStrings.logOutTitle.tr,
                   style: TextStyle(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
@@ -122,7 +123,7 @@ class SettingScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 10.h),
                 Text(
-                  'Are you sure you want to log out?',
+                  AppStrings.logOutMessage.tr,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16.sp,
@@ -148,7 +149,7 @@ class SettingScreen extends StatelessWidget {
                           vertical: 8.h,
                         ),
                         child: Text(
-                          'Cancel',
+                          AppStrings.cancel.tr,
                           style: TextStyle(
                             color: Colors.black87,
                             fontSize: 14.sp,
@@ -176,7 +177,7 @@ class SettingScreen extends StatelessWidget {
                           vertical: 8.h,
                         ),
                         child: Text(
-                          'Log Out',
+                          AppStrings.confirmLogOut.tr,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14.sp,

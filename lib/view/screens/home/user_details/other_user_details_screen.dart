@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
@@ -97,7 +98,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                   child: CustomText(
                     top: 50.h,
                     left: 35.w,
-                    text: 'About me',
+                    text: AppStrings.aboutMe.tr,
                     fontSize: 16.w,
                     fontWeight: FontWeight.w600,
                     color: AppColors.primary,
@@ -154,7 +155,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                                       child: CustomText(
                                         top: 10.h,
                                         left: 0.w,
-                                        text: user.name ?? 'N/A',
+                                        text: user.name ?? AppStrings.na.tr,
                                         fontSize: 38.w,
                                         fontWeight: FontWeight.w600,
                                         textAlign: TextAlign.start,
@@ -199,7 +200,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                             ),
                             SizedBox(height: 20.h),
                             CustomText(
-                              text: 'About Me',
+                              text: AppStrings.aboutMe.tr,
                               fontSize: 16.w,
                               fontWeight: FontWeight.w600,
                               bottom: 15.h,
@@ -207,7 +208,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                             CustomText(
                               text:
                                   controller.connectionDetails.value.bio ??
-                                  'N/A',
+                                  AppStrings.na.tr,
                               fontSize: 12.w,
                               fontWeight: FontWeight.w400,
                               maxLines: 5,
@@ -219,7 +220,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomText(
-                                  text: 'Gender',
+                                  text: AppStrings.gender.tr,
                                   fontSize: 16.w,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -235,7 +236,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomText(
-                                  text: 'From',
+                                  text: AppStrings.from.tr,
                                   fontSize: 16.w,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -246,13 +247,13 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                                           .connectionDetails
                                           .value
                                           .address ??
-                                      'N/A',
+                                      AppStrings.na.tr,
                                 ),
                               ],
                             ),
                             CustomText(
                               top: 20.h,
-                              text: 'My intereses',
+                              text: AppStrings.myInterests.tr,
                               fontSize: 16.w,
                               fontWeight: FontWeight.w600,
                               bottom: 10.h,
@@ -274,7 +275,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                                             .connectionDetails
                                             .value
                                             .interests?[index] ??
-                                        'N/A',
+                                        AppStrings.na.tr,
                                   );
                                 },
                               ),
@@ -295,7 +296,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                             ),
                             CustomText(
                               top: 20.h,
-                              text: 'Languages',
+                              text: AppStrings.languages.tr,
                               fontSize: 16.w,
                               fontWeight: FontWeight.w600,
                               bottom: 10.h,
@@ -317,7 +318,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                                             .connectionDetails
                                             .value
                                             .language?[index] ??
-                                        'N/A',
+                                        AppStrings.na.tr,
                                   );
                                 },
                               ),
@@ -339,7 +340,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                             SizedBox(height: 40.h),
                             CustomText(
                               top: 20.h,
-                              text: 'My Album',
+                              text: AppStrings.myAlbum.tr,
                               fontSize: 16.w,
                               fontWeight: FontWeight.w600,
                               bottom: 10.h,

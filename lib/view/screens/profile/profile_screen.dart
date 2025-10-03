@@ -1,6 +1,7 @@
 import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/utils/app_icons/app_icons.dart';
+import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_nav_bar/navbar.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
@@ -73,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 6),
                           CustomText(
-                            text: "Profile",
+                            text: AppStrings.profile.tr,
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
                           ),
@@ -124,7 +125,9 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       CustomText(
                         top: 20,
-                        text: controller.profileModel.value.name ?? "N/A",
+                        text:
+                            controller.profileModel.value.name ??
+                            AppStrings.na.tr,
                         fontSize: 26,
                         fontWeight: FontWeight.w700,
                       ),
@@ -134,21 +137,21 @@ class ProfileScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 CustomProfileListCard(
                   imageSrc: AppIcons.parson,
-                  text: "Profile",
+                  text: AppStrings.profile.tr,
                   onTap: () {
                     Get.toNamed(AppRoutes.updateProfile);
                   },
                 ),
                 CustomProfileListCard(
                   imageSrc: AppIcons.language,
-                  text: " App Language",
+                  text: AppStrings.appLanguage.tr,
                   onTap: () {
                     Get.toNamed(AppRoutes.languageScreen);
                   },
                 ),
                 CustomProfileListCard(
                   imageSrc: AppIcons.settings,
-                  text: "Settings",
+                  text: AppStrings.settings.tr,
                   onTap: () {
                     Get.toNamed(AppRoutes.settingScreen);
                   },

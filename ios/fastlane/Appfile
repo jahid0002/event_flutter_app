@@ -1,0 +1,4 @@
+app_identifier("com.inviteeME") # আপনার Bundle ID
+apple_id("tss.sta.gpt@gmail.com") # আপনার Apple ID (developer account)
+
+team_id("3QTL6CD7P2") # Apple Developer Team ID
