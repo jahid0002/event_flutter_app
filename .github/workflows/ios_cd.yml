@@ -10,38 +10,53 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      # 1️⃣ Checkout project
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 2️⃣ Setup Ruby (for Fastlane)
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2
 
-      - name: Install Bundler
-        run: gem install bundler
+      # 3️⃣ Install dependencies for Fastlane
+      - name: Install Bundler & Fastlane
+        run: |
+          gem install bundler
+          gem install fastlane
 
-      - name: Install Fastlane
-        run: gem install fastlane
-
+      # 4️⃣ Setup Flutter SDK
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.32.5'
 
+      # 5️⃣ Get Flutter packages
       - name: Get Flutter dependencies
         run: flutter pub get
 
-      # 👉 iOS Pods install step (sandbox mismatch fix)
+      # 6️⃣ Install iOS Provisioning Profile (Base64 থেকে decode)
+      - name: Install Provisioning Profile
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "$IOS_PROVISION_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/EventApp_AppStore.mobileprovision
+        shell: bash
+        env:
+          IOS_PROVISION_PROFILE: ${{ secrets.IOS_PROVISION_PROFILE }}
+
+      # 7️⃣ Install CocoaPods
       - name: Install CocoaPods
         run: |
           cd ios
           pod install --repo-update
+        shell: bash
 
-      # 👉 Optional: clean build to avoid cache issues
+      # 8️⃣ Optional clean build
       - name: Flutter clean
         run: flutter clean
 
+      # 9️⃣ Build & Upload via Fastlane
       - name: Build & Upload iOS IPA (Fastlane)
         run: fastlane beta
         env:
