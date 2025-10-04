@@ -3,11 +3,13 @@ name: iOS CD (TestFlight)
 on:
   push:
     tags:
-      - 'v*.*.*'   # ট্যাগ দিলেই iOS build হবে (যেমন Android এর মতো)
+      - 'v*.*.*'   # ট্যাগ দিলেই iOS build হবে
 
 jobs:
   build:
     runs-on: macos-latest
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer   # ✅ use same Xcode as local
 
     steps:
       # 1️⃣ Checkout project
@@ -36,7 +38,15 @@ jobs:
       - name: Get Flutter dependencies
         run: flutter pub get
 
-      # 6️⃣ Install iOS Provisioning Profile (Base64 থেকে decode)
+      # 6️⃣ Fix iOS deployment target to 13.0 (auto patch for Pods)
+      - name: Force iOS 13.0 Deployment Target
+        run: |
+          cd ios
+          echo "Applying iOS 13.0 deployment target fix..."
+          find Pods -name 'project.pbxproj' | xargs sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 10.0/IPHONEOS_DEPLOYMENT_TARGET = 13.0/g' || true
+          echo "✅ iOS target fix applied"
+
+      # 7️⃣ Install iOS Provisioning Profile (Base64 থেকে decode)
       - name: Install Provisioning Profile
         run: |
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
@@ -45,18 +55,18 @@ jobs:
         env:
           IOS_PROVISION_PROFILE: ${{ secrets.IOS_PROVISION_PROFILE }}
 
-      # 7️⃣ Install CocoaPods
+      # 8️⃣ Install CocoaPods
       - name: Install CocoaPods
         run: |
           cd ios
           pod install --repo-update
         shell: bash
 
-      # 8️⃣ Optional clean build
+      # 9️⃣ Clean build (optional but safe)
       - name: Flutter clean
         run: flutter clean
 
-      # 9️⃣ Build & Upload via Fastlane
+      # 🔟 Build & Upload via Fastlane
       - name: Build & Upload iOS IPA (Fastlane)
         run: fastlane beta
         env:
