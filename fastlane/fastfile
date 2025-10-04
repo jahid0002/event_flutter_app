@@ -3,6 +3,7 @@ default_platform(:ios)
 platform :ios do
   desc "Build and upload to TestFlight"
   lane :beta do
+    # Authenticate with App Store Connect
     app_store_connect_api_key(
       key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
       issuer_id: ENV["APP_STORE_CONNECT_API_ISSUER_ID"],
@@ -10,21 +11,32 @@ platform :ios do
       in_house: false
     )
 
+    # Build the app
     gym(
+      workspace: "ios/Runner.xcworkspace",       # ✅ explicitly specify workspace (Flutter uses CocoaPods)
       scheme: "Runner",
       export_method: "app-store",
       export_options: {
         provisioningProfiles: {
           "com.inviteeME" => "EventApp_AppStore"
         }
-      }
+      },
+      clean: true,                               # ✅ ensure clean build
+      silent: true,                              # no prompts (important for CI)
+      include_symbols: false,                    # optional, faster uploads
+      include_bitcode: false                     # bitcode deprecated anyway
     )
 
-    pilot
+    # Upload to TestFlight
+    pilot(
+      skip_submission: true,                     # skip App Review submission for beta
+      skip_waiting_for_build_processing: true     # ✅ avoids long waiting in CI
+    )
   end
 
   desc "Release app to App Store"
   lane :release do
+    # Authenticate with App Store Connect
     app_store_connect_api_key(
       key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
       issuer_id: ENV["APP_STORE_CONNECT_API_ISSUER_ID"],
@@ -32,16 +44,28 @@ platform :ios do
       in_house: false
     )
 
+    # Build the app
     gym(
+      workspace: "ios/Runner.xcworkspace",       # ✅ same as above
       scheme: "Runner",
       export_method: "app-store",
       export_options: {
         provisioningProfiles: {
           "com.inviteeME" => "EventApp_AppStore"
         }
-      }
+      },
+      clean: true,
+      silent: true,
+      include_symbols: true,                     # symbols useful for crash reports
+      include_bitcode: false
     )
 
-    deliver(force: true)
+    # Upload and release to App Store
+    deliver(
+      force: true,                               # ✅ non-interactive mode support
+      skip_metadata: true,                       # skip changelog & screenshots in CI
+      skip_screenshots: true,
+      submit_for_review: true                    # automatically submit after upload
+    )
   end
 end
