@@ -10,7 +10,8 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -31,10 +32,19 @@ jobs:
       - name: Get Flutter dependencies
         run: flutter pub get
 
-      - name: Build iOS IPA
+      # 👉 iOS Pods install step (sandbox mismatch fix)
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod install --repo-update
+
+      # 👉 Optional: clean build to avoid cache issues
+      - name: Flutter clean
+        run: flutter clean
+
+      - name: Build & Upload iOS IPA (Fastlane)
         run: fastlane beta
         env:
-         APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-         APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
-         APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
-
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
