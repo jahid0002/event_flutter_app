@@ -9,9 +9,18 @@ platform :ios do
       key_content: ENV["APP_STORE_CONNECT_API_KEY_CONTENT"],
       in_house: false
     )
-    
-    gym(scheme: "Innviteme") # ipa build করবে
-    pilot                    # TestFlight এ আপলোড করবে
+
+    gym(
+      scheme: "Runner",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "com.inviteeME" => "EventApp_AppStore"
+        }
+      }
+    )
+
+    pilot
   end
 
   desc "Release app to App Store"
@@ -23,7 +32,16 @@ platform :ios do
       in_house: false
     )
 
-    gym(scheme: "Innviteme") 
-    deliver(force: true)     # App Store এ সাবমিট করবে
+    gym(
+      scheme: "Runner",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "com.inviteeME" => "EventApp_AppStore"
+        }
+      }
+    )
+
+    deliver(force: true)
   end
 end
