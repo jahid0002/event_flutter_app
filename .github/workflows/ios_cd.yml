@@ -7,70 +7,59 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14   # macOS 14 = Xcode 15.4
+    runs-on: macos-14
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer   # ✅ same Xcode as local
+      DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
 
     steps:
-      # 1️⃣ Checkout project
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Select proper Xcode version before anything else
       - name: Select Xcode 15.4
         run: sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer
 
-      # 3️⃣ Setup Ruby (for Fastlane)
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2
 
-      # 4️⃣ Install Fastlane only (avoid Bundler sysrandom issue)
       - name: Install Fastlane
         run: gem install fastlane -NV
 
-      # 5️⃣ Setup Flutter SDK
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.32.5'
 
-      # 6️⃣ Get Flutter dependencies
       - name: Flutter pub get
         run: flutter pub get
 
-      # 7️⃣ Ensure iOS 13.0 deployment target (Pods fix)
+      # Generate missing Flutter config so build না ফেইল হয়
+      - name: Generate Flutter iOS config
+        run: |
+          flutter pub get
+          flutter build ios --config-only
+
+      # Force iOS 13.0 for pods
       - name: Force iOS 13.0 Deployment Target
         run: |
           cd ios
-          echo "🔧 Forcing iOS 13.0 deployment target..."
+          find Pods -name 'project.pbxproj' | xargs sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 9.0/IPHONEOS_DEPLOYMENT_TARGET = 13.0/g' || true
           find Pods -name 'project.pbxproj' | xargs sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 10.0/IPHONEOS_DEPLOYMENT_TARGET = 13.0/g' || true
-          echo "✅ iOS deployment target fixed"
+          echo "✅ Deployment target fixed"
 
-      # 8️⃣ Install iOS Provisioning Profile (Base64 → decode)
-      - name: Install Provisioning Profile
-        run: |
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          echo "$IOS_PROVISION_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/EventApp_AppStore.mobileprovision
-          echo "✅ Provisioning profile installed"
-        env:
-          IOS_PROVISION_PROFILE: ${{ secrets.IOS_PROVISION_PROFILE }}
-
-      # 9️⃣ Install CocoaPods
       - name: Install CocoaPods
         run: |
           cd ios
           pod install --repo-update
-        shell: bash
 
-      # 🔟 Clean Flutter build cache
       - name: Flutter clean
         run: flutter clean
 
-      # 11️⃣ Build & Upload via Fastlane
+      # 👉 Fastlane build with automatic code signing
       - name: Build & Upload to TestFlight
-        run: fastlane beta
+        run: |
+          fastlane beta skip_certificate_handling:true
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
