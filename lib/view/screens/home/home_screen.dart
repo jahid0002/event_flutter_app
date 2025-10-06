@@ -167,35 +167,43 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: AppColors.white,
                                         bottom: 5.h,
                                       ),
-                                      // Row(
-                                      //   children: [
-                                      //     CustomButton(
-                                      //       fontWeight: FontWeight.w700,
-                                      //       fontSize: 14.w,
-                                      //       onTap: () {},
-                                      //       title: 'Workout',
-                                      //       width: 88.w,
-                                      //       height: 30.h,
-                                      //       fillColor: Colors.transparent,
-                                      //       textColor: AppColors.primary,
-                                      //       isBorder: true,
-                                      //       borderWidth: 1,
-                                      //     ),
-                                      //     SizedBox(width: 10.w),
-                                      //     CustomButton(
-                                      //       fontWeight: FontWeight.w700,
-                                      //       fontSize: 14.w,
-                                      //       onTap: () {},
-                                      //       title: 'Casual',
-                                      //       width: 88.w,
-                                      //       height: 30.h,
-                                      //       fillColor: Colors.transparent,
-                                      //       textColor: AppColors.primary,
-                                      //       isBorder: true,
-                                      //       borderWidth: 1,
-                                      //     ),
-                                      //   ],
-                                      // ),
+                                      Row(
+                                        children: [
+                                          if (data.interests != null &&
+                                              data.interests!.isNotEmpty) ...[
+                                            CustomButton(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14.w,
+                                              onTap: () {},
+                                              title: data.interests![0],
+                                              width: 88.w,
+                                              height: 30.h,
+                                              fillColor: Colors.transparent,
+                                              textColor: AppColors.primary,
+                                              isBorder: true,
+                                              borderWidth: 1,
+                                            ),
+                                            SizedBox(width: 10.w),
+                                            data.interests!.length > 1
+                                                ? CustomButton(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 14.w,
+                                                  onTap: () {},
+                                                  title:
+                                                      data.interests!.length > 1
+                                                          ? data.interests![1]
+                                                          : '',
+                                                  width: 88.w,
+                                                  height: 30.h,
+                                                  fillColor: Colors.transparent,
+                                                  textColor: AppColors.primary,
+                                                  isBorder: true,
+                                                  borderWidth: 1,
+                                                )
+                                                : SizedBox(),
+                                          ],
+                                        ],
+                                      ),
                                       SizedBox(height: 20.h),
                                       Row(
                                         children: [
