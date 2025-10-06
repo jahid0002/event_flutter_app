@@ -4,12 +4,12 @@ import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../../../core/routes/app_routes.dart';
-import '../../../../../utils/app_colors/app_colors.dart';
-import '../../../../../utils/app_icons/app_icons.dart';
-import '../../../../components/custom_image/custom_image.dart';
-import '../../../../components/custom_text/custom_text.dart';
-import '../../widget/custom_settings_list_card.dart';
+import '../../../../core/routes/app_routes.dart';
+import '../../../../utils/app_colors/app_colors.dart';
+import '../../../../utils/app_icons/app_icons.dart';
+import '../../../components/custom_image/custom_image.dart';
+import '../../../components/custom_text/custom_text.dart';
+import '../../profile/widget/custom_settings_list_card.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});

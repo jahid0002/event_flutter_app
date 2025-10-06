@@ -2,31 +2,33 @@ import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/general_error.dart';
-import 'package:event_app/view/screens/profile/settings/controller/settings_controller.dart';
+import 'package:event_app/view/screens/settings/controller/settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../../../utils/app_colors/app_colors.dart';
-import '../../../../../utils/app_icons/app_icons.dart';
-import '../../../../components/custom_image/custom_image.dart';
-import '../../../../components/custom_text/custom_text.dart';
 
-class PrivacyPolicyScreen extends StatefulWidget {
-  const PrivacyPolicyScreen({super.key});
+import '../../../../utils/app_colors/app_colors.dart';
+import '../../../../utils/app_icons/app_icons.dart';
+import '../../../components/custom_image/custom_image.dart';
+import '../../../components/custom_text/custom_text.dart';
+
+class TermsConditionsScreen extends StatefulWidget {
+  const TermsConditionsScreen({super.key});
 
   @override
-  State<PrivacyPolicyScreen> createState() => _PrivacyPolicyScreenState();
+  State<TermsConditionsScreen> createState() => _TermsConditionsScreenState();
 }
 
-class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
+class _TermsConditionsScreenState extends State<TermsConditionsScreen> {
   final SettingsController controller = Get.find<SettingsController>();
 
   @override
   void initState() {
     // TO DO: implement initState
     super.initState();
-    controller.privacyPolicyApi();
+
+    controller.termsAndCondition();
   }
 
   @override
@@ -48,7 +50,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
             ),
             const SizedBox(width: 6),
             CustomText(
-              text: AppStrings.privacyPolicyTitle.tr,
+              text: AppStrings.termsConditions.tr,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -57,16 +59,16 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
         ),
       ),
       body: Obx(() {
-        switch (controller.privacyPolicyStatus.value) {
+        switch (controller.termsConditionStatus.value) {
           case Status.loading:
             return CustomLoader();
           case Status.error:
             return GeneralErrorScreen(
-              onTap: () => controller.privacyPolicyApi(),
+              onTap: () => controller.termsAndCondition(),
             );
           case Status.internetError:
             return GeneralErrorScreen(
-              onTap: () => controller.privacyPolicyApi(),
+              onTap: () => controller.termsAndCondition(),
             );
           case Status.completed:
             return Padding(
@@ -76,24 +78,11 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
               ),
               child: Column(
                 children: [
-                  controller.privacyPolicy.value.description != null
-                      ? Html(
-                        data:
-                            controller
-                                .privacyPolicy
-                                .value
-                                .description, // এটা সার্ভার থেকে আসা HTML string
-                        // style: {
-                        //   "body": Style(
-                        //     //  fontSize: FontSize(14.w),
-                        //     fontWeight: FontWeight.w400,
-                        //     textAlign: TextAlign.start,
-                        //   ),
-                        // },
-                      )
+                  controller.termsCondition.value.description != null
+                      ? Html(data: controller.termsCondition.value.description)
                       : Center(
                         child: CustomText(
-                          text: AppStrings.notAvailable.tr,
+                          text: AppStrings.noDataFound.tr,
                           top: 200.h,
                         ),
                       ),

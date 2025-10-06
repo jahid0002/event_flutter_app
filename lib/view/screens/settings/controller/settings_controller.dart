@@ -2,7 +2,7 @@ import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
-import 'package:event_app/view/screens/profile/settings/model/terms_condition_model.dart';
+import 'package:event_app/view/screens/settings/model/terms_condition_model.dart';
 import 'package:get/get.dart';
 
 class SettingsController extends GetxController {
@@ -45,4 +45,6 @@ class SettingsController extends GetxController {
       ApiChecker.checkApi(response);
     }
   }
+
+  //=============================== Help And Support ===============================.
 }

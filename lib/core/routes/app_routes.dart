@@ -27,13 +27,13 @@ import '../../view/screens/register/langues_screen.dart';
 import '../../view/screens/register/wifi_screen.dart';
 import '../../view/screens/register/your_email_login_onboarding.dart';
 import '../../view/screens/register/your_name_login_onboarding.dart';
-import '../../view/screens/profile/settings/account_security_screen/account_security_screen.dart';
-import '../../view/screens/profile/settings/help_support_screen/help_support_screen.dart';
-import '../../view/screens/profile/settings/language_screen/language_screen.dart';
-import '../../view/screens/profile/settings/notifications_screen/notifications_screen.dart';
-import '../../view/screens/profile/settings/privacy_policy_screen/privacy_policy_screen.dart';
-import '../../view/screens/profile/settings/setting_screen/setting_screen.dart';
-import '../../view/screens/profile/settings/terms_conditions_screen/terms_conditions_screen.dart';
+import '../../view/screens/settings/account_security_screen/account_security_screen.dart';
+import '../../view/screens/settings/help_support_screen/help_support_screen.dart';
+import '../../view/screens/settings/language_screen/language_screen.dart';
+import '../../view/screens/settings/notifications_screen/notifications_screen.dart';
+import '../../view/screens/settings/privacy_policy_screen/privacy_policy_screen.dart';
+import '../../view/screens/settings/setting_screen/setting_screen.dart';
+import '../../view/screens/settings/terms_conditions_screen/terms_conditions_screen.dart';
 
 ///=========================App Routes=========================
 

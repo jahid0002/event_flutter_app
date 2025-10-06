@@ -4,7 +4,7 @@ import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
-import 'package:event_app/view/screens/profile/settings/controller/langues_controller.dart';
+import 'package:event_app/view/screens/settings/controller/langues_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

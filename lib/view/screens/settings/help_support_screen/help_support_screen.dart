@@ -1,14 +1,19 @@
 import 'package:event_app/utils/app_strings/app_strings.dart';
+import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
+import 'package:event_app/view/screens/settings/controller/settings_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_utils/get_utils.dart';
+import 'package:get/get.dart';
 
-import '../../../../../utils/app_colors/app_colors.dart';
-import '../../../../../utils/app_icons/app_icons.dart';
-import '../../../../components/custom_image/custom_image.dart';
-import '../../../../components/custom_text/custom_text.dart';
+import '../../../../utils/app_colors/app_colors.dart';
+import '../../../../utils/app_icons/app_icons.dart';
+import '../../../components/custom_image/custom_image.dart';
+import '../../../components/custom_text/custom_text.dart';
 
 class HelpSupportScreen extends StatelessWidget {
-  const HelpSupportScreen({super.key});
+  HelpSupportScreen({super.key});
+
+  final ProfileController profileController = Get.find<ProfileController>();
+  final SettingsController controller = Get.find<SettingsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +49,8 @@ class HelpSupportScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Hello, Mikasa!",
+              Text(
+                "Hello, ${profileController.profileModel.value.name ?? ''}!",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 4),

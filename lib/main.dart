@@ -5,7 +5,7 @@ import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/firebase_options.dart';
 import 'package:event_app/service/socket_service.dart';
 import 'package:event_app/utils/app_langues/app_langues.dart';
-import 'package:event_app/view/screens/profile/settings/controller/langues_controller.dart';
+import 'package:event_app/view/screens/settings/controller/langues_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 

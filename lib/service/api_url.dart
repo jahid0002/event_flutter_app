@@ -65,4 +65,8 @@ class ApiUrl {
   //================================= Check WiFi ===============================
 
   static const String checkWifi = '/auth/check-wifi-ip-range';
+
+  //=============================== Help And Support ===============================.
+
+  static const String getFaq = '/manage/get-faq';
 }
