@@ -1,4 +1,7 @@
+import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/utils/app_strings/app_strings.dart';
+import 'package:event_app/view/components/custom_loader/custom_loader.dart';
+import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
 import 'package:event_app/view/screens/settings/controller/settings_controller.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +12,24 @@ import '../../../../utils/app_icons/app_icons.dart';
 import '../../../components/custom_image/custom_image.dart';
 import '../../../components/custom_text/custom_text.dart';
 
-class HelpSupportScreen extends StatelessWidget {
-  HelpSupportScreen({super.key});
+class HelpSupportScreen extends StatefulWidget {
+  const HelpSupportScreen({super.key});
 
+  @override
+  State<HelpSupportScreen> createState() => _HelpSupportScreenState();
+}
+
+class _HelpSupportScreenState extends State<HelpSupportScreen> {
   final ProfileController profileController = Get.find<ProfileController>();
+
   final SettingsController controller = Get.find<SettingsController>();
+
+  @override
+  void initState() {
+    // TO DO: implement initState
+    super.initState();
+    controller.faqApi();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +78,20 @@ class HelpSupportScreen extends StatelessWidget {
 
               // Search Field
               TextField(
+                onChanged: (value) {
+                  final query = value.trim().toLowerCase();
+                  if (query.isEmpty) {
+                    controller.filteredFaqList.assignAll(controller.faqList);
+                  } else {
+                    controller.filteredFaqList.assignAll(
+                      controller.faqList.where(
+                        (faq) =>
+                            (faq.question ?? '').toLowerCase().contains(query),
+                      ),
+                    );
+                  }
+                },
+                controller: controller.searchController,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
                   hintText: "Search",
@@ -90,24 +120,82 @@ class HelpSupportScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              _faqItem(
-                question: "How do I sign up on Innvite?",
-                answer:
-                    "You can sign up for Innvite using your hotel’s Wi-Fi or by entering the unique access code provided by the hotel. Simply follow the registration steps after logging into the Wi-Fi or entering the code.",
-              ),
-              const SizedBox(height: 12),
-              _faqItem(
-                question: "How do I update my profile?",
-                answer:
-                    "To update your profile, go to the “Profile” section in the app. You can change your nickname, upload a new photo, update your interests, and adjust other personal details like your stay dates and preferred activities.",
-              ),
-              const SizedBox(height: 12),
-              _faqItem(
-                question:
-                    "Can I connect with guests who aren’t staying at my hotel?",
-                answer:
-                    "No, you can only connect with guests who are staying at the same hotel as you. This ensures privacy and security for all guests.",
-              ),
+              Obx(() {
+                switch (controller.faqStatus.value) {
+                  case Status.loading:
+                    return const Center(child: CustomLoader());
+                  case Status.error:
+                  case Status.internetError:
+                    return GeneralErrorScreen(onTap: () => controller.faqApi());
+                  case Status.completed:
+                    if (controller.filteredFaqList.isEmpty) {
+                      return const Center(child: Text("No FAQs found."));
+                    }
+                    return ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: controller.filteredFaqList.length,
+                      separatorBuilder: (_, __) => const SizedBox(height: 12),
+                      itemBuilder: (context, index) {
+                        final faq = controller.filteredFaqList[index];
+                        return _faqItem(
+                          question: faq.question ?? 'No question',
+                          answer: faq.answer ?? 'No answer',
+                        );
+                      },
+                    );
+                }
+              }),
+
+              // Obx(() {
+              //   switch (controller.faqStatus.value) {
+              //     case Status.loading:
+              //       return Center(child: CustomLoader());
+              //     case Status.error:
+              //       return GeneralErrorScreen(onTap: () => controller.faqApi());
+              //     case Status.internetError:
+              //       return GeneralErrorScreen(onTap: () => controller.faqApi());
+              //     case Status.completed:
+              //       if (controller.faqList.isEmpty) {
+              //         return Center(
+              //           child: Text("No FAQs available at the moment."),
+              //         );
+              //       }
+              //       return ListView.separated(
+              //         physics: NeverScrollableScrollPhysics(),
+              //         shrinkWrap: true,
+              //         itemCount: controller.faqList.length,
+              //         separatorBuilder:
+              //             (context, index) => const SizedBox(height: 12),
+              //         itemBuilder: (context, index) {
+              //           final faq = controller.faqList[index];
+              //           return _faqItem(
+              //             question: faq.question ?? 'No question',
+              //             answer: faq.answer ?? 'No answer',
+              //           );
+              //         },
+              //       );
+              //   }
+              // }),
+
+              // _faqItem(
+              //   question: "How do I sign up on Innvite?",
+              //   answer:
+              //       "You can sign up for Innvite using your hotel’s Wi-Fi or by entering the unique access code provided by the hotel. Simply follow the registration steps after logging into the Wi-Fi or entering the code.",
+              // ),
+              // const SizedBox(height: 12),
+              // _faqItem(
+              //   question: "How do I update my profile?",
+              //   answer:
+              //       "To update your profile, go to the “Profile” section in the app. You can change your nickname, upload a new photo, update your interests, and adjust other personal details like your stay dates and preferred activities.",
+              // ),
+              // const SizedBox(height: 12),
+              // _faqItem(
+              //   question:
+              //       "Can I connect with guests who aren’t staying at my hotel?",
+              //   answer:
+              //       "No, you can only connect with guests who are staying at the same hotel as you. This ensures privacy and security for all guests.",
+              // ),
             ],
           ),
         ),

@@ -2,7 +2,9 @@ import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/view/screens/settings/model/help_suport_model.dart';
 import 'package:event_app/view/screens/settings/model/terms_condition_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SettingsController extends GetxController {
@@ -47,4 +49,50 @@ class SettingsController extends GetxController {
   }
 
   //=============================== Help And Support ===============================.
+
+  final TextEditingController searchController = TextEditingController();
+
+  Rx<Status> faqStatus = Status.loading.obs;
+  RxList<HelpSuportModel> faqList = <HelpSuportModel>[].obs;
+  RxList<HelpSuportModel> filteredFaqList = <HelpSuportModel>[].obs;
+
+  void faqApi() async {
+    faqStatus(Status.loading);
+    var response = await ApiClient.getData(ApiUrl.getFaq);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      faqList.assignAll(
+        List<HelpSuportModel>.from(
+          response.body['data'].map((x) => HelpSuportModel.fromMap(x)),
+        ),
+      );
+
+      // ✅ এখানে filtered list assign করো (copy হিসেবে)
+      filteredFaqList.assignAll(faqList);
+      faqStatus(Status.completed);
+    } else {
+      faqStatus(Status.error);
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  @override
+  void onInit() {
+    // TO DO: implement onInit
+    super.onInit();
+    // Listen for search changes
+    searchController.addListener(() {
+      final query = searchController.text.trim().toLowerCase();
+      if (query.isEmpty) {
+        filteredFaqList.assignAll(faqList);
+      } else {
+        filteredFaqList.assignAll(
+          faqList.where(
+            (faq) =>
+                (faq.question ?? '').toLowerCase().contains(query) ||
+                (faq.answer ?? '').toLowerCase().contains(query),
+          ),
+        );
+      }
+    });
+  }
 }
