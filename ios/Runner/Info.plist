@@ -46,6 +46,14 @@
 	<string>1033008770432-812qbdf64i6q0ef8m3h1fphuosb0jr4o.apps.googleusercontent.com</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+
+	<!-- ✅ Added for url_launcher (allows opening https and http links safely) -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>https</string>
+		<string>http</string>
+	</array>
+
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

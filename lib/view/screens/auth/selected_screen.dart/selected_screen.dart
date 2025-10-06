@@ -6,6 +6,7 @@ import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/screens/auth/controller/auth_controller.dart';
+import 'package:event_app/view/screens/auth/selected_screen.dart/widget/terms_privacy_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -52,14 +53,16 @@ class SelectedScreen extends StatelessWidget {
             ),
 
             Spacer(),
-            CustomText(
-              bottom: 30.h,
-              maxLines: 4,
-              fontSize: 12.sp,
-              color: AppColors.gray,
-              text:
-                  'Creating an account means you accept our Terms and Privacy Policy. No worries, your data is safe with us.',
-            ),
+            TermsPrivacyText(),
+
+            // CustomText(
+            //   bottom: 30.h,
+            //   maxLines: 4,
+            //   fontSize: 12.sp,
+            //   color: AppColors.gray,
+            //   text:
+            //       'Creating an account means you accept our Terms and Privacy Policy. No worries, your data is safe with us.',
+            // ),
           ],
         ),
       ),

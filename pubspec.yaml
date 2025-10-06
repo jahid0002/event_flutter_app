@@ -65,6 +65,8 @@ dependencies:
   network_info_plus: ^6.1.4
   firebase_messaging: ^15.2.10
   flutter_localization: ^0.3.3
+  flutter_linkify: ^6.0.0
+  url_launcher: ^6.3.2
   
   
   
