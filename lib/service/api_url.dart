@@ -69,4 +69,10 @@ class ApiUrl {
   //=============================== Help And Support ===============================.
 
   static const String getFaq = '/manage/get-faq';
+
+  //================================ Notification Settings ===============================.
+
+  static const String getNotificationSettings = '/notificationSetting/get';
+  static const String updateNotificationSettings =
+      '/notificationSetting/update';
 }

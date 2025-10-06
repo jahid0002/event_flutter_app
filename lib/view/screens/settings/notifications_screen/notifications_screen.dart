@@ -1,4 +1,8 @@
+import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/utils/app_strings/app_strings.dart';
+import 'package:event_app/view/components/custom_loader/custom_loader.dart';
+import 'package:event_app/view/components/general_error.dart';
+import 'package:event_app/view/screens/settings/controller/settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +23,16 @@ class _NotificationSettingsScreenState extends State<NotificationsScreen> {
   bool generalNotifications = true;
   bool matchNotifications = true;
   bool messageNotifications = false;
+
+  final SettingsController controller = Get.find<SettingsController>();
+
+  @override
+  void initState() {
+    // TO DO: implement initState
+    super.initState();
+
+    controller.getNotificationSettings();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,31 +77,52 @@ class _NotificationSettingsScreenState extends State<NotificationsScreen> {
               ),
             ],
           ),
-          child: Column(
-            children: [
-              _buildToggleTile(
-                title: AppStrings.generalNotificationsTitle.tr,
-                subtitle: AppStrings.generalNotificationsSubtitle.tr,
-                value: generalNotifications,
-                onChanged: (val) => setState(() => generalNotifications = val),
-              ),
-              const Divider(),
-              _buildToggleTile(
-                title: AppStrings.matchNotificationsTitle.tr,
-                subtitle: AppStrings.matchNotificationsSubtitle.tr,
-                // "Get notified when someone matches with you based on your profile preferences.",
-                value: matchNotifications,
-                onChanged: (val) => setState(() => matchNotifications = val),
-              ),
-              const Divider(),
-              _buildToggleTile(
-                title: AppStrings.messageNotificationsTitle.tr,
-                subtitle: AppStrings.messageNotificationsSubtitle.tr,
-                value: messageNotifications,
-                onChanged: (val) => setState(() => messageNotifications = val),
-              ),
-            ],
-          ),
+          child: Obx(() {
+            if (controller.notificationSettingsStatus.value == Status.loading) {
+              return Center(child: CustomLoader());
+            }
+
+            if (controller.notificationSettingsStatus.value == Status.error) {
+              return GeneralErrorScreen(
+                onTap: () => controller.getNotificationSettings(),
+              );
+            }
+
+            return Column(
+              children: [
+                _buildToggleTile(
+                  title: AppStrings.generalNotificationsTitle.tr,
+                  subtitle: AppStrings.generalNotificationsSubtitle.tr,
+                  value: controller.generalNotifications.value,
+                  onChanged: (val) {
+                    controller.generalNotifications.value = val;
+                    controller.updateNotification();
+                  },
+                ),
+                const Divider(),
+                _buildToggleTile(
+                  title: AppStrings.matchNotificationsTitle.tr,
+                  subtitle: AppStrings.matchNotificationsSubtitle.tr,
+                  // "Get notified when someone matches with you based on your profile preferences.",
+                  value: controller.matchNotifications.value,
+                  onChanged: (val) {
+                    controller.matchNotifications.value = val;
+                    controller.updateNotification();
+                  },
+                ),
+                const Divider(),
+                _buildToggleTile(
+                  title: AppStrings.messageNotificationsTitle.tr,
+                  subtitle: AppStrings.messageNotificationsSubtitle.tr,
+                  value: controller.messageNotifications.value,
+                  onChanged: (val) {
+                    controller.messageNotifications.value = val;
+                    controller.updateNotification();
+                  },
+                ),
+              ],
+            );
+          }),
         ),
       ),
     );

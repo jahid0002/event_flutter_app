@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
+import 'package:event_app/utils/ToastMsg/toast_message.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/view/screens/settings/model/help_suport_model.dart';
+import 'package:event_app/view/screens/settings/model/notification_settings_model.dart';
 import 'package:event_app/view/screens/settings/model/terms_condition_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -66,7 +70,6 @@ class SettingsController extends GetxController {
         ),
       );
 
-      // ✅ এখানে filtered list assign করো (copy হিসেবে)
       filteredFaqList.assignAll(faqList);
       faqStatus(Status.completed);
     } else {
@@ -74,6 +77,60 @@ class SettingsController extends GetxController {
       ApiChecker.checkApi(response);
     }
   }
+
+  //=================================== Notification Settings ===============================.
+
+  Rx<NotificationSettingsModel> notificationSettings =
+      NotificationSettingsModel().obs;
+
+  Rx<Status> notificationSettingsStatus = Status.loading.obs;
+
+  void getNotificationSettings() async {
+    // notificationSettingsStatus(Status.loading);
+    var response = await ApiClient.getData(ApiUrl.getNotificationSettings);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.body['data'] != null) {
+        notificationSettings.value = NotificationSettingsModel.fromMap(
+          response.body['data'],
+        );
+      }
+      initNotification(notificationSettings.value);
+      notificationSettingsStatus(Status.completed);
+    } else {
+      notificationSettingsStatus(Status.error);
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  RxBool generalNotifications = false.obs;
+  RxBool matchNotifications = false.obs;
+  RxBool messageNotifications = false.obs;
+
+  initNotification(NotificationSettingsModel response) {
+    generalNotifications.value = response.generalNotification ?? false;
+    matchNotifications.value = response.matchNotification ?? false;
+    messageNotifications.value = response.messageNotification ?? false;
+  }
+
+  updateNotification() async {
+    var body = {
+      "generalNotification": generalNotifications.value,
+      "matchNotification": matchNotifications.value,
+      "messageNotification": messageNotifications.value,
+    };
+    var response = await ApiClient.patchData(
+      ApiUrl.updateNotificationSettings,
+      jsonEncode(body),
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      showCustomSnackBar(response.body['message'], isError: false);
+      getNotificationSettings();
+    } else {
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  //===========================>> On Init <<=============================
 
   @override
   void onInit() {
