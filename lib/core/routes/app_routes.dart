@@ -11,6 +11,7 @@ import 'package:event_app/view/screens/home/user_details/other_user_details_scre
 import 'package:event_app/view/screens/register/show_your_best_self.dart';
 import 'package:event_app/view/screens/profile/profile_screen.dart';
 import 'package:event_app/view/screens/profile/update/update_profile.dart';
+import 'package:event_app/view/screens/register/welcome_hotel_screen.dart';
 import 'package:event_app/view/screens/splash/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -38,6 +39,7 @@ import '../../view/screens/profile/settings/terms_conditions_screen/terms_condit
 
 class AppRoutes {
   static const String splashScreen = "/SplashScreen";
+  static const String welcomeHotelScreen = "/WelcomeHotelScreen";
   static const String profileScreen = "/ProfileScreen";
   static const String homeScreen = "/HomeScreen";
   static const String connectionsScreen = "/ConnectionsScreen";
@@ -75,6 +77,7 @@ class AppRoutes {
   static List<GetPage> routes = [
     ///===========================Authentication==========================
     GetPage(name: splashScreen, page: () => SplashScreen()),
+    GetPage(name: welcomeHotelScreen, page: () => WelcomeHotelScreen()),
     GetPage(name: profileScreen, page: () => ProfileScreen()),
     GetPage(name: homeScreen, page: () => HomeScreen()),
     GetPage(name: connectionsScreen, page: () => ConnectionsScreen()),

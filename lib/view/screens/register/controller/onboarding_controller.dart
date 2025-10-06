@@ -132,7 +132,8 @@ class OnboardingController extends GetxController {
     userRegistered(false);
     if (response.statusCode == 200 || response.statusCode == 201) {
       SharePrefsHelper.setBool(AppConstants.isRegistered, true);
-      Get.offAllNamed(AppRoutes.homeScreen);
+      //  Get.offAllNamed(AppRoutes.homeScreen);
+      Get.offAllNamed(AppRoutes.welcomeHotelScreen);
     } else {
       ApiChecker.checkApi(response);
     }

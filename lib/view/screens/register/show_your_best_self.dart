@@ -6,6 +6,7 @@ import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/utils/ToastMsg/toast_message.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
+import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
 import 'package:event_app/view/screens/register/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +16,7 @@ class ShowYourBestSelf extends StatelessWidget {
   ShowYourBestSelf({super.key});
 
   final OnboardingController controller = Get.find<OnboardingController>();
+  final ProfileController profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {

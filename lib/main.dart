@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
             defaultTransition: Transition.fadeIn,
             transitionDuration: const Duration(milliseconds: 200),
             navigatorKey: Get.key,
-            initialRoute: AppRoutes.selectedScreen,
+            initialRoute: AppRoutes.splashScreen,
             getPages: AppRoutes.routes,
 
             translations: AppTranslations(),

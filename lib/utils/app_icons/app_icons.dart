@@ -30,4 +30,5 @@ class AppIcons {
   static const String parsonClose = "$basePath/parsonClose.svg";
   static const String reports = "$basePath/reports.svg";
   static const String lustImage = "$basePath/lustImage.svg";
+  static const String welcomeText = "$basePath/welcomeText.png";
 }
