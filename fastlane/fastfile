@@ -1,9 +1,9 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Build and upload to TestFlight"
+  desc "📦 Build and upload to TestFlight"
   lane :beta do
-    # Authenticate with App Store Connect
+    # 🧩 Authenticate with App Store Connect via API Key
     app_store_connect_api_key(
       key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
       issuer_id: ENV["APP_STORE_CONNECT_API_ISSUER_ID"],
@@ -11,61 +11,71 @@ platform :ios do
       in_house: false
     )
 
-    # Build the app
+    # 🧩 Clean & build the iOS app (manual signing)
     gym(
-      workspace: "ios/Runner.xcworkspace",       # ✅ explicitly specify workspace (Flutter uses CocoaPods)
+      workspace: "ios/Runner.xcworkspace",  # CocoaPods workspace
       scheme: "Runner",
       export_method: "app-store",
-      export_options: {
-        provisioningProfiles: {
-          "com.inviteeME" => "EventApp_AppStore"
-        }
-      },
-      clean: true,                               # ✅ ensure clean build
-      silent: true,                              # no prompts (important for CI)
-      include_symbols: false,                    # optional, faster uploads
-      include_bitcode: false                     # bitcode deprecated anyway
-    )
-
-    # Upload to TestFlight
-    pilot(
-      skip_submission: true,                     # skip App Review submission for beta
-      skip_waiting_for_build_processing: true     # ✅ avoids long waiting in CI
-    )
-  end
-
-  desc "Release app to App Store"
-  lane :release do
-    # Authenticate with App Store Connect
-    app_store_connect_api_key(
-      key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
-      issuer_id: ENV["APP_STORE_CONNECT_API_ISSUER_ID"],
-      key_content: ENV["APP_STORE_CONNECT_API_KEY_CONTENT"],
-      in_house: false
-    )
-
-    # Build the app
-    gym(
-      workspace: "ios/Runner.xcworkspace",       # ✅ same as above
-      scheme: "Runner",
-      export_method: "app-store",
-      export_options: {
-        provisioningProfiles: {
-          "com.inviteeME" => "EventApp_AppStore"
-        }
-      },
       clean: true,
       silent: true,
-      include_symbols: true,                     # symbols useful for crash reports
-      include_bitcode: false
+      include_symbols: false,
+      include_bitcode: false,
+      export_options: {
+        compileBitcode: false,
+        signingStyle: "manual",
+        provisioningProfiles: {
+          "com.inviteeME" => "EventApp_AppStore"
+        },
+        teamID: "3QTL6CD7P2"
+      }
     )
 
-    # Upload and release to App Store
-    deliver(
-      force: true,                               # ✅ non-interactive mode support
-      skip_metadata: true,                       # skip changelog & screenshots in CI
-      skip_screenshots: true,
-      submit_for_review: true                    # automatically submit after upload
+    # 🧩 Upload to TestFlight
+    pilot(
+      skip_submission: true,                   # skip review submission
+      skip_waiting_for_build_processing: true  # faster CI
     )
+
+    UI.success("✅ Successfully uploaded build to TestFlight!")
+  end
+
+  desc "🚀 Release app to App Store"
+  lane :release do
+    # 🧩 Authenticate with App Store Connect (API key)
+    app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_API_ISSUER_ID"],
+      key_content: ENV["APP_STORE_CONNECT_API_KEY_CONTENT"],
+      in_house: false
+    )
+
+    # 🧩 Clean & build release app (manual signing)
+    gym(
+      workspace: "ios/Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      clean: true,
+      silent: true,
+      include_symbols: true,
+      include_bitcode: false,
+      export_options: {
+        compileBitcode: false,
+        signingStyle: "manual",
+        provisioningProfiles: {
+          "com.inviteeME" => "EventApp_AppStore"
+        },
+        teamID: "3QTL6CD7P2"
+      }
+    )
+
+    # 🧩 Upload & auto-submit to App Store
+    deliver(
+      force: true,              # non-interactive mode
+      skip_metadata: true,
+      skip_screenshots: true,
+      submit_for_review: true
+    )
+
+    UI.success("🎉 App successfully uploaded to App Store for review!")
   end
 end
