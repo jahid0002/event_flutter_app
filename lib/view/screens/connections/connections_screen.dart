@@ -252,12 +252,15 @@ class ConnectionsCard extends StatelessWidget {
                           color: AppColors.white,
                           size: 16,
                         ),
-                        CustomText(
-                          left: 5,
-                          text: location ?? "N/A",
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.white,
+                        SizedBox(
+                          width: 110.w,
+                          child: CustomText(
+                            left: 5,
+                            text: location ?? "N/A",
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.white,
+                          ),
                         ),
                       ],
                     ),
