@@ -14,12 +14,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> signInWithGoogle() async {
     debugPrint('======================>> signInWithGoogle');
+    final playerID = await OneSignal.User.getOnesignalId();
+    debugPrint("📱 OneSignal Player ID: $playerID");
     PopupLoader.showPopupLoader(Get.context!);
     try {
       // Initialize Google Sign-In
@@ -73,6 +76,7 @@ class AuthController extends GetxController {
           "token": googleAuth.idToken,
           "provider": "google", // google | apple | facebook
           "phoneType": Platform.isIOS ? "ios" : "android",
+          "playerId": playerID ?? "",
         };
 
         if (kDebugMode) {
