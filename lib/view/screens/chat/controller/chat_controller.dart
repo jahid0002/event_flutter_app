@@ -157,11 +157,51 @@ class ChatController extends GetxController {
         otherUserID: otherUserID.value,
       );
 
+      joinChat(otherUserID: otherUserID.value);
+
       messageStatus(Status.completed);
     } else {
       messageStatus(Status.error);
       ApiChecker.checkApi(response);
     }
+  }
+
+  ///=============================== Join Chat ====================.
+
+  joinChat({required String otherUserID}) async {
+    debugPrint('=======================>> join-chat-$otherUserID');
+
+    var messagePayload = {"chatPartnerId": otherUserID};
+
+    SocketApi.socket?.emitWithAck(
+      'join-chat',
+      messagePayload,
+      ack: (response) {
+        if (response == null || response == false) {
+          debugPrint('Server failed to acknowledge join chat.');
+        } else {
+          debugPrint('join chat successfully');
+        }
+      },
+    );
+  }
+
+  //=============================== Leave Chat ====================.
+  leaveChat() async {
+    debugPrint('=======================>> leave-chat');
+    var messagePayload = {};
+
+    SocketApi.socket?.emitWithAck(
+      'leave-chat',
+      messagePayload,
+      ack: (response) {
+        if (response == null || response == false) {
+          debugPrint('Server failed to acknowledge join chat.');
+        } else {
+          debugPrint('join chat successfully');
+        }
+      },
+    );
   }
 
   //============================ >> Seen Message Methode ===================

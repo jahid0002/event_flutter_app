@@ -82,11 +82,21 @@ class _MessageScreenState extends State<MessageScreen> {
         controller.messageList.clear();
         controller.messageList.refresh();
         controller.otherUserID.value = '';
+        controller.leaveChat();
       },
       child: Scaffold(
         appBar: CustomAppBar(
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.more_horiz, color: AppColors.primary),
+              onPressed: () {
+                // Navigate to user profile or details page
+              },
+            ),
+          ],
           leading: BackButton(
             onPressed: () {
+              controller.leaveChat();
               controller.messageStatus.value = Status.loading;
               controller.messageList.clear();
               controller.messageList.refresh();
