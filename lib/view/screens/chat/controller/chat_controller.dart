@@ -24,6 +24,8 @@ class ChatController extends GetxController {
 
   RxList<NotificationModel> notificationList = <NotificationModel>[].obs;
 
+  RxInt notificationCount = 0.obs;
+
   Future<void> getAllNotification() async {
     var response = await ApiClient.getData(ApiUrl.getAllNotification);
 
@@ -33,6 +35,7 @@ class ChatController extends GetxController {
           (x) => NotificationModel.fromMap(x),
         ),
       );
+      notificationCount(response.body['data']['meta']['total'] ?? 0);
       notificationStatus(Status.completed);
     } else {
       notificationStatus(Status.error);
@@ -76,6 +79,8 @@ class ChatController extends GetxController {
   RxList<ConversationModel> conversationList = <ConversationModel>[].obs;
   Rx<Status> conversationStatus = Status.loading.obs;
 
+  RxInt unreadMessageCount = 0.obs;
+
   Future<void> getAllConversation() async {
     var response =
         searchController.value.text.isEmpty
@@ -88,6 +93,9 @@ class ChatController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       conversationList.value = List<ConversationModel>.from(
         response.body['data']['data'].map((x) => ConversationModel.fromMap(x)),
+      );
+      unreadMessageCount(
+        response.body['data']['meta']['totalUnseenConversations'] ?? 0,
       );
       conversationStatus(Status.completed);
     } else {
@@ -143,11 +151,48 @@ class ChatController extends GetxController {
       totalPage(response.body['data']['meta']['totalPage']);
 
       debugPrint('total page ${totalPage.value}');
+
+      seenMeesage(
+        conversationID: response.body['data']['result']['conversationId'],
+        otherUserID: otherUserID.value,
+      );
+
       messageStatus(Status.completed);
     } else {
       messageStatus(Status.error);
       ApiChecker.checkApi(response);
     }
+  }
+
+  //============================ >> Seen Message Methode ===================
+
+  seenMeesage({
+    required String conversationID,
+    required String otherUserID,
+  }) async {
+    debugPrint('conversation id $conversationID');
+    debugPrint('other user id $otherUserID');
+
+    var messagePayload = {
+      "conversationId": conversationID,
+      "msgByUserId": otherUserID,
+    };
+    //SocketApi.socket?.emit('message');
+    SocketApi.socket?.emitWithAck(
+      'seen',
+      messagePayload,
+      ack: (response) {
+        if (response == null || response == false) {
+          debugPrint('Server failed to acknowledge message seen.');
+        } else {
+          debugPrint('Message seen successfully');
+        }
+      },
+    );
+
+    debugPrint('====================== >>> seen message called');
+
+    getAllConversation();
   }
 
   //============================= PAGINATION ==>>>>>>>>>
@@ -234,40 +279,47 @@ class ChatController extends GetxController {
       var newMessage = value;
 
       messageList.insert(0, MessageModel.fromMap(newMessage));
-      getAllConversation();
+      // getAllConversation();
+
+      if (otherUserID.isNotEmpty) {
+        getAllMessage();
+      } else {
+        getAllConversation();
+      }
 
       // getAllMessage();
     });
+    // getAllMessage();
   }
 
-  seenResponse({
-    required String otherUserID,
-    required String conversationID,
-  }) async {
-    if (conversationID.isEmpty) {
-      debugPrint('conversation id is empty');
-      return;
-    }
+  // seenResponse({
+  //   required String otherUserID,
+  //   required String conversationID,
+  // }) async {
+  //   if (conversationID.isEmpty) {
+  //     debugPrint('conversation id is empty');
+  //     return;
+  //   }
 
-    var messagePayload = {
-      "conversationId": conversationID,
-      "msgByUserId": otherUserID,
-    };
-    //SocketApi.socket?.emit('message');
-    SocketApi.socket?.emitWithAck(
-      'message',
-      messagePayload,
-      ack: (response) {
-        if (response == null || response == false) {
-          debugPrint('Server failed to acknowledge message seen.');
-        } else {
-          debugPrint('Message seen successfully');
-        }
-      },
-      // Optional timeout
-      // timeout: Duration(seconds: 5),
-    );
-  }
+  //   var messagePayload = {
+  //     "conversationId": conversationID,
+  //     "msgByUserId": otherUserID,
+  //   };
+  //   //SocketApi.socket?.emit('message');
+  //   SocketApi.socket?.emitWithAck(
+  //     'message',
+  //     messagePayload,
+  //     ack: (response) {
+  //       if (response == null || response == false) {
+  //         debugPrint('Server failed to acknowledge message seen.');
+  //       } else {
+  //         debugPrint('Message seen successfully');
+  //       }
+  //     },
+  //     // Optional timeout
+  //     // timeout: Duration(seconds: 5),
+  //   );
+  // }
 
   @override
   void onInit() {

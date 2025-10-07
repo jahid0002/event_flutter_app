@@ -64,340 +64,361 @@ class _MessageScreenState extends State<MessageScreen> {
     // controller.getAllMessage();
     controller.loadChat(receiverInformation.receiverId ?? '');
     // controller.getRealTimeMessage();
-    controller.seenResponse(
-      otherUserID: receiverInformation.receiverId ?? '',
-      conversationID: receiverInformation.conversationID ?? '',
-    );
+    // controller.seenResponse(
+    //   otherUserID: receiverInformation.receiverId ?? '',
+    //   conversationID: receiverInformation.conversationID ?? '',
+    // );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     debugPrint(receiverInformation.receiverId);
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: receiverInformation.receiverName ?? AppStrings.na.tr,
-      ),
-      body: Column(
-        children: [
-          //==================== Chat Messages List ====================
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Obx(() {
-                switch (controller.messageStatus.value) {
-                  case Status.loading:
-                    return MessageShimmer();
-                  case Status.error:
-                    return GeneralErrorScreen(
-                      onTap: () => controller.getAllMessage(),
-                    );
-                  case Status.internetError:
-                    return GeneralErrorScreen(
-                      onTap: () => controller.getAllMessage(),
-                    );
-                  case Status.completed:
-                    return ListView.builder(
-                      controller: controller.messageScrollController.value,
-                      physics: AlwaysScrollableScrollPhysics(),
-                      reverse: true,
-                      itemCount: controller.messageList.length,
-                      itemBuilder: (context, index) {
-                        // final data = controller.messageList[index];
+    return PopScope(
+      canPop: true, // allow the back action
+      onPopInvoked: (didPop) {
+        if (!didPop) return; // user tried to pop but navigation was blocked
+        controller.messageStatus.value = Status.loading;
+        controller.messageList.clear();
+        controller.messageList.refresh();
+        controller.otherUserID.value = '';
+      },
+      child: Scaffold(
+        appBar: CustomAppBar(
+          leading: BackButton(
+            onPressed: () {
+              controller.messageStatus.value = Status.loading;
+              controller.messageList.clear();
+              controller.messageList.refresh();
+              controller.otherUserID.value = '';
+              Get.back();
+            },
+          ),
+          title: receiverInformation.receiverName ?? AppStrings.na.tr,
+        ),
+        body: Column(
+          children: [
+            //==================== Chat Messages List ====================
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Obx(() {
+                  switch (controller.messageStatus.value) {
+                    case Status.loading:
+                      return MessageShimmer();
+                    case Status.error:
+                      return GeneralErrorScreen(
+                        onTap: () => controller.getAllMessage(),
+                      );
+                    case Status.internetError:
+                      return GeneralErrorScreen(
+                        onTap: () => controller.getAllMessage(),
+                      );
+                    case Status.completed:
+                      return ListView.builder(
+                        controller: controller.messageScrollController.value,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        reverse: true,
+                        itemCount: controller.messageList.length,
+                        itemBuilder: (context, index) {
+                          // final data = controller.messageList[index];
 
-                        final message = controller.messageList[index];
+                          final message = controller.messageList[index];
 
-                        //   final reverseMessageList = messages.reversed.toList();
-                        return CustomInboxMessage(
-                          profileImage: receiverInformation.receiverImage,
-                          isMe:
-                              receiverInformation.receiverId ==
-                                      message.msgByUserId?.id
-                                  ? false
-                                  : true,
-                          message: message.text ?? '',
-                          messageTime: DateConverter.formatTimeAgo(
-                            message.createdAt ?? '',
+                          //   final reverseMessageList = messages.reversed.toList();
+                          return CustomInboxMessage(
+                            profileImage: receiverInformation.receiverImage,
+                            isMe:
+                                receiverInformation.receiverId ==
+                                        message.msgByUserId?.id
+                                    ? false
+                                    : true,
+                            message: message.text ?? '',
+                            messageTime: DateConverter.formatTimeAgo(
+                              message.createdAt ?? '',
+                            ),
+
+                            type:
+                                message.messageType == null ? 'text' : 'manual',
+                            imageUrls: [],
+                          );
+                        },
+                      );
+                  }
+                }),
+              ),
+            ),
+
+            //==================== Message Input Field ====================
+            Padding(
+              padding: EdgeInsets.only(bottom: 0, left: 10, right: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Show selected images preview
+                  // if (controller.selectedImages.isNotEmpty &&
+                  //     controller.showImagesSection.value) ...[
+                  //   Padding(
+                  //     padding: EdgeInsets.only(bottom: 8, left: 40.w),
+                  //     child: Wrap(
+                  //       spacing: 10, // Spacing between images
+                  //       children: List.generate(
+                  //         controller.selectedImages.length,
+                  //         (index) {
+                  //           return Stack(
+                  //             alignment: Alignment.topRight,
+                  //             children: [
+                  //               Image.file(
+                  //                 controller.selectedImages[index],
+                  //                 height: 100.h,
+                  //                 width: 100.w,
+                  //               ),
+                  //               Positioned(
+                  //                 top: -10.h,
+                  //                 right: -5.w,
+                  //                 child: IconButton(
+                  //                   icon: Icon(Icons.cancel, color: Colors.red),
+                  //                   onPressed: () {
+                  //                     setState(() {
+                  //                       // ignore: invalid_use_of_protected_member
+                  //                       controller.selectedImages.value.removeAt(
+                  //                         index,
+                  //                       );
+                  //                     });
+                  //                   },
+                  //                 ),
+                  //               ),
+                  //             ],
+                  //           );
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ],
+                  if (receiverInformation.blockByOther ?? false) ...[
+                    CustomText(text: AppStrings.youAreBlocked.tr),
+                  ],
+                  if (receiverInformation.blockByMe ?? false) ...[
+                    CustomText(text: AppStrings.youHaveBlocked.tr),
+                  ],
+
+                  // SizedBox(height: 10.h),
+                  if ((receiverInformation.blockByOther ?? false) == false &&
+                      (receiverInformation.blockByMe ?? false) == false) ...[
+                    Row(
+                      children: [
+                        // IconButton(
+                        //   icon: const Icon(
+                        //     Icons.attach_file,
+                        //     color: AppColors.primary,
+                        //   ),∆
+                        //   onPressed:
+                        //       controller.pickMultipleImages, // Updated function
+                        // ),
+                        SizedBox(width: 5),
+                        Expanded(
+                          child: CustomTextField(
+                            isDens: true,
+                            cursorColor: AppColors.black,
+                            fillColor: AppColors.fillColor,
+                            textEditingController:
+                                controller.messageController.value,
+                            hintText: AppStrings.typeAMessage.tr,
+                            fieldBorderColor: Colors.grey,
+                            onChanged: (text) {
+                              // setState(() {}); // Update UI
+                            },
                           ),
-
-                          type: message.messageType == null ? 'text' : 'manual',
-                          imageUrls: [],
-                        );
-                      },
-                    );
-                }
-              }),
-            ),
-          ),
-
-          //==================== Message Input Field ====================
-          Padding(
-            padding: EdgeInsets.only(bottom: 0, left: 10, right: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Show selected images preview
-                // if (controller.selectedImages.isNotEmpty &&
-                //     controller.showImagesSection.value) ...[
-                //   Padding(
-                //     padding: EdgeInsets.only(bottom: 8, left: 40.w),
-                //     child: Wrap(
-                //       spacing: 10, // Spacing between images
-                //       children: List.generate(
-                //         controller.selectedImages.length,
-                //         (index) {
-                //           return Stack(
-                //             alignment: Alignment.topRight,
-                //             children: [
-                //               Image.file(
-                //                 controller.selectedImages[index],
-                //                 height: 100.h,
-                //                 width: 100.w,
-                //               ),
-                //               Positioned(
-                //                 top: -10.h,
-                //                 right: -5.w,
-                //                 child: IconButton(
-                //                   icon: Icon(Icons.cancel, color: Colors.red),
-                //                   onPressed: () {
-                //                     setState(() {
-                //                       // ignore: invalid_use_of_protected_member
-                //                       controller.selectedImages.value.removeAt(
-                //                         index,
-                //                       );
-                //                     });
-                //                   },
-                //                 ),
-                //               ),
-                //             ],
-                //           );
-                //         },
-                //       ),
-                //     ),
-                //   ),
-                // ],
-                if (receiverInformation.blockByOther ?? false) ...[
-                  CustomText(text: AppStrings.youAreBlocked.tr),
-                ],
-                if (receiverInformation.blockByMe ?? false) ...[
-                  CustomText(text: AppStrings.youHaveBlocked.tr),
-                ],
-
-                // SizedBox(height: 10.h),
-                if ((receiverInformation.blockByOther ?? false) == false &&
-                    (receiverInformation.blockByMe ?? false) == false) ...[
-                  Row(
-                    children: [
-                      // IconButton(
-                      //   icon: const Icon(
-                      //     Icons.attach_file,
-                      //     color: AppColors.primary,
-                      //   ),∆
-                      //   onPressed:
-                      //       controller.pickMultipleImages, // Updated function
-                      // ),
-                      SizedBox(width: 5),
-                      Expanded(
-                        child: CustomTextField(
-                          isDens: true,
-                          cursorColor: AppColors.black,
-                          fillColor: AppColors.fillColor,
-                          textEditingController:
-                              controller.messageController.value,
-                          hintText: AppStrings.typeAMessage.tr,
-                          fieldBorderColor: Colors.grey,
-                          onChanged: (text) {
-                            // setState(() {}); // Update UI
-                          },
                         ),
-                      ),
-                      SizedBox(width: 5.w),
-                      CircleAvatar(
-                        backgroundColor: AppColors.primary,
-                        child: IconButton(
-                          icon: const Icon(Icons.send, color: Colors.white),
-                          onPressed: () {
-                            controller.sendMessage(
-                              receiverID: receiverInformation.receiverId ?? '',
-                            );
+                        SizedBox(width: 5.w),
+                        CircleAvatar(
+                          backgroundColor: AppColors.primary,
+                          child: IconButton(
+                            icon: const Icon(Icons.send, color: Colors.white),
+                            onPressed: () {
+                              controller.sendMessage(
+                                receiverID:
+                                    receiverInformation.receiverId ?? '',
+                              );
 
-                            // if (controller.selectedImages.isNotEmpty ||
-                            //     controller
-                            //         .messageController
-                            //         .value
-                            //         .text
-                            //         .isNotEmpty) {
-                            //   if (controller.selectedImages.isEmpty) {
-                            //     MessageModel model = MessageModel(
-                            //       senderId: controller.userID.value,
-                            //       message:
-                            //           controller.messageController.value.text,
-                            //       messageType: 'manual',
-                            //     );
+                              // if (controller.selectedImages.isNotEmpty ||
+                              //     controller
+                              //         .messageController
+                              //         .value
+                              //         .text
+                              //         .isNotEmpty) {
+                              //   if (controller.selectedImages.isEmpty) {
+                              //     MessageModel model = MessageModel(
+                              //       senderId: controller.userID.value,
+                              //       message:
+                              //           controller.messageController.value.text,
+                              //       messageType: 'manual',
+                              //     );
 
-                            //     controller.messageList.insert(0, model);
-                            //     controller.sendMessage(
-                            //       receiverID: user.id ?? '',
-                            //       usertype: user.userType ?? '',
-                            //     );
-                            //   } else {
-                            //     List<String> imageUrls = [];
-                            //     for (
-                            //       int i = 0;
-                            //       i < controller.selectedImages.length;
-                            //       i++
-                            //     ) {
-                            //       imageUrls.add(
-                            //         controller.selectedImages[i].path,
-                            //       );
-                            //     }
+                              //     controller.messageList.insert(0, model);
+                              //     controller.sendMessage(
+                              //       receiverID: user.id ?? '',
+                              //       usertype: user.userType ?? '',
+                              //     );
+                              //   } else {
+                              //     List<String> imageUrls = [];
+                              //     for (
+                              //       int i = 0;
+                              //       i < controller.selectedImages.length;
+                              //       i++
+                              //     ) {
+                              //       imageUrls.add(
+                              //         controller.selectedImages[i].path,
+                              //       );
+                              //     }
 
-                            //     MessageModel model = MessageModel(
-                            //       senderId: controller.userID.value,
-                            //       message:
-                            //           controller.messageController.value.text,
-                            //       messageType: 'manualImage',
-                            //       mediaUrl: imageUrls,
-                            //     );
-                            //     controller.showImagesSection.value = false;
-                            //     controller.showImagesSection.refresh();
-                            //     controller.messageList.insert(0, model);
+                              //     MessageModel model = MessageModel(
+                              //       senderId: controller.userID.value,
+                              //       message:
+                              //           controller.messageController.value.text,
+                              //       messageType: 'manualImage',
+                              //       mediaUrl: imageUrls,
+                              //     );
+                              //     controller.showImagesSection.value = false;
+                              //     controller.showImagesSection.refresh();
+                              //     controller.messageList.insert(0, model);
 
-                            //     controller.messageFileSend(
-                            //       receiverID: user.id ?? '',
-                            //       usertype: user.userType ?? '',
-                            //     );
-                            //   }
+                              //     controller.messageFileSend(
+                              //       receiverID: user.id ?? '',
+                              //       usertype: user.userType ?? '',
+                              //     );
+                              //   }
 
-                            //   // setState(() {
-                            //   //   controller.selectedImages
-                            //   //       .clear(); // Clear images after sending
-                            //   // });
-                            // }
-                          },
+                              //   // setState(() {
+                              //   //   controller.selectedImages
+                              //   //       .clear(); // Clear images after sending
+                              //   // });
+                              // }
+                            },
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  ],
+                  SizedBox(height: 20.h),
                 ],
-                SizedBox(height: 20.h),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+        // body: Column(
+        //   children: [
+        //     Expanded(
+        //       child: ListView.builder(
+        //         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        //         itemCount: messages.length,
+        //         itemBuilder: (context, index) {
+        //           final msg = messages[index];
+        //           return Align(
+        //             alignment:
+        //                 msg.isSent ? Alignment.centerRight : Alignment.centerLeft,
+        //             child: Container(
+        //               margin: const EdgeInsets.symmetric(vertical: 4),
+        //               padding: const EdgeInsets.symmetric(
+        //                 vertical: 10,
+        //                 horizontal: 16,
+        //               ),
+        //               constraints: BoxConstraints(
+        //                 maxWidth: MediaQuery.of(context).size.width * 0.75,
+        //               ),
+        //               decoration: BoxDecoration(
+        //                 color:
+        //                     AppColors
+        //                         .primary, //msg.isSent ? Colors.green[600] : Colors.green[300],
+        //                 borderRadius: BorderRadius.only(
+        //                   topLeft: const Radius.circular(20),
+        //                   topRight: const Radius.circular(20),
+        //                   bottomLeft: Radius.circular(msg.isSent ? 20 : 5),
+        //                   bottomRight: Radius.circular(msg.isSent ? 5 : 20),
+        //                 ),
+        //               ),
+        //               child: Column(
+        //                 crossAxisAlignment: CrossAxisAlignment.end,
+        //                 mainAxisSize: MainAxisSize.min,
+        //                 children: [
+        //                   Text(
+        //                     msg.text,
+        //                     style: const TextStyle(
+        //                       color: Colors.white,
+        //                       fontSize: 16,
+        //                     ),
+        //                   ),
+        //                   const SizedBox(height: 5),
+        //                   Row(
+        //                     mainAxisSize: MainAxisSize.min,
+        //                     children: [
+        //                       Text(
+        //                         msg.time,
+        //                         style: const TextStyle(
+        //                           color: Colors.white70,
+        //                           fontSize: 12,
+        //                         ),
+        //                       ),
+        //                       if (msg.isSent) ...[
+        //                         const SizedBox(width: 4),
+        //                         Icon(
+        //                           msg.isRead ? Icons.done_all : Icons.done,
+        //                           size: 16,
+        //                           color:
+        //                               msg.isRead
+        //                                   ? Colors.lightBlueAccent
+        //                                   : Colors.white70,
+        //                         ),
+        //                       ],
+        //                     ],
+        //                   ),
+        //                 ],
+        //               ),
+        //             ),
+        //           );
+        //         },
+        //       ),
+        //     ),
+        //     Padding(
+        //       padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+        //       child: Container(
+        //         // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        //         decoration: BoxDecoration(
+        //           color: AppColors.white,
+        //           borderRadius: BorderRadius.circular(30.r),
+        //           boxShadow: [
+        //             BoxShadow(
+        //               color: AppColors.black.withOpacity(0.05),
+        //               offset: const Offset(0, -2),
+        //               blurRadius: 6,
+        //             ),
+        //           ],
+        //         ),
+        //         child: Row(
+        //           children: [
+        //             SizedBox(width: 16.h),
+        //             Expanded(
+        //               child: TextField(
+        //                 controller: _controller,
+        //                 decoration: const InputDecoration(
+        //                   hintText: 'Send a message...',
+        //                   border: InputBorder.none,
+        //                 ),
+        //                 textCapitalization: TextCapitalization.sentences,
+        //               ),
+        //             ),
+        //             IconButton(
+        //               icon: const Icon(Icons.send, color: AppColors.gray),
+        //               onPressed: _sendMessage,
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //     ),
+        //     SizedBox(height: 30.h),
+        //   ],
+        // ),
       ),
-      // body: Column(
-      //   children: [
-      //     Expanded(
-      //       child: ListView.builder(
-      //         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      //         itemCount: messages.length,
-      //         itemBuilder: (context, index) {
-      //           final msg = messages[index];
-      //           return Align(
-      //             alignment:
-      //                 msg.isSent ? Alignment.centerRight : Alignment.centerLeft,
-      //             child: Container(
-      //               margin: const EdgeInsets.symmetric(vertical: 4),
-      //               padding: const EdgeInsets.symmetric(
-      //                 vertical: 10,
-      //                 horizontal: 16,
-      //               ),
-      //               constraints: BoxConstraints(
-      //                 maxWidth: MediaQuery.of(context).size.width * 0.75,
-      //               ),
-      //               decoration: BoxDecoration(
-      //                 color:
-      //                     AppColors
-      //                         .primary, //msg.isSent ? Colors.green[600] : Colors.green[300],
-      //                 borderRadius: BorderRadius.only(
-      //                   topLeft: const Radius.circular(20),
-      //                   topRight: const Radius.circular(20),
-      //                   bottomLeft: Radius.circular(msg.isSent ? 20 : 5),
-      //                   bottomRight: Radius.circular(msg.isSent ? 5 : 20),
-      //                 ),
-      //               ),
-      //               child: Column(
-      //                 crossAxisAlignment: CrossAxisAlignment.end,
-      //                 mainAxisSize: MainAxisSize.min,
-      //                 children: [
-      //                   Text(
-      //                     msg.text,
-      //                     style: const TextStyle(
-      //                       color: Colors.white,
-      //                       fontSize: 16,
-      //                     ),
-      //                   ),
-      //                   const SizedBox(height: 5),
-      //                   Row(
-      //                     mainAxisSize: MainAxisSize.min,
-      //                     children: [
-      //                       Text(
-      //                         msg.time,
-      //                         style: const TextStyle(
-      //                           color: Colors.white70,
-      //                           fontSize: 12,
-      //                         ),
-      //                       ),
-      //                       if (msg.isSent) ...[
-      //                         const SizedBox(width: 4),
-      //                         Icon(
-      //                           msg.isRead ? Icons.done_all : Icons.done,
-      //                           size: 16,
-      //                           color:
-      //                               msg.isRead
-      //                                   ? Colors.lightBlueAccent
-      //                                   : Colors.white70,
-      //                         ),
-      //                       ],
-      //                     ],
-      //                   ),
-      //                 ],
-      //               ),
-      //             ),
-      //           );
-      //         },
-      //       ),
-      //     ),
-      //     Padding(
-      //       padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-      //       child: Container(
-      //         // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      //         decoration: BoxDecoration(
-      //           color: AppColors.white,
-      //           borderRadius: BorderRadius.circular(30.r),
-      //           boxShadow: [
-      //             BoxShadow(
-      //               color: AppColors.black.withOpacity(0.05),
-      //               offset: const Offset(0, -2),
-      //               blurRadius: 6,
-      //             ),
-      //           ],
-      //         ),
-      //         child: Row(
-      //           children: [
-      //             SizedBox(width: 16.h),
-      //             Expanded(
-      //               child: TextField(
-      //                 controller: _controller,
-      //                 decoration: const InputDecoration(
-      //                   hintText: 'Send a message...',
-      //                   border: InputBorder.none,
-      //                 ),
-      //                 textCapitalization: TextCapitalization.sentences,
-      //               ),
-      //             ),
-      //             IconButton(
-      //               icon: const Icon(Icons.send, color: AppColors.gray),
-      //               onPressed: _sendMessage,
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //     ),
-      //     SizedBox(height: 30.h),
-      //   ],
-      // ),
     );
   }
 }

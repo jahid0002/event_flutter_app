@@ -2,6 +2,7 @@
 
 import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/helper/imges_handler/image_handler.dart';
+import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
 import 'package:event_app/helper/time_converter/date_converter.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
@@ -16,6 +17,7 @@ import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/components/custom_text_field/custom_text_field.dart';
 import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
+import 'package:event_app/view/screens/chat/widget/chat_card.dart';
 import 'package:event_app/view/screens/chat/widget/chat_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,11 +36,21 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
+    getUserID();
     // TO DO: implement initState.
     controller.getRealTimeMessage();
     controller.getAllConversation();
     controller.getAllNotification();
     super.initState();
+  }
+
+  String? userID;
+
+  getUserID() async {
+    userID = await SharePrefsHelper.getString(AppConstants.userId);
+    setState(() {});
+
+    debugPrint('User ID: $userID');
   }
 
   @override
@@ -54,7 +66,7 @@ class _ChatScreenState extends State<ChatScreen> {
               return Row(
                 children: [
                   ChatButton(
-                    unreadItem: 0,
+                    unreadItem: controller.unreadMessageCount.value,
                     title: AppStrings.chats.tr,
                     isSelected: controller.chatType.value == ChatType.chat,
                     onTap: () {
@@ -63,7 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   const Spacer(),
                   ChatButton(
-                    unreadItem: 0,
+                    unreadItem: controller.notificationCount.value,
                     title: AppStrings.notifications.tr,
                     isSelected:
                         controller.chatType.value == ChatType.notification,
@@ -77,6 +89,7 @@ class _ChatScreenState extends State<ChatScreen> {
             }),
 
             SizedBox(height: 10.h),
+
             //======================================= >> Chat Section ===============================>>
             Obx(() {
               switch (controller.conversationStatus.value) {
@@ -118,53 +131,120 @@ class _ChatScreenState extends State<ChatScreen> {
                           SizedBox(height: 10.h),
                           SizedBox(
                             height: 520.h,
-                            child:
-                                controller.conversationList.isNotEmpty
-                                    ? ListView.builder(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
-                                      itemCount:
-                                          controller.conversationList.length,
-                                      itemBuilder: (context, index) {
-                                        final item =
-                                            controller.conversationList[index];
-                                        return ChatCard(
-                                          name: item.userData?.name,
-                                          imageUrl: item.userData?.profileImage,
-                                          lustMessage: item.lastMessage?.text,
-                                          time: DateConverter.formatTimeAgo(
-                                            item.lastMessage?.createdAt ?? '',
-                                          ),
-                                          unseenMessageCount:
-                                              item.unseenMsg?.toString() ?? '0',
-                                          onTap: () {
-                                            final ReceiverInformation
-                                            information = ReceiverInformation(
-                                              blockByMe: item.isBlockedByMe,
-                                              blockByOther: item.isBlockedMe,
-                                              receiverId: item.userData?.id,
-                                              receiverName: item.userData?.name,
-                                              receiverImage:
-                                                  item.userData?.profileImage,
-                                              conversationID:
-                                                  item
-                                                      .lastMessage
-                                                      ?.conversationId,
-                                            );
+                            child: Obx(() {
+                              if (controller.conversationList.isEmpty) {
+                                return CustomText(
+                                  text: AppStrings.noConversation.tr,
+                                  top: 200.h,
+                                );
+                              }
 
-                                            Get.toNamed(
-                                              AppRoutes.messageScreen,
-                                              arguments: information,
-                                            );
-                                          },
-                                        );
-                                      },
-                                    )
-                                    : CustomText(
-                                      text: AppStrings.noConversation.tr,
-                                      top: 200.h,
+                              //  Sort newest first
+                              final sortedList =
+                                  controller.conversationList..sort((a, b) {
+                                    final aTime =
+                                        DateTime.tryParse(
+                                          a.lastMessage?.createdAt ?? '',
+                                        ) ??
+                                        DateTime(1970);
+                                    final bTime =
+                                        DateTime.tryParse(
+                                          b.lastMessage?.createdAt ?? '',
+                                        ) ??
+                                        DateTime(1970);
+                                    return bTime.compareTo(
+                                      aTime,
+                                    ); // descending order
+                                  });
+
+                              return ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                itemCount: sortedList.length,
+                                itemBuilder: (context, index) {
+                                  final item = sortedList[index];
+                                  return ChatCard(
+                                    isNew: item.isNew(userID ?? ''),
+                                    name: item.userData?.name,
+                                    imageUrl: item.userData?.profileImage,
+                                    lastMessage: item.lastMessage?.text,
+                                    time: DateConverter.formatTimeAgo(
+                                      item.lastMessage?.createdAt ?? '',
                                     ),
+                                    unseenMessageCount: item.unseenMsg ?? 0,
+                                    onTap: () {
+                                      final info = ReceiverInformation(
+                                        blockByMe: item.isBlockedByMe,
+                                        blockByOther: item.isBlockedMe,
+                                        receiverId: item.userData?.id,
+                                        receiverName: item.userData?.name,
+                                        receiverImage:
+                                            item.userData?.profileImage,
+                                        conversationID:
+                                            item.lastMessage?.conversationId,
+                                      );
+
+                                      Get.toNamed(
+                                        AppRoutes.messageScreen,
+                                        arguments: info,
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            }),
                           ),
+
+                          // SizedBox(
+                          //   height: 520.h,
+                          //   child:
+                          //       controller.conversationList.isNotEmpty
+                          //           ? ListView.builder(
+                          //             padding: EdgeInsets.zero,
+                          //             shrinkWrap: true,
+                          //             itemCount:
+                          //                 controller.conversationList.length,
+                          //             itemBuilder: (context, index) {
+                          //               final item =
+                          //                   controller.conversationList[index];
+                          //               return ChatCard(
+                          //                 isNew: item.isNew(userID ?? ''),
+                          //                 name: item.userData?.name,
+                          //                 imageUrl: item.userData?.profileImage,
+                          //                 lastMessage: item.lastMessage?.text,
+                          //                 time: DateConverter.formatTimeAgo(
+                          //                   item.lastMessage?.createdAt ?? '',
+                          //                 ),
+                          //                 unseenMessageCount:
+                          //                     item.unseenMsg ?? 0,
+                          //                 onTap: () {
+                          //                   final ReceiverInformation
+                          //                   information = ReceiverInformation(
+                          //                     blockByMe: item.isBlockedByMe,
+                          //                     blockByOther: item.isBlockedMe,
+                          //                     receiverId: item.userData?.id,
+                          //                     receiverName: item.userData?.name,
+                          //                     receiverImage:
+                          //                         item.userData?.profileImage,
+                          //                     conversationID:
+                          //                         item
+                          //                             .lastMessage
+                          //                             ?.conversationId,
+                          //                   );
+
+                          //                   Get.toNamed(
+                          //                     AppRoutes.messageScreen,
+                          //                     arguments: information,
+                          //                   );
+                          //                 },
+                          //               );
+                          //             },
+                          //           )
+                          //           : CustomText(
+                          //             text: AppStrings.noConversation.tr,
+                          //             top: 200.h,
+                          //           ),
+                          // ),
                         ],
                       ],
                     ),
@@ -278,94 +358,6 @@ class ChatButton extends StatelessWidget {
     }
 
     return button;
-  }
-}
-
-class ChatCard extends StatelessWidget {
-  const ChatCard({
-    super.key,
-    this.onTap,
-    this.name,
-    this.imageUrl,
-    this.time,
-    this.lustMessage,
-    this.unseenMessageCount,
-  });
-
-  final VoidCallback? onTap;
-  final String? name;
-  final String? imageUrl;
-  final String? time;
-  final String? lustMessage;
-  final String? unseenMessageCount;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        onTap!();
-      },
-      child: Column(
-        children: [
-          Card(
-            color: AppColors.white,
-            elevation: 0,
-
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      CustomNetworkImage(
-                        imageUrl: ImageHandler.imagesHandle(imageUrl),
-                        height: 52.h,
-                        width: 52.w,
-                        boxShape: BoxShape.circle,
-                      ),
-                      SizedBox(width: 15.w),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText(
-                            text: name ?? "Gloria",
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          CustomText(
-                            text: lustMessage ?? "How are you?",
-                            fontSize: 12.sp,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      CustomText(
-                        text: time ?? "12:00 PM",
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      CustomText(
-                        text: unseenMessageCount ?? "1",
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primary,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 5.h),
-        ],
-      ),
-    );
   }
 }
 
