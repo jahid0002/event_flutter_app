@@ -18,6 +18,8 @@ class ChatController extends GetxController {
 
   Rx<ChatType> chatType = ChatType.chat.obs;
 
+  RxString userID = ''.obs;
+
   //=================================== Notification Section ===============================
 
   Rx<Status> notificationStatus = Status.loading.obs;

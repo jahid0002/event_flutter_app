@@ -185,10 +185,8 @@ class ConnectionsCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.close, color: AppColors.white),
-                  ),
+                  // Icon(Icons.close, color: AppColors.white),
+                  SizedBox(),
                   Container(
                     height: 30,
                     width: 30,
@@ -382,12 +380,14 @@ class UserActionPopupMenu extends StatelessWidget {
   final void Function()? onCancelConnection;
   final void Function()? onReportUser;
   final void Function()? onBlockUser;
+  final Color? color;
 
   const UserActionPopupMenu({
     super.key,
     this.onCancelConnection,
     this.onReportUser,
     this.onBlockUser,
+    this.color,
   });
 
   @override
@@ -396,7 +396,7 @@ class UserActionPopupMenu extends StatelessWidget {
       color: AppColors.white,
       menuPadding: EdgeInsets.zero,
       padding: EdgeInsets.zero,
-      icon: Icon(Icons.more_horiz, color: Colors.white),
+      icon: Icon(Icons.more_horiz, color: color ?? Colors.white),
       onSelected: (value) {
         switch (value) {
           case _MenuOptions.cancelConnection:

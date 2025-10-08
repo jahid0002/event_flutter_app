@@ -1,6 +1,5 @@
 import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/utils/app_icons/app_icons.dart';
-import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +34,14 @@ class _WelcomeHotelScreenState extends State<WelcomeHotelScreen> {
         width: double.infinity,
         child: Stack(
           children: [
-            CustomImage(imageSrc: AppIcons.welcomeText),
+            Image.asset(
+              AppIcons.welcomeText,
+              height: double.infinity,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
 
+            // CustomImage(imageSrc: AppIcons.welcomeText),
             Positioned(
               top: 470.h,
               left: 0,

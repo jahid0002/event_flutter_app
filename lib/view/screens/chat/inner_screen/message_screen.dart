@@ -1,7 +1,8 @@
-// ignore_for_file: deprecated_member_use, duplicate_ignore
+// ignore_for_file: deprecated_member_use, duplicate_ignore, unused_element_parameter, unused_element
 
 import 'dart:io';
 
+import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/helper/time_converter/date_converter.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
@@ -14,6 +15,8 @@ import 'package:event_app/view/components/custom_text_field/custom_text_field.da
 import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
 import 'package:event_app/view/screens/chat/widget/message_shimmer.dart';
+import 'package:event_app/view/screens/connections/connections_screen.dart';
+import 'package:event_app/view/screens/connections/controller/connection_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -29,16 +32,18 @@ class _MessageScreenState extends State<MessageScreen> {
   final ReceiverInformation receiverInformation = Get.arguments;
 
   final ChatController controller = Get.find<ChatController>();
-  final List<_ChatMessage> messages = [
-    _ChatMessage(text: "Hi Mia!", isSent: true, time: "17:00", isRead: true),
-    _ChatMessage(
-      text: "How do you know Utsav Gandhi",
-      isSent: true,
-      time: "17:00",
-      isRead: true,
-    ),
-    _ChatMessage(text: "Hello Sam!", isSent: false, time: "17:01"),
-  ];
+  final ConnectionController connection = Get.find<ConnectionController>();
+
+  // final List<_ChatMessage> messages = [
+  //   _ChatMessage(text: "Hi Mia!", isSent: true, time: "17:00", isRead: true),
+  //   _ChatMessage(
+  //     text: "How do you know Utsav Gandhi",
+  //     isSent: true,
+  //     time: "17:00",
+  //     isRead: true,
+  //   ),
+  //   _ChatMessage(text: "Hello Sam!", isSent: false, time: "17:01"),
+  // ];
 
   // final TextEditingController _controller = TextEditingController();
 
@@ -56,6 +61,14 @@ class _MessageScreenState extends State<MessageScreen> {
   //     _controller.clear();
   //   });
   // }.
+
+  leaveChat() {
+    controller.leaveChat();
+    controller.messageStatus.value = Status.loading;
+    controller.messageList.clear();
+    controller.messageList.refresh();
+    controller.otherUserID.value = '';
+  }
 
   @override
   void initState() {
@@ -78,30 +91,57 @@ class _MessageScreenState extends State<MessageScreen> {
       canPop: true, // allow the back action
       onPopInvoked: (didPop) {
         if (!didPop) return; // user tried to pop but navigation was blocked
-        controller.messageStatus.value = Status.loading;
-        controller.messageList.clear();
-        controller.messageList.refresh();
-        controller.otherUserID.value = '';
-        controller.leaveChat();
+        leaveChat();
       },
       child: Scaffold(
         appBar: CustomAppBar(
           actions: [
-            IconButton(
-              icon: const Icon(Icons.more_horiz, color: AppColors.primary),
-              onPressed: () {
-                // Navigate to user profile or details page
+            UserActionPopupMenu(
+              color: AppColors.primary,
+              onCancelConnection: () {
+                connection.removeConnection(
+                  userId: receiverInformation.receiverId ?? '',
+                );
+                Get.back();
+                // controller.leaveChat();
+                // controller.messageStatus.value = Status.loading;
+                // controller.messageList.clear();
+                // controller.messageList.refresh();
+                // controller.otherUserID.value = '';
+              },
+              onReportUser: () {
+                Get.toNamed(
+                  AppRoutes.reportScreen,
+                  arguments: receiverInformation.receiverId ?? '',
+                );
+              },
+              onBlockUser: () {
+                connection.blockUser(
+                  userID: receiverInformation.receiverId ?? '',
+                );
+                Get.back();
+                // controller.leaveChat();
+                // controller.messageStatus.value = Status.loading;
+                // controller.messageList.clear();
+                // controller.messageList.refresh();
+                // controller.otherUserID.value = '';
               },
             ),
+            // IconButton(
+            //   icon: const Icon(Icons.more_horiz, color: AppColors.primary),
+            //   onPressed: () {
+            //     // Navigate to user profile or details page
+            //   },
+            // ),
           ],
           leading: BackButton(
             onPressed: () {
-              controller.leaveChat();
-              controller.messageStatus.value = Status.loading;
-              controller.messageList.clear();
-              controller.messageList.refresh();
-              controller.otherUserID.value = '';
               Get.back();
+              // controller.leaveChat();
+              // controller.messageStatus.value = Status.loading;
+              // controller.messageList.clear();
+              // controller.messageList.refresh();
+              // controller.otherUserID.value = '';
             },
           ),
           title: receiverInformation.receiverName ?? AppStrings.na.tr,
@@ -433,6 +473,7 @@ class _MessageScreenState extends State<MessageScreen> {
   }
 }
 
+//====================================== Chat Message Model ======================================
 class _ChatMessage {
   final String text;
   final bool isSent;
