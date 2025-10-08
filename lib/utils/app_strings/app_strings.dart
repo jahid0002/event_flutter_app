@@ -199,4 +199,10 @@ class AppStrings {
 
   // ================= Validation Messages =================
   static const String pleaseEnterYourAge = "Please enter your age";
+
+  static const String delete = "Delete";
+  static const String deleteAccountTitle = "Delete Account";
+  static const String deleteAccountMessage =
+      "Are you sure you want to delete your account? This action cannot be undone.";
+  //static const String confirmDeleteAccount = "Delete Account";
 }

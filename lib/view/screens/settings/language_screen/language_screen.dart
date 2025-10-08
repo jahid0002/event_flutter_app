@@ -60,30 +60,29 @@ class _LanguageScreenState extends State<LanguageScreen> {
         child: Column(
           children: [
             // Debug info
-            Obx(
-              () => Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      'Current Language: ${languageController.selectedLanguage.value}',
-                    ),
-                    Text(
-                      'Current Locale: ${languageController.currentLocale.value}',
-                    ),
-                    Text(
-                      'Language Code: ${languageController.currentLanguageCode}',
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-
+            // Obx(
+            //   () => Container(
+            //     padding: const EdgeInsets.all(8),
+            //     decoration: BoxDecoration(
+            //       color: Colors.grey.shade100,
+            //       borderRadius: BorderRadius.circular(8),
+            //     ),
+            //     child: Column(
+            //       children: [
+            //         Text(
+            //           'Current Language: ${languageController.selectedLanguage.value}',
+            //         ),
+            //         Text(
+            //           'Current Locale: ${languageController.currentLocale.value}',
+            //         ),
+            //         Text(
+            //           'Language Code: ${languageController.currentLanguageCode}',
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            //  const SizedBox(height: 20),
             _languageTile('Spanish'),
             const SizedBox(height: 12),
             _languageTile('English'),

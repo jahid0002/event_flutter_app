@@ -1,3 +1,5 @@
+// ignore_for_file: equal_keys_in_map
+
 import 'package:get/get.dart';
 
 /// Full application translations (English + Spanish)
@@ -164,6 +166,10 @@ class AppTranslations extends Translations {
       "Confirm": "Confirm",
 
       "Please enter your age": "Please enter your age",
+      "Delete": "Delete",
+      "Delete Account": "Delete Account",
+      "Are you sure you want to delete your account? This action cannot be undone.":
+          "Are you sure you want to delete your account? This action cannot be undone.",
     },
 
     // ---------------- Spanish ----------------
@@ -326,6 +332,10 @@ class AppTranslations extends Translations {
       "Confirm": "Confirmar",
 
       "Please enter your age": "Por favor, introduce tu edad",
+      "Delete": "Eliminar",
+      "Delete Account": "Eliminar cuenta",
+      "Are you sure you want to delete your account? This action cannot be undone.":
+          "¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.",
     },
   };
 }

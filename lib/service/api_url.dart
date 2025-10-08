@@ -75,4 +75,8 @@ class ApiUrl {
   static const String getNotificationSettings = '/notificationSetting/get';
   static const String updateNotificationSettings =
       '/notificationSetting/update';
+
+  //=============================== Delete Account ===============================.
+
+  static const String deleteAccount = '/user/delete-account';
 }

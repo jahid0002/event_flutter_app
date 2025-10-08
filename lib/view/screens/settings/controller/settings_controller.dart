@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:event_app/core/routes/app_routes.dart';
+import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
@@ -125,6 +127,21 @@ class SettingsController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       showCustomSnackBar(response.body['message'], isError: false);
       getNotificationSettings();
+    } else {
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  //===================================== Delete Account ============================.
+
+  void deleteAccountApi() async {
+    var response = await ApiClient.deleteData(ApiUrl.deleteAccount);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      SharePrefsHelper.remove(AppConstants.bearerToken);
+      SharePrefsHelper.remove(AppConstants.userId);
+      showCustomSnackBar(response.body['message'], isError: false);
+      Get.offAllNamed(AppRoutes.selectedScreen);
+      // Perform any additional actions after account deletion, e.g., logout
     } else {
       ApiChecker.checkApi(response);
     }

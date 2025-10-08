@@ -32,6 +32,7 @@ class _JustOneThingLoginOnboardingState
   @override
   void initState() {
     // TO DO: implement initState
+    profileController.getOwnProfile();
 
     _selectedDay = controller.leavingDate?.value;
     super.initState();

@@ -1,6 +1,8 @@
 import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/utils/app_strings/app_strings.dart';
+import 'package:event_app/view/components/custom_button/custom_button.dart';
+import 'package:event_app/view/screens/settings/controller/settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,7 +14,9 @@ import '../../../components/custom_text/custom_text.dart';
 import '../../profile/widget/custom_settings_list_card.dart';
 
 class SettingScreen extends StatelessWidget {
-  const SettingScreen({super.key});
+  SettingScreen({super.key});
+
+  final SettingsController controller = Get.find<SettingsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -80,20 +84,116 @@ class SettingScreen extends StatelessWidget {
             onTap: () {
               showLogoutDialog(context, () {
                 SharePrefsHelper.remove(AppConstants.bearerToken);
+                SharePrefsHelper.remove(AppConstants.userId);
                 Get.offAllNamed(AppRoutes.selectedScreen);
               });
-              // Get.toNamed(AppRoutes.languageScreen);
             },
           ),
           CustomSettingsListCard(
             text: AppStrings.deleteAccount.tr,
             color: AppColors.red,
             onTap: () {
-              // Get.toNamed(AppRoutes.languageScreen);
+              showDeleteAccountDialog(context, () {
+                controller.deleteAccountApi();
+                // TO DO
+              });
             },
           ),
         ],
       ),
+    );
+  }
+
+  /// Confirm Button
+
+  void showDeleteAccountDialog(BuildContext context, VoidCallback onConfirm) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: AppColors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(20.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.delete, size: 50.w, color: Colors.redAccent),
+                SizedBox(height: 15.h),
+                Text(
+                  AppStrings.deleteAccountTitle.tr,
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10.h),
+                Text(
+                  AppStrings.deleteAccountMessage.tr,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: Colors.grey.shade700,
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    /// Cancel Button
+                    // TextButton(
+                    //   onPressed: () {
+                    //     Get.back();
+                    //   },
+                    //   child: Text(
+                    //     AppStrings.cancel.tr,
+                    //     style: TextStyle(
+                    //       fontSize: 14.sp,
+                    //       color: AppColors.primary,
+                    //     ),
+                    //   ),
+                    // ),
+                    CustomButton(
+                      fontSize: 16.sp,
+                      fillColor: AppColors.primary,
+                      onTap: () {
+                        Get.back();
+                      },
+                      title: AppStrings.cancel.tr,
+                      height: 48.h,
+                      width: 100.w,
+                    ),
+
+                    /// Delete Button
+                    CustomButton(
+                      fontSize: 16.sp,
+                      fillColor: AppColors.red,
+                      onTap: onConfirm,
+                      title: AppStrings.delete.tr,
+                      height: 48.h,
+                      width: 100.w,
+                    ),
+                    // TextButton(
+
+                    //   onPressed: onConfirm,
+                    //   child: Text(
+                    //     AppStrings.delete.tr,
+                    //     style: TextStyle(
+                    //       fontSize: 14.sp,
+                    //       color: Colors.redAccent,
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

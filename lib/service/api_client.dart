@@ -74,6 +74,7 @@ class ApiClient extends GetxService {
     // }
   }
 
+  //======================= POST DATA =======================
   static Future<Response> postData(
     String uri,
     dynamic body, {
@@ -112,6 +113,7 @@ class ApiClient extends GetxService {
     }
   }
 
+  //======================= PATCH DATA =======================
   static Future<Response> patchData(
     String uri,
     dynamic body, {
@@ -150,6 +152,7 @@ class ApiClient extends GetxService {
     }
   }
 
+  //======================= POST MULTIPART DATA =======================
   static Future<Response> postMultipartData(
     String uri,
     dynamic body, {
@@ -210,6 +213,7 @@ class ApiClient extends GetxService {
     }
   }
 
+  //======================= PATCH MULTIPART DATA =======================
   static Future<Response> patchMultipartData(
     String uri,
     dynamic body, {
@@ -271,6 +275,7 @@ class ApiClient extends GetxService {
     }
   }
 
+  //======================= PUT DATA =======================
   static Future<Response> putData(
     String uri,
     dynamic body, {
@@ -307,6 +312,36 @@ class ApiClient extends GetxService {
     }
   }
 
+  //======================= DELETE DATA =======================
+  static Future<Response> deleteData(
+    String uri, {
+    Map<String, String>? headers,
+    dynamic body,
+  }) async {
+    bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
+
+    var mainHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $bearerToken',
+    };
+    try {
+      debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
+      debugPrint('====> API Call: $uri\n Body: $body');
+
+      http.Response response = await http
+          .delete(
+            Uri.parse(ApiUrl.baseUrl + uri),
+            headers: headers ?? mainHeaders,
+            body: body,
+          )
+          .timeout(const Duration(seconds: timeoutInSeconds));
+      return handleResponse(response, uri);
+    } catch (e) {
+      return const Response(statusCode: 1, statusText: somethingWentWrong);
+    }
+  }
+
+  //====================== HANDLE RESPONSE =======================
   static Response handleResponse(http.Response response, String uri) {
     dynamic body;
     try {
