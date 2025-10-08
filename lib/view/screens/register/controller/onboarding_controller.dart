@@ -8,6 +8,7 @@ import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/view/screens/profile/model/profile_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -129,12 +130,37 @@ class OnboardingController extends GetxController {
       body,
       multipartBody: [...imageFiles.map((e) => MultipartBody('pictures', e))],
     );
-    userRegistered(false);
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       SharePrefsHelper.setBool(AppConstants.isRegistered, true);
+
+      getOwnProfile();
       //  Get.offAllNamed(AppRoutes.homeScreen);
+      //  Get.offAllNamed(AppRoutes.welcomeHotelScreen);
+    } else {
+      userRegistered(false);
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  Rx<Status> profileStatus = Status.loading.obs;
+
+  Rx<ProfileModel> profileModel = ProfileModel().obs;
+  Future<void> getOwnProfile() async {
+    var response = await ApiClient.getData(ApiUrl.getOwnProfile);
+    userRegistered(false);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      profileModel.value = ProfileModel.fromMap(response.body['data']);
+      profileStatus(Status.completed);
+
+      SharePrefsHelper.setString(AppConstants.userId, profileModel.value.id);
+      SharePrefsHelper.setString(
+        AppConstants.hotelName,
+        profileModel.value.hotel?.name ?? '',
+      );
       Get.offAllNamed(AppRoutes.welcomeHotelScreen);
     } else {
+      profileStatus(Status.error);
       ApiChecker.checkApi(response);
     }
   }
