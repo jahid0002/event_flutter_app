@@ -1,4 +1,6 @@
 import 'package:event_app/core/routes/app_routes.dart';
+import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
+import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/utils/app_icons/app_icons.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
@@ -26,6 +28,15 @@ class _WelcomeHotelScreenState extends State<WelcomeHotelScreen> {
     });
   }
 
+  String? hotelName;
+
+  loadHotelName() async {
+    hotelName = await SharePrefsHelper.getString(AppConstants.hotelName);
+    if (!mounted) {
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,14 +52,12 @@ class _WelcomeHotelScreenState extends State<WelcomeHotelScreen> {
               fit: BoxFit.cover,
             ),
 
-            // CustomImage(imageSrc: AppIcons.welcomeText),
             Positioned(
               top: 470.h,
               left: 0,
               right: 0,
               child: CustomText(
-                text:
-                    'Welcome to ${profileController.profileModel.value.hotel?.name ?? ''}',
+                text: 'Welcome to $hotelName',
                 color: Colors.white,
                 fontSize: 24.sp,
                 fontWeight: FontWeight.w600,

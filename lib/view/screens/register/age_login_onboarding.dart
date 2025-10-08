@@ -1,5 +1,6 @@
 import 'package:event_app/utils/ToastMsg/toast_message.dart';
 import 'package:event_app/utils/app_strings/app_strings.dart';
+import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
 import 'package:event_app/view/screens/register/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +21,16 @@ class _AgeLoginOnboardingState extends State<AgeLoginOnboarding> {
   // final FocusNode _focusNode = FocusNode();
 
   final OnboardingController controller = Get.find<OnboardingController>();
+  final ProfileController profileController = Get.find<ProfileController>();
+
+  @override
+  void initState() {
+    // TO DO: implement initState
+
+    profileController.getOwnProfile();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

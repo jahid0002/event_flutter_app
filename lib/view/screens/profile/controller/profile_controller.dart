@@ -27,6 +27,10 @@ class ProfileController extends GetxController {
       profileStatus(Status.completed);
       initAllField(profileModel.value);
       SharePrefsHelper.setString(AppConstants.userId, profileModel.value.id);
+      SharePrefsHelper.setString(
+        AppConstants.hotelName,
+        profileModel.value.hotel?.name ?? '',
+      );
     } else {
       profileStatus(Status.error);
       ApiChecker.checkApi(response);

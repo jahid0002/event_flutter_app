@@ -5,7 +5,6 @@ import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
-import 'package:event_app/view/screens/profile/controller/profile_controller.dart';
 import 'package:event_app/view/screens/register/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +23,7 @@ class JustOneThingLoginOnboarding extends StatefulWidget {
 class _JustOneThingLoginOnboardingState
     extends State<JustOneThingLoginOnboarding> {
   final OnboardingController controller = Get.find<OnboardingController>();
-  final ProfileController profileController = Get.find<ProfileController>();
+  //final ProfileController profileController = Get.find<ProfileController>();
 
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -32,7 +31,7 @@ class _JustOneThingLoginOnboardingState
   @override
   void initState() {
     // TO DO: implement initState
-    profileController.getOwnProfile();
+    // profileController.getOwnProfile();
 
     _selectedDay = controller.leavingDate?.value;
     super.initState();

@@ -8,6 +8,7 @@ class AppConstants {
   static String name = "name";
 
   static String onBoard = "Onboard";
+  static const String hotelName = "hotelName";
 
   /// <====================== All Response Message Static==============================>
 
