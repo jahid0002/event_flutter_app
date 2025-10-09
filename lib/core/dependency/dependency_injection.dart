@@ -1,3 +1,4 @@
+import 'package:event_app/view/components/custom_nav_bar/controller/nav_controller.dart';
 import 'package:event_app/view/screens/auth/controller/auth_controller.dart';
 import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
 import 'package:event_app/view/screens/connections/controller/connection_controller.dart';
@@ -25,5 +26,6 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => SettingsController(), fenix: true);
     Get.lazyPut(() => WifiSettingsController(), fenix: true);
     Get.lazyPut(() => LanguageController(), fenix: true);
+    Get.put(NavController(), permanent: true);
   }
 }

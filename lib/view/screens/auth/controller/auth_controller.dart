@@ -10,6 +10,7 @@ import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
 import 'package:event_app/service/socket_service.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/view/components/custom_nav_bar/controller/nav_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -106,7 +107,13 @@ class AuthController extends GetxController {
             response.body['data']['isRegistrationComplete'],
           );
 
-          SocketApi.init();
+          await SocketApi.init(
+            onSocketConnect: () {
+              final navController = Get.find<NavController>();
+              navController.getPendingNotificationCount();
+            },
+          );
+
           if (response.body['data']['isRegistrationComplete'] == false) {
             Get.offAllNamed(AppRoutes.onbordingScreen);
           } else {

@@ -79,4 +79,8 @@ class ApiUrl {
   //=============================== Delete Account ===============================.
 
   static const String deleteAccount = '/user/delete-account';
+
+  //================================= Get Pending Notification Count ===============================
+
+  static const String getPendingNotificationCount = '/notification/count';
 }

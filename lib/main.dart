@@ -5,6 +5,7 @@ import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/firebase_options.dart';
 import 'package:event_app/service/socket_service.dart';
 import 'package:event_app/utils/app_langues/app_langues.dart';
+import 'package:event_app/view/components/custom_nav_bar/controller/nav_controller.dart';
 import 'package:event_app/view/screens/settings/controller/langues_controller.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -30,7 +31,12 @@ Future<void> main() async {
   final languageController = Get.put(LanguageController());
   await languageController.initializeLocale();
 
-  SocketApi.init();
+  await SocketApi.init(
+    onSocketConnect: () {
+      final navController = Get.find<NavController>();
+      navController.getPendingNotificationCount();
+    },
+  );
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
