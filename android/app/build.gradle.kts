@@ -1,12 +1,12 @@
 plugins {
     id("com.android.application")
-
+    
     // START: FlutterFire Configuration
     id("com.google.gms.google-services")
     // END: FlutterFire Configuration
-
+    
     id("kotlin-android")
-
+    
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
@@ -57,6 +57,6 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-messaging")
 
-    // ✅ OneSignal dependency
+    // OneSignal dependency
     implementation("com.onesignal:OneSignal:[4.8.6, 5.0.0)")
 }
