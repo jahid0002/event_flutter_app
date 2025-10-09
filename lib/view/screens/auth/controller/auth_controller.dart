@@ -21,7 +21,7 @@ class AuthController extends GetxController {
 
   Future<void> signInWithGoogle() async {
     debugPrint('======================>> signInWithGoogle');
-    final playerID = await OneSignal.User.getOnesignalId();
+    final playerID = OneSignal.User.pushSubscription.id;
     debugPrint("📱 OneSignal Player ID: $playerID");
     PopupLoader.showPopupLoader(Get.context!);
     try {
