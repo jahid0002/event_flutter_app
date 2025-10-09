@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, unused_local_variable
+// ignore_for_file: deprecated_member_use, unused_local_variable, unnecessary_null_comparison
 
 import 'package:event_app/core/dependency/dependency_injection.dart';
 import 'package:event_app/core/routes/app_routes.dart';
@@ -6,6 +6,8 @@ import 'package:event_app/firebase_options.dart';
 import 'package:event_app/service/socket_service.dart';
 import 'package:event_app/utils/app_langues/app_langues.dart';
 import 'package:event_app/view/components/custom_nav_bar/controller/nav_controller.dart';
+import 'package:event_app/view/screens/chat/chat_screen.dart';
+import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
 import 'package:event_app/view/screens/settings/controller/langues_controller.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -85,26 +87,67 @@ class MyApp extends StatelessWidget {
   }
 }
 
-///  Initialize OneSignal with your app ID
+//========================= >>  OneSignal Initialization ======================== >>
+/// Initialize OneSignal with your app ID
 Future<void> initOneSignal() async {
-  // Optional: for debugging in dev mode
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
 
-  // Initialize OneSignal with your app ID
   OneSignal.initialize("39e47de2-9435-4c22-b63c-b9ca67961e87");
 
-  // Request permission (iOS only)
   OneSignal.Notifications.requestPermission(true);
 
-  // (Optional) Handle notification click
   OneSignal.Notifications.addClickListener((event) {
     debugPrint(
       "Notification clicked: ${event.notification.jsonRepresentation()}",
     );
+
+    var data = event.notification.additionalData;
+
+    String? conversationId = data?['conversationId'];
+    String? connectionId = data?['connectionId'];
+
+    if (conversationId != null) {
+      debugPrint(
+        "Navigating to Message Screen with conversationId: $conversationId",
+      );
+      Get.toNamed(AppRoutes.chatScreen);
+    } else if (connectionId != null) {
+      final ChatController chatController = Get.find<ChatController>();
+
+      debugPrint(
+        "Navigating to Connection Request Screen with connectionId: $connectionId",
+      );
+
+      chatController.chatType.value = ChatType.notification;
+
+      Get.offAllNamed(AppRoutes.chatScreen);
+    } else {
+      debugPrint("No valid conversationId or connectionId found in payload.");
+    }
   });
 
   debugPrint("OneSignal initialized successfully");
 }
+
+// Future<void> initOneSignal() async {
+//   // Optional: for debugging in dev mode
+//   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+
+//   // Initialize OneSignal with your app ID
+//   OneSignal.initialize("39e47de2-9435-4c22-b63c-b9ca67961e87");
+
+//   // Request permission (iOS only)
+//   OneSignal.Notifications.requestPermission(true);
+
+//   // (Optional) Handle notification click
+//   OneSignal.Notifications.addClickListener((event) {
+//     debugPrint(
+//       "Notification clicked: ${event.notification.jsonRepresentation()}",
+//     );
+//   });
+
+//   debugPrint("OneSignal initialized successfully");
+// }
 
 /// 📨 Firebase + iOS Notification permission request
 Future<void> requestIOSPermissions() async {
