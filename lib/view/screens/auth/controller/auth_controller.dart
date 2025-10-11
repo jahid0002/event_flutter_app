@@ -15,6 +15,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+//import 'package:logger/web.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class AuthController extends GetxController {
@@ -83,6 +84,8 @@ class AuthController extends GetxController {
         if (kDebugMode) {
           printInChunks('Long body: $body');
         }
+
+        // Logger().d('Auth Request Body: $body');
 
         var response = await ApiClient.postData(
           ApiUrl.login,

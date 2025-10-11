@@ -77,11 +77,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           switch (direction) {
                             case SwipeDirection.left:
                               debugPrint("Swiped Left to index: $loopedIndex");
+
+                              break;
+                            case SwipeDirection.right:
                               controller.addOrRemoveConnection(
                                 userId: controller.users[loopedIndex].id ?? '',
                               );
-                              break;
-                            case SwipeDirection.right:
                               debugPrint("Swiped Right to index: $loopedIndex");
 
                               break;
@@ -215,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               onTap: () {
                                                 _swipableStackController.next(
                                                   swipeDirection:
-                                                      SwipeDirection.right,
+                                                      SwipeDirection.left,
                                                 );
                                               },
                                               title: AppStrings.noInterest.tr,
