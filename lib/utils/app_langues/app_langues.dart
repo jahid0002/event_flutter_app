@@ -170,6 +170,7 @@ class AppTranslations extends Translations {
       "Delete Account": "Delete Account",
       "Are you sure you want to delete your account? This action cannot be undone.":
           "Are you sure you want to delete your account? This action cannot be undone.",
+      "Accept": "Accept",
     },
 
     // ---------------- Spanish ----------------
@@ -336,6 +337,8 @@ class AppTranslations extends Translations {
       "Delete Account": "Eliminar cuenta",
       "Are you sure you want to delete your account? This action cannot be undone.":
           "¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.",
+
+      "Accept": "Aceptar",
     },
   };
 }

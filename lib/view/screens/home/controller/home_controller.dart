@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:event_app/helper/shared_prefe/shared_prefe.dart';
 import 'package:event_app/service/api_check.dart';
 import 'package:event_app/service/api_client.dart';
 import 'package:event_app/service/api_url.dart';
@@ -28,7 +29,13 @@ class HomeController extends GetxController {
   //       currentIndex.value = 0;
   //     }
   //   });
-  // }
+  // }.
+
+  RxString userID = ''.obs;
+
+  loadUserId() async {
+    userID.value = await SharePrefsHelper.getString(AppConstants.userId);
+  }
 
   //====================== Get All User ==================
 
@@ -85,6 +92,30 @@ class HomeController extends GetxController {
       userDetailsStatus(Status.completed);
     } else {
       userDetailsStatus(Status.error);
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  //==================== Accept Connection =================.
+
+  //====================== Accept Connection Request ================================
+  RxBool isAccepted = false.obs;
+
+  Future<void> acceptConnectionRequest({required String userID}) async {
+    isAccepted(true);
+
+    var body = {};
+
+    var response = await ApiClient.postData(
+      ApiUrl.acceptConnection(userID),
+      jsonEncode(body),
+    );
+
+    isAccepted(false);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      getAllUser();
+    } else {
       ApiChecker.checkApi(response);
     }
   }

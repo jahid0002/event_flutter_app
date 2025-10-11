@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     //  controller.startSlider();
     super.initState();
+    controller.loadUserId();
     _swipableStackController = SwipableStackController();
     controller.getAllUser();
   }
@@ -80,6 +81,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               break;
                             case SwipeDirection.right:
+                              if (getText(
+                                    controller.users[loopedIndex].connection,
+                                  ) ==
+                                  AppStrings.pending.tr) {
+                                return;
+                              }
                               controller.addOrRemoveConnection(
                                 userId: controller.users[loopedIndex].id ?? '',
                               );
@@ -241,30 +248,63 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 16.w,
                                                     onTap: () async {
-                                                      final updatedConnection =
+                                                      if (data.connection ==
+                                                          null) {
+                                                        final updatedConnection =
+                                                            await controller
+                                                                .addOrRemoveConnection(
+                                                                  userId:
+                                                                      data.id ??
+                                                                      '',
+                                                                );
+                                                      } else {
+                                                        if (data
+                                                                .connection
+                                                                ?.sender ==
+                                                            controller
+                                                                .userID
+                                                                .value) {
+                                                          final updatedConnection =
+                                                              await controller
+                                                                  .addOrRemoveConnection(
+                                                                    userId:
+                                                                        data.id ??
+                                                                        '',
+                                                                  );
+                                                        } else {
                                                           await controller
-                                                              .addOrRemoveConnection(
-                                                                userId:
-                                                                    data.id ??
+                                                              .acceptConnectionRequest(
+                                                                userID:
+                                                                    data
+                                                                        .connection
+                                                                        ?.id ??
                                                                     '',
                                                               );
-
-                                                      // if (updatedConnection !=
-                                                      //     null) {
-                                                      //   setState(() {
-                                                      //     data.connection =
-                                                      //         updatedConnection;
-                                                      //   });
-                                                      // }
+                                                        }
+                                                      }
+                                                      // final updatedConnection =
+                                                      //     await controller
+                                                      //         .addOrRemoveConnection(
+                                                      //           userId:
+                                                      //               data.id ??
+                                                      //               '',
+                                                      //         );
                                                     },
                                                     title:
                                                         data.connection == null
                                                             ? AppStrings
                                                                 .invite
                                                                 .tr
-                                                            : getText(
+                                                            : controller
+                                                                    .userID
+                                                                    .value ==
+                                                                data
+                                                                    .connection
+                                                                    ?.sender
+                                                            ? getText(
                                                               data.connection,
-                                                            ),
+                                                            )
+                                                            : 'Accept'.tr,
                                                     height: 47.h,
                                                     fillColor:
                                                         AppColors.primary,
