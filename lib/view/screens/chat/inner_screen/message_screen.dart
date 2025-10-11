@@ -116,10 +116,19 @@ class _MessageScreenState extends State<MessageScreen> {
                 );
               },
               onBlockUser: () {
-                connection.blockUser(
-                  userID: receiverInformation.receiverId ?? '',
+                // connection.blockUser(
+                //   userID: receiverInformation.receiverId ?? '',
+                // );
+                BlockPopUp.showBlockedPopup(
+                  context,
+                  onBlockTap: () {
+                    connection.blockUser(
+                      userID: receiverInformation.receiverId ?? '',
+                    );
+                    Get.back();
+                  },
                 );
-                Get.back();
+
                 // controller.leaveChat();
                 // controller.messageStatus.value = Status.loading;
                 // controller.messageList.clear();

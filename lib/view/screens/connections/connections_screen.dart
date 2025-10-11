@@ -116,9 +116,21 @@ class ConnectionsScreen extends StatelessWidget {
                             );
                           },
                           onBlockUser: () {
-                            controller.blockUser(
-                              userID: connection.otherUser?.id ?? '',
+                            // controller.blockUser(
+                            //   userID: connection.otherUser?.id ?? '',
+                            // );
+
+                            BlockPopUp.showBlockedPopup(
+                              context,
+                              onBlockTap: () {
+                                controller.blockUser(
+                                  userID: connection.otherUser?.id ?? '',
+                                );
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
                             );
+
+                            // Optional if you use GetX for navigation
                           },
                           onReportUser: () {
                             Get.toNamed(
@@ -284,6 +296,80 @@ class ConnectionsCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class BlockPopUp {
+  static void showBlockedPopup(
+    BuildContext context, {
+    required VoidCallback onBlockTap,
+  }) {
+    showDialog(
+      context: context,
+
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          backgroundColor: Colors.black87,
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.block, color: Colors.red, size: 48),
+                const SizedBox(height: 16),
+                Text(
+                  "You will never find them again.".tr,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // Optional: take user to another screen or just close
+                        Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Text(
+                        "Cancel".tr,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: onBlockTap,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.redAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Text(
+                        "Block".tr,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
