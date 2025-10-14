@@ -158,6 +158,13 @@ class OnboardingController extends GetxController {
         AppConstants.hotelName,
         profileModel.value.hotel?.name ?? '',
       );
+
+      final String? hotelName = await SharePrefsHelper.getString(
+        AppConstants.hotelName,
+      );
+      debugPrint(
+        '============================================== >>>> Hotel Name: $hotelName',
+      );
       Get.offAllNamed(AppRoutes.welcomeHotelScreen);
     } else {
       profileStatus(Status.error);

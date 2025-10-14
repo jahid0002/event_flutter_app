@@ -21,6 +21,7 @@ class _WelcomeHotelScreenState extends State<WelcomeHotelScreen> {
   @override
   void initState() {
     super.initState();
+    loadHotelName();
     Future.delayed(const Duration(seconds: 3), () {
       Get.offAllNamed(
         AppRoutes.homeScreen,
@@ -32,9 +33,12 @@ class _WelcomeHotelScreenState extends State<WelcomeHotelScreen> {
 
   loadHotelName() async {
     hotelName = await SharePrefsHelper.getString(AppConstants.hotelName);
-    if (!mounted) {
-      setState(() {});
-    }
+
+    setState(() {});
+
+    debugPrint(
+      '============================================== >>>>Welcome Hotel Name: $hotelName',
+    );
   }
 
   @override
