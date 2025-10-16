@@ -273,7 +273,33 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                               fontWeight: FontWeight.w600,
                               bottom: 10.h,
                             ),
-                            Row(
+
+                            // Row(
+                            //   children: List.generate(
+                            //     conntroller
+                            //             .connectionDetails
+                            //             .value
+                            //             .interests
+                            //             ?.length ??
+                            //         0,
+                            //     (index) {
+                            //       return ModifyButton(
+                            //         // width: 200.w,
+                            //         color: AppColors.gray,
+                            //         title:
+                            //             conntroller
+                            //                 .connectionDetails
+                            //                 .value
+                            //                 .interests?[index] ??
+                            //             AppStrings.na.tr,
+                            //       );
+                            //     },
+                            //   ),
+                            // ),
+                            Wrap(
+                              spacing: 10.w, // horizontal space between items
+                              runSpacing:
+                                  10.h, // vertical space between wrapped lines
                               children: List.generate(
                                 conntroller
                                         .connectionDetails
@@ -282,33 +308,50 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                                         ?.length ??
                                     0,
                                 (index) {
-                                  return ModifyButton(
-                                    // width: 200.w,
-                                    color: AppColors.gray,
-                                    title:
+                                  return GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16.w,
+                                        vertical: 8.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.white,
+                                        border: Border.all(
+                                          color: AppColors.gray,
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(
+                                          100.r,
+                                        ),
+                                      ),
+                                      constraints: BoxConstraints(
+                                        minHeight: 30.h,
+                                        maxWidth:
+                                            250.w, // optional max width per item
+                                      ),
+                                      child: Text(
                                         conntroller
-                                            .connectionDetails
-                                            .value
-                                            .interests?[index] ??
-                                        AppStrings.na.tr,
+                                                .connectionDetails
+                                                .value
+                                                .interests?[index] ??
+                                            AppStrings.na.tr,
+                                        style: TextStyle(
+                                          fontSize: 14.w,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.gray,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
                                   );
                                 },
                               ),
-
-                              // [
-                              //   ModifyButton(
-                              //     color: AppColors.primary,
-                              //     title: '‍Workout 🏃',
-                              //     width: 120.w,
-                              //   ),
-                              //   SizedBox(width: 10.w),
-                              //   ModifyButton(
-                              //     title: 'Casual 😄',
-                              //     color: AppColors.primary,
-                              //     width: 120.w,
-                              //   ),
-                              // ],
                             ),
+
                             CustomText(
                               top: 20.h,
                               text: AppStrings.languages.tr,
@@ -316,7 +359,46 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                               fontWeight: FontWeight.w600,
                               bottom: 10.h,
                             ),
-                            Row(
+
+                            // Row(
+                            //   children: List.generate(
+                            //     conntroller
+                            //             .connectionDetails
+                            //             .value
+                            //             .language
+                            //             ?.length ??
+                            //         0,
+                            //     (index) {
+                            //       return ModifyButton(
+                            //         // width: 200.w,
+                            //         color: AppColors.gray,
+                            //         title:
+                            //             conntroller
+                            //                 .connectionDetails
+                            //                 .value
+                            //                 .language?[index] ??
+                            //             AppStrings.na.tr,
+                            //       );
+                            //     },
+                            //   ),
+
+                            // [
+                            //   ModifyButton(
+                            //     color: AppColors.gray,
+                            //     title: 'Spanish',
+                            //     width: 120.w,
+                            //   ),
+                            //   SizedBox(width: 10.w),
+                            //   ModifyButton(
+                            //     title: 'Italian',
+                            //     color: AppColors.gray,
+                            //     width: 120.w,
+                            //   ),
+                            // ],
+                            //  ),
+                            Wrap(
+                              spacing: 10.w, // horizontal gap between items
+                              runSpacing: 10.h, // vertical gap between lines
                               children: List.generate(
                                 conntroller
                                         .connectionDetails
@@ -325,33 +407,50 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                                         ?.length ??
                                     0,
                                 (index) {
-                                  return ModifyButton(
-                                    // width: 200.w,
-                                    color: AppColors.gray,
-                                    title:
+                                  return GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16.w,
+                                        vertical: 8.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.white,
+                                        border: Border.all(
+                                          color: AppColors.gray,
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(
+                                          100.r,
+                                        ),
+                                      ),
+                                      constraints: BoxConstraints(
+                                        minHeight: 30.h,
+                                        maxWidth:
+                                            250.w, // optional max width per chip
+                                      ),
+                                      child: Text(
                                         conntroller
-                                            .connectionDetails
-                                            .value
-                                            .language?[index] ??
-                                        AppStrings.na.tr,
+                                                .connectionDetails
+                                                .value
+                                                .language?[index] ??
+                                            AppStrings.na.tr,
+                                        style: TextStyle(
+                                          fontSize: 14.w,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.gray,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
                                   );
                                 },
                               ),
-
-                              // [
-                              //   ModifyButton(
-                              //     color: AppColors.gray,
-                              //     title: 'Spanish',
-                              //     width: 120.w,
-                              //   ),
-                              //   SizedBox(width: 10.w),
-                              //   ModifyButton(
-                              //     title: 'Italian',
-                              //     color: AppColors.gray,
-                              //     width: 120.w,
-                              //   ),
-                              // ],
                             ),
+
                             SizedBox(height: 40.h),
                           ],
                         ),
@@ -441,7 +540,12 @@ class ConnectionsDetailsButton extends StatelessWidget {
 }
 
 class ModifyButton extends StatelessWidget {
-  const ModifyButton({super.key, this.title, this.color, this.width});
+  const ModifyButton({
+    super.key,
+    this.title = AppStrings.na,
+    this.color,
+    this.width,
+  });
 
   final String? title;
   final Color? color;
@@ -450,20 +554,35 @@ class ModifyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        CustomButton(
-          height: 30.h,
-          width: width ?? 100.w,
+        GestureDetector(
           onTap: () {},
-          title: title ?? AppStrings.na.tr,
-          fontSize: 14.w,
-          fontWeight: FontWeight.w700,
-          fillColor: AppColors.white,
-          isBorder: true,
-          borderRadius: 100.r,
-
-          textColor: color ?? AppColors.primary,
-          borderWidth: 1,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              border: Border.all(color: color ?? AppColors.primary, width: 1),
+              borderRadius: BorderRadius.circular(100.r),
+            ),
+            constraints: BoxConstraints(
+              minHeight: 30.h,
+              // Optional: prevent it from being *too* wide
+              maxWidth: 250.w,
+            ),
+            child: Text(
+              title ?? AppStrings.na.tr,
+              style: TextStyle(
+                fontSize: 14.w,
+                fontWeight: FontWeight.w700,
+                color: color ?? AppColors.primary,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
+              textAlign: TextAlign.center,
+            ),
+          ),
         ),
         SizedBox(width: 10.w),
       ],
