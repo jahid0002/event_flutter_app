@@ -175,43 +175,58 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: AppColors.white,
                                         bottom: 5.h,
                                       ),
-                                      Row(
-                                        children: [
-                                          if (data.interests != null &&
-                                              data.interests!.isNotEmpty) ...[
-                                            CustomButton(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 14.w,
-                                              onTap: () {},
-                                              title: data.interests![0],
-                                              width: 88.w,
-                                              height: 30.h,
-                                              fillColor: Colors.transparent,
-                                              textColor: AppColors.primary,
-                                              isBorder: true,
-                                              borderWidth: 1,
-                                            ),
-                                            SizedBox(width: 10.w),
-                                            data.interests!.length > 1
-                                                ? CustomButton(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 14.w,
-                                                  onTap: () {},
-                                                  title:
-                                                      data.interests!.length > 1
-                                                          ? data.interests![1]
-                                                          : '',
-                                                  width: 88.w,
-                                                  height: 30.h,
-                                                  fillColor: Colors.transparent,
-                                                  textColor: AppColors.primary,
-                                                  isBorder: true,
-                                                  borderWidth: 1,
-                                                )
-                                                : SizedBox(),
-                                          ],
-                                        ],
-                                      ),
+
+                                      if (data.interests != null &&
+                                          data.interests!.isNotEmpty)
+                                        Wrap(
+                                          spacing:
+                                              10.w, // horizontal space between items
+                                          runSpacing:
+                                              10.h, // vertical space between lines
+                                          children: List.generate(
+                                            data.interests!.length,
+                                            (index) {
+                                              return Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 16.w,
+                                                  vertical: 8.h,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  border: Border.all(
+                                                    color: AppColors.primary,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        100.r,
+                                                      ),
+                                                ),
+                                                constraints: BoxConstraints(
+                                                  minHeight: 30.h,
+                                                  maxWidth:
+                                                      250.w, // optional: keep very long text from stretching
+                                                ),
+                                                child: Text(
+                                                  data.interests![index],
+                                                  style: TextStyle(
+                                                    fontSize: 14.w,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: AppColors.primary,
+                                                  ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  softWrap: false,
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        )
+                                      else
+                                        const SizedBox(),
+
                                       SizedBox(height: 20.h),
                                       Row(
                                         children: [
@@ -282,13 +297,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               );
                                                         }
                                                       }
-                                                      // final updatedConnection =
-                                                      //     await controller
-                                                      //         .addOrRemoveConnection(
-                                                      //           userId:
-                                                      //               data.id ??
-                                                      //               '',
-                                                      //         );
                                                     },
                                                     title:
                                                         data.connection == null
@@ -316,7 +324,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 20.h),
+                                      // SizedBox(height: 20.h),
                                     ],
                                   ),
                                 ],

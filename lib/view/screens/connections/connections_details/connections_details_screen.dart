@@ -8,7 +8,6 @@ import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/utils/app_icons/app_icons.dart';
 import 'package:event_app/utils/app_strings/app_strings.dart';
-import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_image/custom_image.dart';
 import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
