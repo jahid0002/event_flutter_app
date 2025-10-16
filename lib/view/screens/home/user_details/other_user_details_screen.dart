@@ -311,7 +311,6 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                                     0,
                                 (index) {
                                   return ModifyButton(
-                                    // width: 200.w,
                                     color: AppColors.gray,
                                     title:
                                         controller
