@@ -248,6 +248,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                               borderRadius: 10.r,
                             ),
                   ),
+                  SizedBox(height: 30.h),
                 ],
               ),
             );
@@ -324,11 +325,11 @@ class InterestsSelector extends StatefulWidget {
 class _InterestsSelectorState extends State<InterestsSelector> {
   final ProfileController controller = Get.find<ProfileController>();
   final List<String> interests = [
-    "Workout 🏃‍♂️",
-    "Casual 😄",
-    "Networking 🤝",
-    "Follow your trip 🧳",
-    "Getting to know the city 🍽️",
+    "Workout💪",
+    "Casual😎",
+    "Networking🤝",
+    "Trip✈️",
+    "City🌆",
   ];
 
   //final Set<in> selectedIndexes = {};

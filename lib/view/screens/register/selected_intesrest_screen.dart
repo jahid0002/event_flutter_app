@@ -22,28 +22,34 @@ class _QueLoginOnboardingState extends State<QueLoginOnboarding> {
 
   List<int> selectedIndices = [];
 
+  // "Workout💪",
+  //   "Casual😎",
+  //   "Networking🤝",
+  //   "Trip✈️",
+  //   "City🌆",
+
   final List<Map<String, String>> purposes = [
     {
-      "title": "Getting to know the city 🍽️",
+      "title": "Workout💪",
       "subtitle":
           "Discover the city while eating or having a drink with someone.",
     },
     {
-      "title": "Follow your trip 🧳",
+      "title": "Casual😎",
       "subtitle":
           "Find travel buddies to continue your journey to other cities.",
     },
     {
-      "title": "Casual 😄",
+      "title": "Networking🤝",
       "subtitle": "Meet people who share similar hobbies or interests.",
     },
     {
-      "title": "Networking 🤝",
+      "title": "Trip✈️",
       "subtitle":
           "Connect with people for professional or work-related interests.",
     },
     {
-      "title": "Workout 🏃‍♂️",
+      "title": "City🌆",
       "subtitle": "Play sports and stay active with others in the city.",
     },
   ];
