@@ -146,54 +146,65 @@ class _ConnectionsDetailsScreenState extends State<ConnectionsDetailsScreen> {
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  // mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    CustomText(
-                                      top: 10.h,
-                                      left: 0.w,
-                                      text:
-                                          conntroller
-                                              .connectionDetails
-                                              .value
-                                              .name ??
-                                          AppStrings.na.tr,
-                                      fontSize: 38.w,
-                                      fontWeight: FontWeight.w600,
-                                      // color: AppColors.primary,
+                                    SizedBox(
+                                      width: 250.w,
+                                      child: CustomText(
+                                        top: 10.h,
+                                        left: 0.w,
+                                        text:
+                                            conntroller
+                                                .connectionDetails
+                                                .value
+                                                .name ??
+                                            AppStrings.na.tr,
+                                        fontSize: 24.w,
+                                        fontWeight: FontWeight.w600,
+                                        maxLines: 3,
+                                        textAlign: TextAlign.start,
+                                        // color: AppColors.primary,
+                                      ),
                                     ),
                                     CustomText(
                                       top: 10.h,
                                       left: 10.w,
                                       text:
                                           '${connection.otherUser?.age ?? AppStrings.na.tr}',
-                                      fontSize: 24.w,
+                                      fontSize: 18.w,
                                       fontWeight: FontWeight.w400,
                                       // color: AppColors.primary,
                                     ),
                                   ],
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    ReceiverInformation
-                                    information = ReceiverInformation(
-                                      receiverId: connection.otherUser?.id,
-                                      receiverName: connection.otherUser?.name,
-                                      receiverImage:
-                                          connection.otherUser?.profileImage,
-                                    );
-                                    Get.toNamed(
-                                      AppRoutes.messageScreen,
-                                      arguments: information,
-                                    );
-                                  },
-                                  child: CircleAvatar(
-                                    backgroundColor: AppColors.primary,
-                                    maxRadius: 20.r,
-                                    child: Icon(
-                                      Icons.chat_bubble,
-                                      color: AppColors.white,
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      ReceiverInformation
+                                      information = ReceiverInformation(
+                                        receiverId: connection.otherUser?.id,
+                                        receiverName:
+                                            connection.otherUser?.name,
+                                        receiverImage:
+                                            connection.otherUser?.profileImage,
+                                      );
+                                      Get.toNamed(
+                                        AppRoutes.messageScreen,
+                                        arguments: information,
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundColor: AppColors.primary,
+                                      maxRadius: 20.r,
+                                      child: Icon(
+                                        Icons.chat_bubble,
+                                        color: AppColors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
