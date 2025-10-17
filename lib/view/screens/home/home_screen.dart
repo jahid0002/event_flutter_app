@@ -97,8 +97,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               debugPrint("Swiped Up!");
                               Get.toNamed(
                                 AppRoutes.otherUserDetailsScreen,
-                                arguments:
-                                    controller.users[loopedIndex].id ?? '',
+                                arguments: [
+                                  controller.users[loopedIndex].id ?? '',
+                                  true,
+                                ],
                               );
                               break;
                             case SwipeDirection.down:
@@ -111,7 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (direction == SwipeDirection.up) {
                             Get.toNamed(
                               AppRoutes.otherUserDetailsScreen,
-                              arguments: controller.users[loopedIndex].id ?? '',
+                              arguments: [
+                                controller.users[loopedIndex].id ?? '',
+                                true,
+                              ],
                             );
                             return false; // do not advance to next card
                           }

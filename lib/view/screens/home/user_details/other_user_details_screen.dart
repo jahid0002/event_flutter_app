@@ -6,6 +6,7 @@ import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/utils/app_strings/app_strings.dart';
+import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
@@ -24,18 +25,21 @@ class OtherUserDetailsScreen extends StatefulWidget {
 }
 
 class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
-  final String otherUserId = Get.arguments;
+  final String otherUserId = Get.arguments[0];
+  final bool formHomeScreen = Get.arguments[1];
   final HomeController controller = Get.find<HomeController>();
 
   @override
   void initState() {
     // TO DO: implement initState
+    controller.loadUserId();
     super.initState();
     controller.getConnectionDetails(userId: otherUserId);
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Form Home Screen: $formHomeScreen');
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -198,13 +202,87 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                                 // ),
                               ],
                             ),
-                            SizedBox(height: 20.h),
-                            CustomText(
-                              text: AppStrings.aboutMe.tr,
-                              fontSize: 16.w,
-                              fontWeight: FontWeight.w600,
-                              bottom: 15.h,
-                            ),
+
+                            controller.connectionDetails.value.connection ==
+                                    null
+                                ? SizedBox()
+                                : Obx(() {
+                                  return Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(),
+                                      controller.inviteStatus.value == true ||
+                                              controller.isAccepted.value ==
+                                                  true
+                                          ? CustomLoader()
+                                          : CustomButton(
+                                            height: 45.h,
+                                            width: 130.w,
+                                            onTap: () {
+                                              if (controller
+                                                      .connectionDetails
+                                                      .value
+                                                      .connection!
+                                                      .sender ==
+                                                  controller.userID.value) {
+                                                // Cancel connection
+                                                controller
+                                                    .addOrRemoveConnection(
+                                                      userId:
+                                                          controller
+                                                              .connectionDetails
+                                                              .value
+                                                              .id!,
+                                                    )
+                                                    .then((_) {
+                                                      if (formHomeScreen) {
+                                                        Get.back();
+                                                      } else {
+                                                        //TODO
+                                                      }
+                                                    });
+                                              } else {
+                                                // Accept connection
+                                                controller
+                                                    .acceptConnectionRequest(
+                                                      userID:
+                                                          controller
+                                                              .connectionDetails
+                                                              .value
+                                                              .id!,
+                                                    );
+                                              }
+                                            },
+                                            fontSize: 20.sp,
+                                            title:
+                                                controller
+                                                            .connectionDetails
+                                                            .value
+                                                            .connection!
+                                                            .sender ==
+                                                        controller.userID.value
+                                                    ? 'cancel'.tr
+                                                    : 'accept'.tr,
+                                          ),
+                                    ],
+                                  );
+                                }),
+
+                            SizedBox(height: 10.h),
+                            controller.connectionDetails.value.bio != null &&
+                                    controller
+                                        .connectionDetails
+                                        .value
+                                        .bio!
+                                        .isNotEmpty
+                                ? CustomText(
+                                  text: AppStrings.aboutMe.tr,
+                                  fontSize: 16.w,
+                                  fontWeight: FontWeight.w600,
+                                  bottom: 15.h,
+                                )
+                                : SizedBox(),
                             CustomText(
                               text:
                                   controller.connectionDetails.value.bio ??
@@ -258,42 +336,42 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                               fontWeight: FontWeight.w600,
                               bottom: 10.h,
                             ),
-                            Row(
-                              children: List.generate(
-                                controller
-                                        .connectionDetails
-                                        .value
-                                        .interests
-                                        ?.length ??
-                                    0,
-                                (index) {
-                                  return ModifyButton(
-                                    // width: 200.w,
-                                    color: AppColors.gray,
-                                    title:
-                                        controller
-                                            .connectionDetails
-                                            .value
-                                            .interests?[index] ??
-                                        AppStrings.na.tr,
-                                  );
-                                },
-                              ),
-
-                              // [
-                              //   ModifyButton(
-                              //     color: AppColors.primary,
-                              //     title: '‍Workout 🏃',
-                              //     width: 120.w,
-                              //   ),
-                              //   SizedBox(width: 10.w),
-                              //   ModifyButton(
-                              //     title: 'Casual 😄',
-                              //     color: AppColors.primary,
-                              //     width: 120.w,
-                              //   ),
-                              // ],
+                            Wrap(
+                              alignment: WrapAlignment.start,
+                              children:
+                                  controller.connectionDetails.value.interests!
+                                      .map(
+                                        (item) => Flexible(
+                                          child: ModifyButton(
+                                            color: AppColors.gray,
+                                            title: item,
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
                             ),
+                            // Row(
+                            //   children: List.generate(
+                            //     controller
+                            //             .connectionDetails
+                            //             .value
+                            //             .interests
+                            //             ?.length ??
+                            //         0,
+                            //     (index) {
+                            //       return ModifyButton(
+                            //         // width: 200.w,
+                            //         color: AppColors.gray,
+                            //         title:
+                            //             controller
+                            //                 .connectionDetails
+                            //                 .value
+                            //                 .interests?[index] ??
+                            //             AppStrings.na.tr,
+                            //       );
+                            //     },
+                            //   ),
+                            // ),
                             CustomText(
                               top: 20.h,
                               text: AppStrings.languages.tr,
@@ -336,7 +414,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                               //   ),
                               // ],
                             ),
-                            SizedBox(height: 40.h),
+                            // SizedBox(height: 0.h),
                             CustomText(
                               top: 20.h,
                               text: AppStrings.myAlbum.tr,
@@ -367,6 +445,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                                     );
                                   },
                                 ),
+                            SizedBox(height: 30.h),
                           ],
                         ),
                       );

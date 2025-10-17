@@ -36,7 +36,7 @@ class ConnectionController extends GetxController {
     var response = await ApiClient.getData(ApiUrl.getUserDetails(userId));
     if (response.statusCode == 200 || response.statusCode == 201) {
       connectionDetails.value = ConnectionDetailsModel.fromMap(
-        response.body['data'],
+        response.body['data']['data'],
       );
       userDetailsStatus(Status.completed);
     } else {
