@@ -74,6 +74,7 @@ class HomeController extends GetxController {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       getAllUser();
+      getConnectionDetails(userId: userId);
       users.refresh();
     } else {
       ApiChecker.checkApi(response);
