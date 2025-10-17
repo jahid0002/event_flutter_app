@@ -239,6 +239,15 @@ class _ChatScreenState extends State<ChatScreen> {
                                   final notification =
                                       controller.notificationList[index];
                                   return NotificationsCard(
+                                    onview: () {
+                                      Get.toNamed(
+                                        AppRoutes.otherUserDetailsScreen,
+                                        arguments: [
+                                          notification.sender?.id ?? '',
+                                          false,
+                                        ],
+                                      );
+                                    },
                                     name: notification.sender?.name,
                                     imageUrl: notification.sender?.profileImage,
                                     onTap: () {
@@ -309,60 +318,67 @@ class NotificationsCard extends StatelessWidget {
     this.imageUrl,
     this.onTap,
     this.isLoading = false,
+    this.onview,
   });
 
   final String? name;
   final String? imageUrl;
   final VoidCallback? onTap;
   final bool? isLoading;
+  final VoidCallback? onview;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return GestureDetector(
+      onTap: onview,
+      child: SizedBox(
+        child: Column(
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomNetworkImage(
-                  imageUrl: ImageHandler.imagesHandle(imageUrl),
-                  height: 52.h,
-                  width: 52.w,
-                  boxShape: BoxShape.circle,
-                ),
-                SizedBox(width: 15.w),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    CustomText(
-                      text: name ?? "N/A",
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w600,
+                    CustomNetworkImage(
+                      imageUrl: ImageHandler.imagesHandle(imageUrl),
+                      height: 52.h,
+                      width: 52.w,
+                      boxShape: BoxShape.circle,
                     ),
-                    CustomText(
-                      text: AppStrings.pendingConnection.tr,
-                      fontSize: 12.sp,
+                    SizedBox(width: 15.w),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: name ?? "N/A",
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        CustomText(
+                          text: AppStrings.pendingConnection.tr,
+                          fontSize: 12.sp,
+                        ),
+                      ],
                     ),
                   ],
                 ),
+                isLoading == true
+                    ? const CustomLoader()
+                    : CustomButton(
+                      onTap: onTap ?? () {},
+                      height: 40.h,
+                      width: 100.w,
+                      title: AppStrings.accept.tr,
+                      borderRadius: 100.r,
+                    ),
               ],
             ),
-            isLoading == true
-                ? const CustomLoader()
-                : CustomButton(
-                  onTap: onTap ?? () {},
-                  height: 40.h,
-                  width: 100.w,
-                  title: AppStrings.accept.tr,
-                  borderRadius: 100.r,
-                ),
+            SizedBox(height: 10.h),
+            const Divider(),
+            SizedBox(height: 10.h),
           ],
         ),
-        SizedBox(height: 10.h),
-        const Divider(),
-        SizedBox(height: 10.h),
-      ],
+      ),
     );
   }
 }

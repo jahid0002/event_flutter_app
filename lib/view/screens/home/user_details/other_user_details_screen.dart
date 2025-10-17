@@ -11,6 +11,7 @@ import 'package:event_app/view/components/custom_loader/custom_loader.dart';
 import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_text/custom_text.dart';
 import 'package:event_app/view/components/general_error.dart';
+import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
 import 'package:event_app/view/screens/connections/connections_details/connections_details_screen.dart';
 import 'package:event_app/view/screens/home/controller/home_controller.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
   final String otherUserId = Get.arguments[0];
   final bool formHomeScreen = Get.arguments[1];
   final HomeController controller = Get.find<HomeController>();
+  final ChatController chatController = Get.find<ChatController>();
 
   @override
   void initState() {
@@ -229,17 +231,13 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                                                 // Cancel connection
                                                 controller
                                                     .addOrRemoveConnection(
-                                                      userId:
-                                                          controller
-                                                              .connectionDetails
-                                                              .value
-                                                              .id!,
+                                                      userId: otherUserId,
                                                     )
                                                     .then((_) {
                                                       if (formHomeScreen) {
                                                         Get.back();
                                                       } else {
-                                                        //TODO
+                                                        //TO DO
                                                       }
                                                     });
                                               } else {
@@ -250,8 +248,20 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                                                           controller
                                                               .connectionDetails
                                                               .value
-                                                              .id!,
-                                                    );
+                                                              .connection
+                                                              ?.id ??
+                                                          '',
+                                                    )
+                                                    .then((_) {
+                                                      if (formHomeScreen) {
+                                                        Get.back();
+                                                      } else {
+                                                        chatController
+                                                            .getAllNotification();
+                                                        Get.back();
+                                                        //TODO
+                                                      }
+                                                    });
                                               }
                                             },
                                             fontSize: 20.sp,
@@ -341,11 +351,9 @@ class _OtherUserDetailsScreenState extends State<OtherUserDetailsScreen> {
                               children:
                                   controller.connectionDetails.value.interests!
                                       .map(
-                                        (item) => Flexible(
-                                          child: ModifyButton(
-                                            color: AppColors.gray,
-                                            title: item,
-                                          ),
+                                        (item) => ModifyButton(
+                                          color: AppColors.gray,
+                                          title: item,
                                         ),
                                       )
                                       .toList(),
