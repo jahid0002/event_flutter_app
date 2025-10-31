@@ -132,158 +132,156 @@ class _HomeScreenState extends State<HomeScreen> {
                             // controller.imageUrls[index],
                             data.profileImage,
                           );
-                          return CustomNetworkImage(
-                            height: 570.h,
-                            width: double.infinity,
-                            imageUrl: image,
-                            borderRadius: BorderRadius.circular(20.r),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 20.0.w,
-                                vertical: 10.h,
-                              ),
-                              child: Column(
-                                children: [
-                                  const Spacer(),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          SizedBox(
-                                            width:
-                                                ((data.name?.length ?? 0) > 6)
-                                                    ? 250.w
-                                                    : 140.w,
-                                            child: CustomText(
-                                              text: data.name ?? ' ',
-                                              fontSize: 39.w,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.white,
-                                              textAlign: TextAlign.start,
+                          return GestureDetector(
+                            onTap: () {
+                              Get.toNamed(
+                                AppRoutes.otherUserDetailsScreen,
+                                arguments: [
+                                  controller.users[index].id ?? '',
+                                  true,
+                                ],
+                              );
+                            },
+                            child: CustomNetworkImage(
+                              height: 570.h,
+                              width: double.infinity,
+                              imageUrl: image,
+                              borderRadius: BorderRadius.circular(20.r),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20.0.w,
+                                  vertical: 10.h,
+                                ),
+                                child: Column(
+                                  children: [
+                                    const Spacer(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              width:
+                                                  ((data.name?.length ?? 0) > 6)
+                                                      ? 250.w
+                                                      : 140.w,
+                                              child: CustomText(
+                                                text: data.name ?? ' ',
+                                                fontSize: 39.w,
+                                                fontWeight: FontWeight.w600,
+                                                color: AppColors.white,
+                                                textAlign: TextAlign.start,
+                                              ),
                                             ),
-                                          ),
-                                          CustomText(
-                                            left: 10.w,
-                                            text: data.age?.toString() ?? '',
-                                            fontSize: 24.w,
-                                            fontWeight: FontWeight.w400,
-                                            color: AppColors.white,
-                                          ),
-                                        ],
-                                      ),
-                                      CustomText(
-                                        text: data.address ?? '',
-                                        fontSize: 16.w,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.white,
-                                        bottom: 5.h,
-                                      ),
+                                            CustomText(
+                                              left: 10.w,
+                                              text: data.age?.toString() ?? '',
+                                              fontSize: 24.w,
+                                              fontWeight: FontWeight.w400,
+                                              color: AppColors.white,
+                                            ),
+                                          ],
+                                        ),
+                                        CustomText(
+                                          text: data.address ?? '',
+                                          fontSize: 16.w,
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColors.white,
+                                          bottom: 5.h,
+                                        ),
 
-                                      if (data.interests != null &&
-                                          data.interests!.isNotEmpty)
-                                        Wrap(
-                                          spacing:
-                                              10.w, // horizontal space between items
-                                          runSpacing:
-                                              10.h, // vertical space between lines
-                                          children: List.generate(
-                                            data.interests!.length,
-                                            (index) {
-                                              return Container(
-                                                padding: EdgeInsets.symmetric(
-                                                  horizontal: 16.w,
-                                                  vertical: 8.h,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.transparent,
-                                                  border: Border.all(
-                                                    color: AppColors.primary,
-                                                    width: 1,
+                                        if (data.interests != null &&
+                                            data.interests!.isNotEmpty)
+                                          Wrap(
+                                            spacing:
+                                                10.w, // horizontal space between items
+                                            runSpacing:
+                                                10.h, // vertical space between lines
+                                            children: List.generate(
+                                              data.interests!.length,
+                                              (index) {
+                                                return Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal: 16.w,
+                                                    vertical: 8.h,
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                        100.r,
-                                                      ),
-                                                ),
-                                                constraints: BoxConstraints(
-                                                  minHeight: 30.h,
-                                                  maxWidth:
-                                                      250.w, // optional: keep very long text from stretching
-                                                ),
-                                                child: Text(
-                                                  data.interests![index],
-                                                  style: TextStyle(
-                                                    fontSize: 14.w,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: AppColors.primary,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.transparent,
+                                                    border: Border.all(
+                                                      color: AppColors.primary,
+                                                      width: 1,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          100.r,
+                                                        ),
                                                   ),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  softWrap: false,
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        )
-                                      else
-                                        const SizedBox(),
-
-                                      SizedBox(height: 20.h),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: CustomButton(
-                                              borderRadius: 50.r,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 16.w,
-                                              onTap: () {
-                                                _swipableStackController.next(
-                                                  swipeDirection:
-                                                      SwipeDirection.left,
+                                                  constraints: BoxConstraints(
+                                                    minHeight: 30.h,
+                                                    maxWidth:
+                                                        250.w, // optional: keep very long text from stretching
+                                                  ),
+                                                  child: Text(
+                                                    data.interests![index],
+                                                    style: TextStyle(
+                                                      fontSize: 14.w,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: AppColors.primary,
+                                                    ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                    softWrap: false,
+                                                    textAlign: TextAlign.center,
+                                                  ),
                                                 );
                                               },
-                                              title: AppStrings.noInterest.tr,
-                                              height: 47.h,
-                                              fillColor: Colors.grey
-                                                  .withOpacity(.8),
-                                              textColor: AppColors.white,
-                                              isBorder: true,
-                                              borderWidth: 0,
                                             ),
-                                          ),
-                                          SizedBox(width: 10.w),
-                                          Expanded(
-                                            child: Obx(() {
-                                              getText(data.connection);
-                                              return controller
-                                                      .inviteStatus
-                                                      .value
-                                                  ? CustomLoader()
-                                                  : CustomButton(
-                                                    borderRadius: 50.r,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 16.w,
-                                                    onTap: () async {
-                                                      if (data.connection ==
-                                                          null) {
-                                                        final updatedConnection =
-                                                            await controller
-                                                                .addOrRemoveConnection(
-                                                                  userId:
-                                                                      data.id ??
-                                                                      '',
-                                                                );
-                                                      } else {
-                                                        if (data
-                                                                .connection
-                                                                ?.sender ==
-                                                            controller
-                                                                .userID
-                                                                .value) {
+                                          )
+                                        else
+                                          const SizedBox(),
+
+                                        SizedBox(height: 20.h),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: CustomButton(
+                                                borderRadius: 50.r,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16.w,
+                                                onTap: () {
+                                                  _swipableStackController.next(
+                                                    swipeDirection:
+                                                        SwipeDirection.left,
+                                                  );
+                                                },
+                                                title: AppStrings.noInterest.tr,
+                                                height: 47.h,
+                                                fillColor: Colors.grey
+                                                    .withOpacity(.8),
+                                                textColor: AppColors.white,
+                                                isBorder: true,
+                                                borderWidth: 0,
+                                              ),
+                                            ),
+                                            SizedBox(width: 10.w),
+                                            Expanded(
+                                              child: Obx(() {
+                                                getText(data.connection);
+                                                return controller
+                                                        .inviteStatus
+                                                        .value
+                                                    ? CustomLoader()
+                                                    : CustomButton(
+                                                      borderRadius: 50.r,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 16.w,
+                                                      onTap: () async {
+                                                        if (data.connection ==
+                                                            null) {
                                                           final updatedConnection =
                                                               await controller
                                                                   .addOrRemoveConnection(
@@ -292,47 +290,64 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                         '',
                                                                   );
                                                         } else {
-                                                          await controller
-                                                              .acceptConnectionRequest(
-                                                                userID:
-                                                                    data
-                                                                        .connection
-                                                                        ?.id ??
-                                                                    '',
-                                                              );
+                                                          if (data
+                                                                  .connection
+                                                                  ?.sender ==
+                                                              controller
+                                                                  .userID
+                                                                  .value) {
+                                                            final updatedConnection =
+                                                                await controller
+                                                                    .addOrRemoveConnection(
+                                                                      userId:
+                                                                          data.id ??
+                                                                          '',
+                                                                    );
+                                                          } else {
+                                                            await controller
+                                                                .acceptConnectionRequest(
+                                                                  userID:
+                                                                      data
+                                                                          .connection
+                                                                          ?.id ??
+                                                                      '',
+                                                                );
+                                                          }
                                                         }
-                                                      }
-                                                    },
-                                                    title:
-                                                        data.connection == null
-                                                            ? AppStrings
-                                                                .invite
-                                                                .tr
-                                                            : controller
-                                                                    .userID
-                                                                    .value ==
-                                                                data
-                                                                    .connection
-                                                                    ?.sender
-                                                            ? getText(
-                                                              data.connection,
-                                                            )
-                                                            : 'Accept'.tr,
-                                                    height: 47.h,
-                                                    fillColor:
-                                                        AppColors.primary,
-                                                    textColor: AppColors.white,
-                                                    isBorder: true,
-                                                    borderWidth: 0,
-                                                  );
-                                            }),
-                                          ),
-                                        ],
-                                      ),
-                                      // SizedBox(height: 20.h),
-                                    ],
-                                  ),
-                                ],
+                                                      },
+                                                      title:
+                                                          data.connection ==
+                                                                  null
+                                                              ? AppStrings
+                                                                  .invite
+                                                                  .tr
+                                                              : controller
+                                                                      .userID
+                                                                      .value ==
+                                                                  data
+                                                                      .connection
+                                                                      ?.sender
+                                                              ? getText(
+                                                                data.connection,
+                                                              )
+                                                              : 'Accept'.tr,
+                                                      height: 47.h,
+                                                      fillColor:
+                                                          AppColors.primary,
+                                                      textColor:
+                                                          AppColors.white,
+                                                      isBorder: true,
+                                                      borderWidth: 0,
+                                                    );
+                                              }),
+                                            ),
+                                          ],
+                                        ),
+                                        // SizedBox(height: 20.h),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           );
