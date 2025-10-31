@@ -67,6 +67,8 @@ class _GenderLoginOnboardingState extends State<GenderLoginOnboarding> {
               const SizedBox(height: 12),
               _languageTile('FEMALE'),
               const SizedBox(height: 12),
+              _languageTile('OTHER'),
+              const SizedBox(height: 12),
 
               //  _languageTile('Other'),
               // Spacer(),
