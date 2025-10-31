@@ -33,6 +33,7 @@ class ConnectionController extends GetxController {
   Rx<ConnectionDetailsModel> connectionDetails = ConnectionDetailsModel().obs;
 
   getConnectionDetails({required String userId}) async {
+    userDetailsStatus(Status.loading);
     var response = await ApiClient.getData(ApiUrl.getUserDetails(userId));
     if (response.statusCode == 200 || response.statusCode == 201) {
       connectionDetails.value = ConnectionDetailsModel.fromMap(
