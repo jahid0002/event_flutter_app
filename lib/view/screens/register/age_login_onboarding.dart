@@ -69,6 +69,13 @@ class _AgeLoginOnboardingState extends State<AgeLoginOnboarding> {
               ),
               CustomText(
                 top: 10,
+                //top: 40,
+                text: "Must be 18 or older / Obligatorio 18 o más",
+                fontSize: 24.w,
+                fontWeight: FontWeight.w700,
+              ),
+              CustomText(
+                top: 10,
                 text: AppStrings.ageInfo.tr,
                 fontSize: 14.w,
                 fontWeight: FontWeight.w400,
