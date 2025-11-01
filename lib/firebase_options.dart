@@ -60,8 +60,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1033008770432',
     projectId: 'event-plannig-app',
     storageBucket: 'event-plannig-app.firebasestorage.app',
-    androidClientId: '1033008770432-ov4lm43hsh84jpi7f2rin6qbscc4d5jr.apps.googleusercontent.com',
-    iosClientId: '1033008770432-812qbdf64i6q0ef8m3h1fphuosb0jr4o.apps.googleusercontent.com',
+    androidClientId:
+        '1033008770432-ov4lm43hsh84jpi7f2rin6qbscc4d5jr.apps.googleusercontent.com',
+    iosClientId:
+        '1033008770432-812qbdf64i6q0ef8m3h1fphuosb0jr4o.apps.googleusercontent.com',
     iosBundleId: 'com.example.eventApp',
   );
 
