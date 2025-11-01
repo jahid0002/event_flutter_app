@@ -31,4 +31,5 @@ class AppIcons {
   static const String reports = "$basePath/reports.svg";
   static const String lustImage = "$basePath/lustImage.svg";
   static const String welcomeText = "$basePath/welcomeText.png";
+  static const String emptyUser = "$basePath/emptyUser.png";
 }

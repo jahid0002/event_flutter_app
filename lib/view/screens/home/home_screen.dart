@@ -4,6 +4,7 @@ import 'package:event_app/core/routes/app_routes.dart';
 import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_colors/app_colors.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
+import 'package:event_app/utils/app_icons/app_icons.dart';
 import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_button/custom_button.dart';
 import 'package:event_app/view/components/custom_loader/custom_loader.dart';
@@ -61,11 +62,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 return GeneralErrorScreen(onTap: () {});
               } else if (controller.homeStatus.value == Status.completed) {
                 return controller.users.isEmpty
-                    ? Center(
-                      child: CustomText(
-                        text: AppStrings.noUserFound.tr,
-                        top: 200.h,
-                      ),
+                    ? Image.asset(
+                      AppIcons.emptyUser,
+                      height: 570.h,
+                      width: double.infinity,
+                      fit: BoxFit.fill,
                     )
                     : SizedBox(
                       height: 570.h,
