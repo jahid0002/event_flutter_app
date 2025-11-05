@@ -50,4 +50,4 @@ fastlane/screenshots
 fastlane/test_output
 ios/fastlane/.env
 *.p8
-
+lib/utils/key
