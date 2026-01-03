@@ -34,34 +34,6 @@ class _MessageScreenState extends State<MessageScreen> {
   final ChatController controller = Get.find<ChatController>();
   final ConnectionController connection = Get.find<ConnectionController>();
 
-  // final List<_ChatMessage> messages = [
-  //   _ChatMessage(text: "Hi Mia!", isSent: true, time: "17:00", isRead: true),
-  //   _ChatMessage(
-  //     text: "How do you know Utsav Gandhi",
-  //     isSent: true,
-  //     time: "17:00",
-  //     isRead: true,
-  //   ),
-  //   _ChatMessage(text: "Hello Sam!", isSent: false, time: "17:01"),
-  // ];
-
-  // final TextEditingController _controller = TextEditingController();
-
-  // void _sendMessage() {
-  //   if (_controller.text.trim().isEmpty) return;
-  //   setState(() {
-  //     messages.add(
-  //       _ChatMessage(
-  //         text: _controller.text.trim(),
-  //         isSent: true,
-  //         time: TimeOfDay.now().format(context),
-  //         isRead: false,
-  //       ),
-  //     );
-  //     _controller.clear();
-  //   });
-  // }.
-
   leaveChat() {
     controller.leaveChat();
     controller.messageStatus.value = Status.loading;
@@ -73,14 +45,9 @@ class _MessageScreenState extends State<MessageScreen> {
   @override
   void initState() {
     controller.otherUserID.value = receiverInformation.receiverId ?? '';
-    // TO DO: implement initState
-    // controller.getAllMessage();
+
     controller.loadChat(receiverInformation.receiverId ?? '');
-    // controller.getRealTimeMessage();
-    // controller.seenResponse(
-    //   otherUserID: receiverInformation.receiverId ?? '',
-    //   conversationID: receiverInformation.conversationID ?? '',
-    // );
+
     super.initState();
   }
 
@@ -103,11 +70,6 @@ class _MessageScreenState extends State<MessageScreen> {
                   userId: receiverInformation.receiverId ?? '',
                 );
                 Get.back();
-                // controller.leaveChat();
-                // controller.messageStatus.value = Status.loading;
-                // controller.messageList.clear();
-                // controller.messageList.refresh();
-                // controller.otherUserID.value = '';
               },
               onReportUser: () {
                 Get.toNamed(
@@ -129,28 +91,13 @@ class _MessageScreenState extends State<MessageScreen> {
                   },
                 );
 
-                // controller.leaveChat();
-                // controller.messageStatus.value = Status.loading;
-                // controller.messageList.clear();
-                // controller.messageList.refresh();
                 // controller.otherUserID.value = '';
               },
             ),
-            // IconButton(
-            //   icon: const Icon(Icons.more_horiz, color: AppColors.primary),
-            //   onPressed: () {
-            //     // Navigate to user profile or details page
-            //   },
-            // ),
           ],
           leading: BackButton(
             onPressed: () {
               Get.back();
-              // controller.leaveChat();
-              // controller.messageStatus.value = Status.loading;
-              // controller.messageList.clear();
-              // controller.messageList.refresh();
-              // controller.otherUserID.value = '';
             },
           ),
           title: receiverInformation.receiverName ?? AppStrings.na.tr,

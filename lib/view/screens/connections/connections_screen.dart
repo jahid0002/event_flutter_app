@@ -1,13 +1,12 @@
 import 'package:event_app/core/routes/app_routes.dart';
-import 'package:event_app/helper/imges_handler/image_handler.dart';
 import 'package:event_app/utils/app_const/app_const.dart';
 import 'package:event_app/utils/app_strings/app_strings.dart';
 import 'package:event_app/view/components/custom_nav_bar/navbar.dart';
-import 'package:event_app/view/components/custom_netwrok_image/custom_network_image.dart';
 import 'package:event_app/view/components/custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:event_app/view/components/general_error.dart';
 import 'package:event_app/view/screens/chat/controller/chat_controller.dart';
 import 'package:event_app/view/screens/connections/controller/connection_controller.dart';
+import 'package:event_app/view/screens/connections/widget/connection_card.dart';
 import 'package:event_app/view/screens/connections/widget/connection_shimmer_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -151,155 +150,6 @@ class ConnectionsScreen extends StatelessWidget {
   }
 }
 
-class ConnectionsCard extends StatelessWidget {
-  const ConnectionsCard({
-    super.key,
-    this.onTap,
-    this.name,
-    this.image,
-    this.location,
-    this.age,
-    this.chatButton,
-    this.onCancelConnection,
-    this.onReportUser,
-    this.onBlockUser,
-  });
-
-  final VoidCallback? onTap;
-  final String? name;
-  final String? image;
-  final String? location;
-  final String? age;
-  final VoidCallback? chatButton;
-  final void Function()? onCancelConnection;
-  final void Function()? onReportUser;
-  final void Function()? onBlockUser;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        GestureDetector(
-          onTap: onTap,
-          child: CustomNetworkImage(
-            imageUrl: ImageHandler.imagesHandle(image),
-            height: 330,
-            width: MediaQuery.sizeOf(context).width / 2.1,
-            borderRadius: BorderRadius.circular(20.r),
-          ),
-        ),
-        Positioned(
-          top: 10,
-          right: 10,
-          left: 0,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Icon(Icons.close, color: AppColors.white),
-                  SizedBox(),
-                  Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      //  borderRadius: BorderRadius.circular(10),
-                      shape: BoxShape.circle,
-                    ),
-
-                    child: Center(
-                      child: UserActionPopupMenu(
-                        onCancelConnection: onCancelConnection,
-                        onReportUser: onReportUser,
-                        onBlockUser: onBlockUser,
-                      ),
-                    ),
-
-                    // Icon(Icons.more_horiz, color: AppColors.white),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Positioned(
-          bottom: 10,
-          left: 6,
-          right: 6,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 110.w,
-                          child: CustomText(
-                            text: name ?? "N/A",
-                            fontSize: 20.w,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.white,
-                            right: 10,
-                            textAlign: TextAlign.start,
-                          ),
-                        ),
-                        CustomText(
-                          text: age ?? "00",
-                          fontSize: 14.w,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.white,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.location_on_outlined,
-                          color: AppColors.white,
-                          size: 16,
-                        ),
-                        SizedBox(
-                          width: 110.w,
-                          child: CustomText(
-                            left: 5,
-                            text: location ?? "N/A",
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-              GestureDetector(
-                onTap: chatButton,
-                child: CircleAvatar(
-                  backgroundColor: AppColors.primary,
-                  maxRadius: 15.r,
-                  child: CustomImage(imageSrc: AppIcons.chat),
-
-                  //  Icon(
-                  //   Icons.chat_bubble_outline,
-                  //   color: AppColors.white,
-                  //   size: 19.w,
-                  // ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class BlockPopUp {
   static void showBlockedPopup(
     BuildContext context, {
@@ -373,94 +223,6 @@ class BlockPopUp {
     );
   }
 }
-
-//       body: Column(
-//         children: [
-//           Stack(
-//             children: [
-//               CustomNetworkImage(
-//                 imageUrl: AppConstants.girlsPhoto,
-//                 height: 230,
-//                 width: MediaQuery.sizeOf(context).width / 2.1,
-//                 borderRadius: BorderRadius.circular(20.r),
-//               ),
-//               Positioned(
-//                 right: 10,
-//                 left: 0,
-//                 child: Column(
-//                   children: [
-//                     Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                       children: [
-//                         IconButton(
-//                           onPressed: () {},
-//                           icon: Icon(Icons.close, color: AppColors.white),
-//                         ),
-//                         CircleAvatar(
-//                           backgroundColor: AppColors.primary,
-//                           maxRadius: 16.r,
-//                           child: Icon(Icons.more_horiz, color: AppColors.white),
-//                         ),
-//                       ],
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//               Positioned(
-//                 bottom: 10,
-//                 left: 6,
-//                 right: 6,
-//                 child: Row(
-//                   children: [
-//                     Column(
-//                       children: [
-//                         Row(
-//                           children: [
-//                             CustomText(
-//                               text: "Paula",
-//                               fontSize: 20,
-//                               fontWeight: FontWeight.w600,
-//                               color: AppColors.white,
-//                               right: 10,
-//                             ),
-//                             CustomText(
-//                               text: "29",
-//                               fontSize: 14,
-//                               fontWeight: FontWeight.w400,
-//                               color: AppColors.white,
-//                             ),
-//                           ],
-//                         ),
-//                         Row(
-//                           children: [
-//                             Icon(
-//                               Icons.location_on_outlined,
-//                               color: AppColors.white,
-//                               size: 16,
-//                             ),
-//                             CustomText(
-//                               text: "New York",
-//                               fontSize: 14,
-//                               fontWeight: FontWeight.w400,
-//                               color: AppColors.white,
-//                             ),
-//                           ],
-//                         ),
-//                       ],
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-
-//       bottomNavigationBar: NavBar(currentIndex: 1),
-
-//     );
-////  }
-// }
 
 class UserActionPopupMenu extends StatelessWidget {
   final void Function()? onCancelConnection;
